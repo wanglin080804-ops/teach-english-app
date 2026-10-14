@@ -919,13 +919,25 @@ export function generateStageExamQuestions(cId, sId, subject) {
     examQuestions = examQuestions.slice(0, 29);
   }
   
+  // Chuẩn bị 7 cặp từ vựng tiêu biểu cho câu 30 chặng về đích
+  let pairs = bank.slice(0, 7).map(item => ({
+    word: item.word,
+    meaning: item.meaning
+  }));
+  if (pairs.length < 7 && bank.length > 0) {
+    pairs = bank.map(item => ({ word: item.word, meaning: item.meaning }));
+  }
+
   // Câu 30: Chặng về đích Thử thách phản xạ từ vựng 15s
   examQuestions.push({
     type: 'speed_match_final',
     cId: cId,
     sId: sId,
+    subject: subject,
+    pairs: pairs,
     title: '⚡ Thử thách phản xạ từ vựng 15s (Chặng về đích)'
   });
   
   return examQuestions;
 }
+

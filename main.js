@@ -1,5 +1,156 @@
 import { curriculum, mathVocab, scienceVocab, mathStagesInfo, scienceStagesInfo, generateStageExamQuestions } from './data.js';
 
+// ==========================================
+// HỆ THỐNG ÂM THANH (BGM & SFX ENGINE)
+// Sử dụng Web Audio API: 100% Offline, Zero lag, không phụ thuộc mạng
+// ==========================================
+let audioCtx = null;
+function getAudioContext() {
+  if (!audioCtx) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (AudioContextClass) {
+      audioCtx = new AudioContextClass();
+    }
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+// BGM State
+let bgmEnabled = localStorage.getItem('bgmEnabled') !== 'false'; // mặc định true
+let bgmInterval = null;
+let bgmStep = 0;
+
+// Giai điệu BGM nhẹ nhàng thư giãn cho màn hình chính (gam C Major / Am)
+const bgmNotes = [
+  261.63, 329.63, 392.00, 523.25, // C4, E4, G4, C5
+  220.00, 261.63, 329.63, 440.00, // A3, C4, E4, A4
+  174.61, 220.00, 261.63, 349.23, // F3, A3, C4, F4
+  196.00, 246.94, 293.66, 392.00  // G3, B3, D4, G4
+];
+
+function playTone(freq, type = 'sine', duration = 0.2, gainValue = 0.15, startTimeOffset = 0) {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + startTimeOffset);
+    
+    gain.gain.setValueAtTime(gainValue, ctx.currentTime + startTimeOffset);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + startTimeOffset + duration);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(ctx.currentTime + startTimeOffset);
+    osc.stop(ctx.currentTime + startTimeOffset + duration);
+  } catch (err) {
+    // Không làm gián đoạn UI nếu trình duyệt chưa kích hoạt user gesture
+  }
+}
+
+// 1. Âm báo đúng (Correct Chime - Hợp âm C5, E5, G5, C6 rực rỡ)
+function playCorrectSound() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    notes.forEach((freq, idx) => {
+      playTone(freq, 'triangle', 0.25, 0.18, idx * 0.07);
+    });
+  } catch(e) {}
+}
+
+// 2. Âm báo sai (Wrong Buzzer - Dịu nhẹ, không chói gắt)
+function playWrongSound() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    playTone(180, 'sawtooth', 0.2, 0.14, 0);
+    playTone(145, 'sawtooth', 0.25, 0.14, 0.12);
+  } catch(e) {}
+}
+
+// 3. Âm chạm thẻ (Chip Click Pop)
+function playChipSound() {
+  try {
+    playTone(480, 'sine', 0.08, 0.1, 0);
+  } catch(e) {}
+}
+
+// 4. Âm chiến thắng (Victory Fanfare)
+function playVictorySound() {
+  try {
+    const fanfare = [
+      { f: 523.25, d: 0.12, t: 0 },
+      { f: 659.25, d: 0.12, t: 0.12 },
+      { f: 783.99, d: 0.12, t: 0.24 },
+      { f: 1046.50, d: 0.45, t: 0.36 }
+    ];
+    fanfare.forEach(item => {
+      playTone(item.f, 'triangle', item.d, 0.22, item.t);
+    });
+  } catch(e) {}
+}
+
+// BGM Controller
+function startBGM() {
+  if (!bgmEnabled) return;
+  if (bgmInterval) return; // Đang chạy
+  
+  bgmInterval = setInterval(() => {
+    if (!bgmEnabled) {
+      stopBGM();
+      return;
+    }
+    const freq = bgmNotes[bgmStep % bgmNotes.length];
+    bgmStep++;
+    // Nốt nhạc nền êm ái, âm lượng cực nhỏ (0.04) tạo không khí thoải mái
+    playTone(freq, 'sine', 0.55, 0.04, 0);
+  }, 480);
+}
+
+function stopBGM() {
+  if (bgmInterval) {
+    clearInterval(bgmInterval);
+    bgmInterval = null;
+  }
+}
+
+window.toggleBGM = () => {
+  bgmEnabled = !bgmEnabled;
+  localStorage.setItem('bgmEnabled', bgmEnabled);
+  updateBGMUI();
+  if (bgmEnabled) {
+    getAudioContext();
+    startBGM();
+  } else {
+    stopBGM();
+  }
+};
+
+function updateBGMUI() {
+  const btn = document.getElementById('btn-toggle-bgm');
+  const icon = document.getElementById('bgm-icon');
+  const text = document.getElementById('bgm-text');
+  if (btn && icon && text) {
+    if (bgmEnabled) {
+      btn.className = 'btn-audio-toggle active';
+      icon.innerText = '🎵';
+      text.innerText = 'Nhạc: BẬT';
+    } else {
+      btn.className = 'btn-audio-toggle';
+      icon.innerText = '🔇';
+      text.innerText = 'Nhạc: TẮT';
+    }
+  }
+}
+
 let currentSubject = 'math';
 let currentQuestions = [];
 let currentQuestionIndex = 0;
@@ -136,6 +287,41 @@ const screens = {
 };
 
 function init() {
+  // Loading Screen Animation
+  const loadingScreen = document.getElementById('loading-screen');
+  const loadingBar = document.getElementById('loading-bar-fill');
+  const loadingStatus = document.getElementById('loading-status');
+  if (loadingScreen && loadingBar) {
+    loadingBar.style.width = '35%';
+    setTimeout(() => {
+      loadingBar.style.width = '75%';
+      if (loadingStatus) loadingStatus.innerText = 'Đang đồng bộ lộ trình & bài giảng...';
+    }, 350);
+    setTimeout(() => {
+      loadingBar.style.width = '100%';
+      if (loadingStatus) loadingStatus.innerText = '✨ Sẵn sàng học tập!';
+    }, 800);
+    setTimeout(() => {
+      loadingScreen.classList.add('fade-out');
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 500);
+      if (bgmEnabled) {
+        startBGM();
+      }
+    }, 1200);
+  }
+
+  // Mở khóa AudioContext khi người dùng chạm lần đầu
+  const unlockAudio = () => {
+    getAudioContext();
+    if (bgmEnabled && !bgmInterval && screens.home && !screens.home.classList.contains('hidden')) {
+      startBGM();
+    }
+  };
+  document.addEventListener('click', unlockAudio, { once: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+
   let saved = savedSessions[currentSubject] || Object.values(savedSessions)[0];
   if (saved && saved.qIndex > 0 && saved.qIndex < 20) {
     let subjectName = saved.subject === 'math' ? 'Toán học' : 'Khoa học';
@@ -214,6 +400,13 @@ function showScreen(screenName) {
   if (screenName === 'home') {
     updateHomeProgress();
     renderCurriculum();
+    updateBGMUI();
+    startBGM();
+  } else if (screenName === 'lesson') {
+    stopBGM(); // Tắt hoàn toàn nhạc nền khi vào học và luyện nói!
+  } else if (screenName === 'summary') {
+    stopBGM();
+    playVictorySound();
   }
 }
 
@@ -619,73 +812,84 @@ function updateExamTimerUI() {
   }
 }
 
-function renderSpeedMatchFinal(container, q) {
-  const stageKey = 'c' + q.cId + 's' + q.sId;
-  const vocabBank = (currentSubject === 'math' ? mathVocab : scienceVocab)[stageKey] || [];
-  let pairs = vocabBank.slice(0, 7);
-  if (pairs.length < 7 && vocabBank.length > 0) pairs = vocabBank;
+let finalSpeedActivePairs = [];
+let finalSpeedMatchedCount = 0;
+let finalSpeedSelectedWord = null;
+let finalSpeedSelectedMeaning = null;
+let finalSpeedTimerInterval = null;
+let finalSpeedTimeLeft = 15;
 
-  speedActiveList = pairs;
-  speedMatchedCount = 0;
-  speedSelectedWord = null;
-  speedSelectedMeaning = null;
-  speedTimeLeft = 15;
+function renderSpeedMatchFinal(container, q) {
+  // Ưu tiên dùng danh sách 7 cặp từ được chuẩn bị sẵn trong Question 30
+  let pairs = (q.pairs && q.pairs.length > 0) ? q.pairs : [];
+  if (pairs.length === 0) {
+    const stageKey = 'c' + q.cId + 's' + q.sId;
+    const vocabBank = (currentSubject === 'math' ? mathVocab : scienceVocab)[stageKey] || [];
+    pairs = vocabBank.slice(0, 7).map(item => ({ word: item.word, meaning: item.meaning }));
+  }
+
+  finalSpeedActivePairs = pairs;
+  finalSpeedMatchedCount = 0;
+  finalSpeedSelectedWord = null;
+  finalSpeedSelectedMeaning = null;
+  finalSpeedTimeLeft = 15;
 
   let html = '<div class="speed-final-header">' +
-    '<div style="display:inline-block; background:#fef3c7; color:#b45309; padding:4px 12px; border-radius:20px; font-weight:900; font-size:13px; margin-bottom:8px;">🏁 CÂU 30/30: CHẶNG VỀ ĐÍCH</div>' +
+    '<div style="display:inline-block; background:#fef3c7; color:#b45309; padding:4px 14px; border-radius:20px; font-weight:900; font-size:13px; margin-bottom:8px;">🏁 CÂU 30/30: CHẶNG VỀ ĐÍCH</div>' +
     '<h2 style="font-size:22px; color:var(--primary-color); margin-bottom:6px;">⚡ PHẢN XẠ NỐI TỪ VỰNG 15S</h2>' +
     '<p style="font-size:14px; color:#555; margin-bottom:12px; font-weight:600;">Nối đúng 7 cặp từ với nghĩa trong vòng 15 giây để hoàn tất bài thi!</p>' +
     '<div class="speed-stats-bar">' +
-      '<div class="timer-pill" id="speed-timer">⏱️ 15s</div>' +
-      '<div class="score-pill" id="speed-score">🎯 0/' + pairs.length + ' cặp</div>' +
+      '<div class="timer-pill" id="final-speed-timer">⏱️ 15s</div>' +
+      '<div class="score-pill" id="final-speed-score">🎯 0/' + pairs.length + ' cặp</div>' +
     '</div>' +
-    '<div class="speed-progress-bg"><div id="speed-timer-bar" class="speed-progress-fill"></div></div>' +
+    '<div class="speed-progress-bg"><div id="final-speed-timer-bar" class="speed-progress-fill"></div></div>' +
   '</div>' +
-  '<div id="speed-match-arena" class="speed-match-arena" style="margin-top:15px;">' +
-    '<div class="speed-col" id="speed-words-col"></div>' +
-    '<div class="speed-col" id="speed-meanings-col"></div>' +
+  '<div id="final-speed-arena" class="final-speed-arena">' +
+    '<div class="final-speed-col" id="final-speed-words-col"></div>' +
+    '<div class="final-speed-col" id="final-speed-meanings-col"></div>' +
   '</div>';
   container.innerHTML = html;
 
-  const wordsCol = document.getElementById('speed-words-col');
-  const meaningsCol = document.getElementById('speed-meanings-col');
+  const wordsCol = document.getElementById('final-speed-words-col');
+  const meaningsCol = document.getElementById('final-speed-meanings-col');
 
   let shuffledWords = [...pairs].sort(() => Math.random() - 0.5);
   let shuffledMeanings = [...pairs].sort(() => Math.random() - 0.5);
 
   shuffledWords.forEach(item => {
     let chip = document.createElement('div');
-    chip.className = 'match-chip';
+    chip.className = 'final-chip';
     chip.innerText = item.word;
-    chip.onclick = () => handleSelectWord(chip, item.word);
+    chip.onclick = () => handleFinalSelectWord(chip, item.word);
     wordsCol.appendChild(chip);
   });
 
   shuffledMeanings.forEach(item => {
     let chip = document.createElement('div');
-    chip.className = 'match-chip';
+    chip.className = 'final-chip';
     chip.innerText = item.meaning;
-    chip.onclick = () => handleSelectMeaning(chip, item.word);
+    chip.onclick = () => handleFinalSelectMeaning(chip, item.word);
     meaningsCol.appendChild(chip);
   });
 
-  if (speedTimerInterval) clearInterval(speedTimerInterval);
-  const timerPill = document.getElementById('speed-timer');
-  const timerBar = document.getElementById('speed-timer-bar');
+  if (finalSpeedTimerInterval) clearInterval(finalSpeedTimerInterval);
+  const timerPill = document.getElementById('final-speed-timer');
+  const timerBar = document.getElementById('final-speed-timer-bar');
 
-  speedTimerInterval = setInterval(() => {
-    speedTimeLeft -= 0.1;
-    if (speedTimeLeft <= 0) {
-      speedTimeLeft = 0;
-      clearInterval(speedTimerInterval);
+  finalSpeedTimerInterval = setInterval(() => {
+    finalSpeedTimeLeft -= 0.1;
+    if (finalSpeedTimeLeft <= 0) {
+      finalSpeedTimeLeft = 0;
+      clearInterval(finalSpeedTimerInterval);
       if (timerPill) { timerPill.innerText = "⏱️ 0s"; timerPill.classList.add('urgent'); }
       if (timerBar) timerBar.style.width = "0%";
+      playWrongSound();
       setTimeout(() => endSpeedMatchFinal(false), 500);
     } else {
-      let sec = Math.ceil(speedTimeLeft);
+      let sec = Math.ceil(finalSpeedTimeLeft);
       if (timerPill) {
         timerPill.innerText = "⏱️ " + sec + "s";
-        if (speedTimeLeft <= 5) {
+        if (finalSpeedTimeLeft <= 5) {
           timerPill.classList.add('urgent');
           if (timerBar) timerBar.style.background = 'var(--danger-color)';
         } else {
@@ -694,23 +898,84 @@ function renderSpeedMatchFinal(container, q) {
         }
       }
       if (timerBar) {
-        let pct = Math.max(0, (speedTimeLeft / 15) * 100);
+        let pct = Math.max(0, (finalSpeedTimeLeft / 15) * 100);
         timerBar.style.width = pct + "%";
       }
     }
   }, 100);
 }
 
+function handleFinalSelectWord(chip, word) {
+  if (chip.classList.contains('matched')) return;
+  playChipSound();
+  document.querySelectorAll('#final-speed-words-col .final-chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+  finalSpeedSelectedWord = { element: chip, word: word };
+  checkFinalSpeedPair();
+}
+
+function handleFinalSelectMeaning(chip, word) {
+  if (chip.classList.contains('matched')) return;
+  playChipSound();
+  document.querySelectorAll('#final-speed-meanings-col .final-chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+  finalSpeedSelectedMeaning = { element: chip, word: word };
+  checkFinalSpeedPair();
+}
+
+function checkFinalSpeedPair() {
+  if (!finalSpeedSelectedWord || !finalSpeedSelectedMeaning) return;
+
+  const wEl = finalSpeedSelectedWord.element;
+  const mEl = finalSpeedSelectedMeaning.element;
+
+  if (finalSpeedSelectedWord.word === finalSpeedSelectedMeaning.word) {
+    // Nối đúng!
+    playCorrectSound();
+    wEl.className = 'final-chip matched';
+    mEl.className = 'final-chip matched';
+    finalSpeedMatchedCount++;
+
+    const scoreEl = document.getElementById('final-speed-score');
+    if (scoreEl) {
+      scoreEl.innerText = "🎯 " + finalSpeedMatchedCount + "/" + finalSpeedActivePairs.length + " cặp";
+    }
+
+    finalSpeedSelectedWord = null;
+    finalSpeedSelectedMeaning = null;
+
+    if (finalSpeedMatchedCount >= finalSpeedActivePairs.length) {
+      clearInterval(finalSpeedTimerInterval);
+      playVictorySound();
+      examScore++; // Nối đúng trọn vẹn được cộng 1 điểm bài thi
+      setTimeout(() => endSpeedMatchFinal(true), 500);
+    }
+  } else {
+    // Nối sai!
+    playWrongSound();
+    wEl.classList.add('wrong');
+    mEl.classList.add('wrong');
+    setTimeout(() => {
+      wEl.classList.remove('wrong', 'selected');
+      mEl.classList.remove('wrong', 'selected');
+      finalSpeedSelectedWord = null;
+      finalSpeedSelectedMeaning = null;
+    }, 350);
+  }
+}
+
 function endSpeedMatchFinal(isWin) {
+  if (finalSpeedTimerInterval) clearInterval(finalSpeedTimerInterval);
   if (speedTimerInterval) clearInterval(speedTimerInterval);
-  if (isWin || speedMatchedCount >= 5) {
-    examScore++;
+  if (isWin) {
+    playVictorySound();
   }
   finishExam(true);
 }
 
 function finishExam(completed) {
   if (examTimerInterval) clearInterval(examTimerInterval);
+  if (finalSpeedTimerInterval) clearInterval(finalSpeedTimerInterval);
   if (speedTimerInterval) clearInterval(speedTimerInterval);
   
   const timerBadge = document.getElementById('exam-timer-badge');
@@ -864,6 +1129,7 @@ window.goHome = () => {
     if (!confirmExit) return;
     
     if (examTimerInterval) clearInterval(examTimerInterval);
+    if (finalSpeedTimerInterval) clearInterval(finalSpeedTimerInterval);
     if (speedTimerInterval) clearInterval(speedTimerInterval);
     isExamMode = false;
     const timerBadge = document.getElementById('exam-timer-badge');
@@ -1056,6 +1322,7 @@ window.checkMultipleChoice = (selected, correct) => {
   const feedback = document.getElementById('feedback');
   feedback.classList.remove('hidden');
   if (selected.includes(correct) || correct.includes(selected)) {
+    playCorrectSound();
     feedback.className = 'result-area correct';
     feedback.innerText = '✅ Chính xác!';
     document.getElementById('btn-next').classList.remove('hidden');
@@ -1065,6 +1332,7 @@ window.checkMultipleChoice = (selected, correct) => {
       incrementDailyProgress();
     }
   } else {
+    playWrongSound();
     feedback.className = 'result-area incorrect';
     feedback.innerText = '❌ Sai rồi, thử lại nhé!';
   }
@@ -1080,6 +1348,7 @@ function renderArrange(container, q) {
     let chip = document.createElement('div');
     chip.className = 'word-chip'; chip.innerText = w;
     chip.onclick = () => {
+      playChipSound();
       if (chip.parentElement.id === 'word-bank') { document.getElementById('arrange-drop').appendChild(chip); chip.classList.add('in-drop'); }
       else { document.getElementById('word-bank').appendChild(chip); chip.classList.remove('in-drop'); }
     };
@@ -1106,6 +1375,7 @@ window.checkArrange = () => {
   }
 
   if (isCorrect) {
+    playCorrectSound();
     feedback.className = 'result-area correct'; feedback.innerText = '✅ Giỏi lắm!';
     document.getElementById('btn-next').classList.remove('hidden');
     if (!currentQuestionAnswered) {
@@ -1114,6 +1384,7 @@ window.checkArrange = () => {
       incrementDailyProgress();
     }
   } else {
+    playWrongSound();
     feedback.className = 'result-area incorrect'; feedback.innerText = '❌ Vẫn chưa đúng, hãy xếp lại nhé.';
   }
 };
@@ -1343,6 +1614,7 @@ window.startRecognition = (targetText) => {
 
       feedback.innerHTML = '<strong>Bạn nói:</strong> "' + evalText + '"<br>';
       if (isPassed) {
+        playCorrectSound();
         feedback.className = 'result-area correct';
         let displayScore = Math.max(Math.round(similarity * 100), Math.round(wordMatchRatio * 100), 85);
         if (normTrans === normTarget) displayScore = 100;
@@ -1354,6 +1626,7 @@ window.startRecognition = (targetText) => {
           incrementDailyProgress();
         }
       } else {
+        playWrongSound();
         feedback.className = 'result-area incorrect';
         let displayScore = Math.round(Math.max(similarity, wordMatchRatio) * 100);
         feedback.innerHTML += '❌ Phát âm chưa khớp (' + displayScore + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';

@@ -14,6 +14,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- Splash / Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="loading-content">
+        <div class="loading-mascot">🦉</div>
+        <h1 class="loading-title">Teach English Lab</h1>
+        <p class="loading-subtitle">Nền tảng rèn luyện tiếng Anh & Sư phạm Tiểu học</p>
+        <div class="loading-bar-wrap">
+          <div id="loading-bar-fill" class="loading-bar-fill"></div>
+        </div>
+        <div id="loading-status" class="loading-status">Đang khởi tạo bài học & dữ liệu...</div>
+      </div>
+    </div>
+
     <!-- Modal Chào mừng quay lại -->
     <div id="welcome-modal" class="modal-overlay hidden">
       <div class="modal slide-up">
@@ -24,39 +37,6 @@
           <button class="btn primary" id="btn-resume-session" onclick="resumeSession()">▶️ Tiếp tục ngay</button>
           <button class="btn secondary" onclick="restartLevelFromBeginning()">🔄 Bắt đầu lại từ đầu Ải</button>
           <button class="btn skip" onclick="closeWelcomeModal()">✖ Về Trang chủ</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Thử thách Nối Từ Phản Xạ 15s (Progress Test cuối Màn) -->
-    <div id="speed-match-modal" class="modal-overlay hidden" style="z-index: 1600;">
-      <div class="modal slide-up speed-match-box">
-        <div class="speed-header">
-          <h2 style="font-size: 20px; color: var(--primary-color); margin-bottom: 4px;">⚡ PHẢN XẠ TỪ VỰNG 15S</h2>
-          <p id="speed-stage-title" style="font-size: 14px; color: #666; margin-bottom: 8px; font-weight: bold;">Kiểm tra tiến độ Màn</p>
-          <div class="speed-stats-bar">
-            <div class="timer-pill" id="speed-timer">⏱️ 15s</div>
-            <div class="score-pill" id="speed-score">🎯 0/7 cặp</div>
-          </div>
-          <div class="speed-progress-bg">
-            <div id="speed-timer-bar" class="speed-progress-fill"></div>
-          </div>
-        </div>
-
-        <div id="speed-match-arena" class="speed-match-arena">
-          <div class="speed-col" id="speed-words-col"></div>
-          <div class="speed-col" id="speed-meanings-col"></div>
-        </div>
-
-        <!-- Màn hình kết quả thử thách -->
-        <div id="speed-result-area" class="speed-result-area hidden">
-          <div id="speed-result-icon" style="font-size: 50px; margin-bottom: 8px;">🏆</div>
-          <h3 id="speed-result-title" style="font-size: 22px; color: var(--primary-color); font-weight: 800;">Xuất sắc!</h3>
-          <p id="speed-result-desc" style="font-size: 16px; color: #555; margin: 12px 0 20px; font-weight: bold;"></p>
-          <div class="controls">
-            <button class="btn secondary" onclick="retrySpeedMatch()">🔄 Thử lại</button>
-            <button class="btn primary" onclick="finishSpeedMatch()">Đóng bài thi</button>
-          </div>
         </div>
       </div>
     </div>
@@ -134,13 +114,16 @@
       <!-- Màn hình chính -->
       <div id="home-screen" class="screen fade-in">
         <header>
-          <h1 style="display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 5px;">
-            Teach English Lab
-            <div id="streak-container" style="font-size: 18px; font-weight: 900; color: var(--orange-color); display: inline-flex; align-items: center; gap: 5px; background: white; padding: 4px 10px; border-radius: 12px; border: 2px solid var(--gray-border); box-shadow: 0 4px 0 var(--gray-border); z-index: 10;">
-              <span id="streak-icon">🔥</span> <span id="streak-count">0</span>
+          <div class="home-header-row">
+            <button id="btn-toggle-bgm" class="btn-audio-toggle active" onclick="toggleBGM()" title="Bật/Tắt nhạc nền">
+              <span id="bgm-icon">🎵</span> <span id="bgm-text">Nhạc: BẬT</span>
+            </button>
+            <div id="streak-container" style="font-size: 16px; font-weight: 900; color: var(--orange-color); display: inline-flex; align-items: center; gap: 5px; background: white; padding: 4px 10px; border-radius: 12px; border: 2px solid var(--gray-border); box-shadow: 0 3px 0 var(--gray-border);">
+              <span id="streak-icon">🔥</span> <span id="streak-count">0</span> ngày
             </div>
-          </h1>
-          <p>Hành trình học tập</p>
+          </div>
+          <h1 style="margin-top: 5px;">Teach English Lab</h1>
+          <p>Hành trình học tập & rèn luyện tiếng Anh Sư phạm</p>
         </header>
         <div class="tabs">
           <button class="tab-btn active" onclick="switchTab('math')">📐 Toán học</button>
