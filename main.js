@@ -1,4 +1,4 @@
-import { curriculum } from './data.js';
+import { curriculum, mathVocab, scienceVocab, mathStagesInfo, scienceStagesInfo } from './data.js';
 
 let currentSubject = 'math';
 let currentQuestions = [];
@@ -7,7 +7,7 @@ let currentChapter = 0;
 let currentStage = 0;
 let currentLevel = 0;
 
-let dailyGoal = 60;
+let dailyGoal = 80;
 let dailyProgress = parseInt(localStorage.getItem('dailyProgress') || '0');
 let todayStr = new Date().toDateString();
 if (localStorage.getItem('dailyProgressDate') !== todayStr) {
@@ -93,7 +93,11 @@ const screens = {
 function init() {
   if (savedSession) {
     let subjectName = savedSession.subject === 'math' ? 'Toán học' : 'Khoa học';
-    document.getElementById('welcome-text').innerText = "Lần trước bạn đang làm dở Câu " + (savedSession.qIndex + 1) + " của Ải " + savedSession.l + ", Màn " + savedSession.s + ", Chương " + savedSession.c + " môn " + subjectName + ".";
+    let qNum = (savedSession.qIndex || 0) + 1;
+    document.getElementById('welcome-text').innerText = 
+      "Lần trước bạn đang làm dở Câu " + qNum + " của Ải " + savedSession.l + ", Màn " + savedSession.s + ", Chương " + savedSession.c + " môn " + subjectName + ".";
+    const resumeBtn = document.getElementById('btn-resume-session');
+    if (resumeBtn) resumeBtn.innerText = "▶️ Tiếp tục Câu " + qNum;
     document.getElementById('welcome-modal').classList.remove('hidden');
   }
   showScreen('home');
@@ -119,8 +123,6 @@ function init() {
 
 window.closeWelcomeModal = () => {
   document.getElementById('welcome-modal').classList.add('hidden');
-  localStorage.removeItem('savedSession');
-  savedSession = null;
 };
 
 window.closeCongrats = (continueLesson) => {
@@ -136,8 +138,22 @@ window.closeCongrats = (continueLesson) => {
 
 window.resumeSession = () => {
   document.getElementById('welcome-modal').classList.add('hidden');
-  switchTab(savedSession.subject);
-  startLevel(savedSession.c, savedSession.s, savedSession.l, savedSession.qIndex);
+  if (savedSession) {
+    let s = { ...savedSession };
+    switchTab(s.subject);
+    startLevel(s.c, s.s, s.l, s.qIndex);
+  }
+};
+
+window.restartLevelFromBeginning = () => {
+  document.getElementById('welcome-modal').classList.add('hidden');
+  if (savedSession) {
+    let s = { ...savedSession };
+    localStorage.removeItem('savedSession');
+    savedSession = null;
+    switchTab(s.subject);
+    startLevel(s.c, s.s, s.l, 0); // Bắt đầu lại từ câu 1 của ải
+  }
 };
 
 function showScreen(screenName) {
@@ -228,22 +244,228 @@ function renderCurriculum() {
       html += '</div>';
       
       let stageTestLocked = !(isCompleted(chap.id, stage.id, 4));
-      html += '<button class="exam-btn ' + (stageTestLocked ? 'locked' : '') + '" ' + (stageTestLocked ? 'disabled' : '') + ' onclick="showExam(\'Màn ' + stage.id + '\', 30, 15)">📝 Kiểm tra Màn ' + stage.id + ' ' + (stageTestLocked ? '🔒' : '') + '</button>';
+      html += '<button class="exam-btn ' + (stageTestLocked ? 'locked' : '') + '" ' + (stageTestLocked ? 'disabled' : '') + ' onclick="showExam(' + chap.id + ', ' + stage.id + ')">⚡ KIỂM TRA PHẢN XẠ 15S - ' + stage.title + ' ' + (stageTestLocked ? '🔒' : '') + '</button>';
       html += '</div>';
     });
     
     let chapTestLocked = !(isCompleted(chap.id, 5, 4));
-    html += '<button class="exam-btn ' + (chapTestLocked ? 'locked' : '') + '" ' + (chapTestLocked ? 'disabled' : '') + ' onclick="showExam(\'Chương ' + chap.id + '\', 60, 45)" style="background:var(--danger-color); box-shadow: 0 4px 0 var(--danger-shadow);">🎓 BÀI KIỂM TRA CHƯƠNG ' + chap.id + ' ' + (chapTestLocked ? '🔒' : '') + '</button>';
+    html += '<button class="exam-btn ' + (chapTestLocked ? 'locked' : '') + '" ' + (chapTestLocked ? 'disabled' : '') + ' onclick="showChapExam(' + chap.id + ')" style="background:var(--danger-color); box-shadow: 0 4px 0 var(--danger-shadow);">🎓 BÀI KIỂM TRA CHƯƠNG ' + chap.id + ' ' + (chapTestLocked ? '🔒' : '') + '</button>';
     html += '</div>';
     container.innerHTML += html;
   });
 }
 
-window.showExam = (name, qCount, minutes) => {
-  document.getElementById('exam-title').innerText = "📝 Bài thi " + name;
-  document.getElementById('exam-desc').innerText = "Thời gian: " + minutes + " phút - " + qCount + " câu hỏi.";
+let currentExamStage = null;
+
+window.showExam = (cId, sId) => {
+  currentExamStage = { c: cId, s: sId };
+  const stageInfo = (currentSubject === 'math' ? mathStagesInfo : scienceStagesInfo)['c' + cId + 's' + sId];
+  let stageName = stageInfo ? stageInfo.title : "Màn " + sId;
+  document.getElementById('exam-title').innerText = "📝 Bài kiểm tra " + stageName;
+  document.getElementById('exam-desc').innerText = "Thử thách phản xạ từ vựng: Nối đúng 7 từ với nghĩa trong vòng 15 giây!";
+  
+  const startBtn = document.getElementById('btn-start-exam-now');
+  if (startBtn) {
+    startBtn.onclick = () => {
+      document.getElementById('exam-modal').classList.add('hidden');
+      startSpeedMatch(cId, sId);
+    };
+  }
   document.getElementById('exam-modal').classList.remove('hidden');
+};
+
+window.showChapExam = (chapId) => {
+  document.getElementById('exam-title').innerText = "🎓 Bài kiểm tra Chương " + chapId;
+  document.getElementById('exam-desc').innerText = "Tổng hợp toàn bộ kiến thức 5 Màn của Chương " + chapId + " (Đang hoàn thiện chấm điểm tổng kết).";
+  const startBtn = document.getElementById('btn-start-exam-now');
+  if (startBtn) {
+    startBtn.onclick = () => {
+      document.getElementById('exam-modal').classList.add('hidden');
+      startSpeedMatch(chapId, 1);
+    };
+  }
+  document.getElementById('exam-modal').classList.remove('hidden');
+};
+
+// ==========================================
+// TÍNH NĂNG: THỬ THÁCH NỐI TỪ PHẢN XẠ 15S
+// ==========================================
+let speedTimerInterval = null;
+let speedTimeLeft = 15;
+let speedSelectedWord = null;
+let speedSelectedMeaning = null;
+let speedMatchedCount = 0;
+let speedActiveList = [];
+
+window.startSpeedMatch = (cId, sId) => {
+  const stageKey = 'c' + cId + 's' + sId;
+  const vocabBank = (currentSubject === 'math' ? mathVocab : scienceVocab)[stageKey] || [];
+  if (vocabBank.length === 0) return alert("Chưa có dữ liệu từ vựng cho Màn này!");
+
+  // Lấy 7 từ vựng tiêu biểu
+  speedActiveList = vocabBank.slice(0, 7);
+  if (speedActiveList.length < 7 && vocabBank.length > 0) {
+    speedActiveList = vocabBank;
+  }
+  
+  const stageInfo = (currentSubject === 'math' ? mathStagesInfo : scienceStagesInfo)[stageKey];
+  document.getElementById('speed-stage-title').innerText = stageInfo ? stageInfo.title : "Màn " + sId;
+  
+  document.getElementById('speed-result-area').classList.add('hidden');
+  document.getElementById('speed-match-arena').classList.remove('hidden');
+  
+  speedMatchedCount = 0;
+  speedTimeLeft = 15;
+  speedSelectedWord = null;
+  speedSelectedMeaning = null;
+  updateSpeedUI();
+
+  // Render 2 cột từ tiếng Anh & nghĩa tiếng Việt đã được xáo trộn
+  const wordsCol = document.getElementById('speed-words-col');
+  const meaningsCol = document.getElementById('speed-meanings-col');
+  wordsCol.innerHTML = '';
+  meaningsCol.innerHTML = '';
+
+  const shuffledWords = [...speedActiveList].sort(() => Math.random() - 0.5);
+  const shuffledMeanings = [...speedActiveList].sort(() => Math.random() - 0.5);
+
+  shuffledWords.forEach(item => {
+    const btn = document.createElement('div');
+    btn.className = 'match-chip';
+    btn.innerText = item.word;
+    btn.dataset.id = item.word;
+    btn.onclick = () => handleSelectWord(btn, item.word);
+    wordsCol.appendChild(btn);
+  });
+
+  shuffledMeanings.forEach(item => {
+    const btn = document.createElement('div');
+    btn.className = 'match-chip';
+    btn.innerText = item.meaning;
+    btn.dataset.id = item.word;
+    btn.onclick = () => handleSelectMeaning(btn, item.word);
+    meaningsCol.appendChild(btn);
+  });
+
+  document.getElementById('speed-match-modal').classList.remove('hidden');
+  startSpeedTimer();
+};
+
+function startSpeedTimer() {
+  if (speedTimerInterval) clearInterval(speedTimerInterval);
+  const timerPill = document.getElementById('speed-timer');
+  const timerBar = document.getElementById('speed-timer-bar');
+  
+  speedTimerInterval = setInterval(() => {
+    speedTimeLeft -= 0.1;
+    if (speedTimeLeft <= 0) {
+      speedTimeLeft = 0;
+      clearInterval(speedTimerInterval);
+      endSpeedMatch(false);
+    }
+    
+    let sec = Math.ceil(speedTimeLeft);
+    timerPill.innerText = "⏱️ " + sec + "s";
+    let pct = Math.max(0, (speedTimeLeft / 15) * 100);
+    timerBar.style.width = pct + "%";
+    
+    if (speedTimeLeft <= 5) {
+      timerPill.classList.add('urgent');
+      timerBar.style.background = 'var(--danger-color)';
+    } else {
+      timerPill.classList.remove('urgent');
+      timerBar.style.background = 'var(--primary-color)';
+    }
+  }, 100);
 }
+
+function handleSelectWord(element, wordId) {
+  if (element.classList.contains('matched')) return;
+  document.querySelectorAll('#speed-words-col .match-chip').forEach(el => el.classList.remove('selected'));
+  element.classList.add('selected');
+  speedSelectedWord = { element, id: wordId };
+  checkSpeedPair();
+}
+
+function handleSelectMeaning(element, wordId) {
+  if (element.classList.contains('matched')) return;
+  document.querySelectorAll('#speed-meanings-col .match-chip').forEach(el => el.classList.remove('selected'));
+  element.classList.add('selected');
+  speedSelectedMeaning = { element, id: wordId };
+  checkSpeedPair();
+}
+
+function checkSpeedPair() {
+  if (!speedSelectedWord || !speedSelectedMeaning) return;
+
+  const wEl = speedSelectedWord.element;
+  const mEl = speedSelectedMeaning.element;
+
+  if (speedSelectedWord.id === speedSelectedMeaning.id) {
+    // Nối đúng!
+    wEl.className = 'match-chip matched';
+    mEl.className = 'match-chip matched';
+    speedMatchedCount++;
+    updateSpeedUI();
+    
+    speedSelectedWord = null;
+    speedSelectedMeaning = null;
+
+    if (speedMatchedCount >= speedActiveList.length) {
+      clearInterval(speedTimerInterval);
+      setTimeout(() => endSpeedMatch(true), 300);
+    }
+  } else {
+    // Nối sai: rung lắc và nháy đỏ
+    wEl.classList.add('wrong');
+    mEl.classList.add('wrong');
+    setTimeout(() => {
+      wEl.classList.remove('wrong', 'selected');
+      mEl.classList.remove('wrong', 'selected');
+      speedSelectedWord = null;
+      speedSelectedMeaning = null;
+    }, 350);
+  }
+}
+
+function updateSpeedUI() {
+  document.getElementById('speed-score').innerText = "🎯 " + speedMatchedCount + "/" + speedActiveList.length + " cặp";
+}
+
+function endSpeedMatch(isWin) {
+  document.getElementById('speed-match-arena').classList.add('hidden');
+  const resultArea = document.getElementById('speed-result-area');
+  resultArea.classList.remove('hidden');
+
+  const titleEl = document.getElementById('speed-result-title');
+  const descEl = document.getElementById('speed-result-desc');
+  const iconEl = document.getElementById('speed-result-icon');
+
+  if (isWin) {
+    let elapsed = (15 - speedTimeLeft).toFixed(1);
+    iconEl.innerText = "🏆";
+    titleEl.innerText = "PHẢN XẠ XUẤT SẮC!";
+    titleEl.style.color = "var(--primary-color)";
+    descEl.innerText = "Chúc mừng! Bạn đã phản xạ nối chính xác 7/7 từ vựng chỉ trong " + elapsed + " giây. Kỹ năng ghi nhớ từ của bạn rất tuyệt vời!";
+    incrementDailyProgress();
+  } else {
+    iconEl.innerText = "⏰";
+    titleEl.innerText = "HẾT GIỜ RỒI!";
+    titleEl.style.color = "var(--danger-color)";
+    descEl.innerText = "Bạn đã hoàn thành nối đúng " + speedMatchedCount + "/" + speedActiveList.length + " cặp từ trước khi hết thời gian 15 giây. Hãy luyện tập thêm để phản xạ nhanh hơn nhé!";
+  }
+}
+
+window.retrySpeedMatch = () => {
+  if (currentExamStage) {
+    startSpeedMatch(currentExamStage.c, currentExamStage.s);
+  }
+};
+
+window.finishSpeedMatch = () => {
+  if (speedTimerInterval) clearInterval(speedTimerInterval);
+  document.getElementById('speed-match-modal').classList.add('hidden');
+};
 
 window.startLevel = (cId, sId, lId, startIndex = 0) => {
   const chapter = curriculum[currentSubject].chapters.find(c => c.id === cId);
@@ -263,6 +485,9 @@ window.startLevel = (cId, sId, lId, startIndex = 0) => {
 };
 
 window.goHome = () => {
+  if (currentQuestions.length > 0 && currentQuestionIndex < currentQuestions.length) {
+    saveSession();
+  }
   showScreen('home');
 };
 
@@ -277,15 +502,41 @@ function setupVocabHint(q) {
     container.classList.remove('hidden');
     document.getElementById('vocab-card').classList.add('hidden');
     
-    let w = q.vocab ? q.vocab.word : q.word;
-    let t = q.vocab ? q.vocab.wordType : q.wordType;
-    let m = q.vocab ? q.vocab.meaning : (q.type === 'vocab_match' ? q.meaning : '');
+    let v = q.vocab || {};
+    let w = v.word || q.word;
+    let t = v.wordType || q.wordType;
+    let m = v.meaning || q.meaning || '';
+    let g = v.grammar || '';
+    let s = v.sentence || '';
+    let tr = v.translation || '';
     
     document.getElementById('vocab-word').innerText = w;
     document.getElementById('vocab-type').innerText = t;
     document.getElementById('vocab-meaning').innerText = m;
 
-    if (!learnedVocabs.find(x => x.word === w)) learnedVocabs.push({word: w, type: t, meaning: m});
+    const grammarBox = document.getElementById('vocab-grammar-box');
+    const grammarText = document.getElementById('vocab-grammar');
+    if (g && grammarBox && grammarText) {
+      grammarBox.classList.remove('hidden');
+      grammarText.innerText = g;
+    } else if (grammarBox) {
+      grammarBox.classList.add('hidden');
+    }
+
+    const sentenceBox = document.getElementById('vocab-sentence-box');
+    const sentenceEn = document.getElementById('vocab-sentence');
+    const sentenceVi = document.getElementById('vocab-trans');
+    if (s && sentenceBox && sentenceEn && sentenceVi) {
+      sentenceBox.classList.remove('hidden');
+      sentenceEn.innerText = "🗣️ " + s;
+      sentenceVi.innerText = tr;
+    } else if (sentenceBox) {
+      sentenceBox.classList.add('hidden');
+    }
+
+    if (!learnedVocabs.find(x => x.word === w)) {
+      learnedVocabs.push({ word: w, type: t, meaning: m, grammar: g, sentence: s });
+    }
   } else {
     container.classList.add('hidden');
   }
@@ -515,7 +766,11 @@ function showSummary() {
   document.getElementById('vocab-hint-container').classList.add('hidden');
   const list = document.getElementById('summary-vocab-list');
   list.innerHTML = '';
-  learnedVocabs.forEach(v => { list.innerHTML += '<li><strong>' + v.word + ' ' + v.type + '</strong>: ' + v.meaning + '</li>'; });
+  learnedVocabs.forEach(v => {
+    let grammarSnippet = v.grammar ? '<div style="font-size:13px; color:#0284c7; margin-top:4px;">💡 ' + v.grammar + '</div>' : '';
+    let sentenceSnippet = v.sentence ? '<div style="font-size:13px; color:#64748b; font-style:italic; margin-top:3px;">🗣️ ' + v.sentence + '</div>' : '';
+    list.innerHTML += '<li style="padding:10px 0; border-bottom:1px solid #eee;"><strong>' + v.word + ' ' + v.type + '</strong>: ' + v.meaning + grammarSnippet + sentenceSnippet + '</li>';
+  });
   if (learnedVocabs.length === 0) list.innerHTML = "<li>Không có từ vựng mới nào trong ải này.</li>";
   showScreen('summary');
 }

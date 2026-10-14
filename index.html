@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Teach English Lab</title>
+    <meta name="theme-color" content="#58cc02" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="EnglishLab" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="icon" type="image/png" href="/icon-192.png" />
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   </head>
@@ -12,11 +18,45 @@
     <div id="welcome-modal" class="modal-overlay hidden">
       <div class="modal slide-up">
         <h2>👋 Chào mừng quay lại!</h2>
-        <p id="welcome-text">Hôm trước bạn đang học dở Câu X của Ải Y, Màn Z, Chương W.</p>
-        <p>Bạn có muốn tiếp tục bài học này không?</p>
-        <div class="controls">
-          <button class="btn primary" onclick="resumeSession()">Tiếp tục ngay</button>
-          <button class="btn skip" onclick="closeWelcomeModal()">Không, để sau</button>
+        <p id="welcome-text">Bạn đang học dở Câu N của Ải Y, Màn Z, Chương W.</p>
+        <p>Bạn có muốn tiếp tục làm câu này hay bắt đầu lại từ đầu?</p>
+        <div class="controls column-controls">
+          <button class="btn primary" id="btn-resume-session" onclick="resumeSession()">▶️ Tiếp tục ngay</button>
+          <button class="btn secondary" onclick="restartLevelFromBeginning()">🔄 Bắt đầu lại từ đầu Ải</button>
+          <button class="btn skip" onclick="closeWelcomeModal()">✖ Về Trang chủ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Thử thách Nối Từ Phản Xạ 15s (Progress Test cuối Màn) -->
+    <div id="speed-match-modal" class="modal-overlay hidden" style="z-index: 1600;">
+      <div class="modal slide-up speed-match-box">
+        <div class="speed-header">
+          <h2 style="font-size: 20px; color: var(--primary-color); margin-bottom: 4px;">⚡ PHẢN XẠ TỪ VỰNG 15S</h2>
+          <p id="speed-stage-title" style="font-size: 14px; color: #666; margin-bottom: 8px; font-weight: bold;">Kiểm tra tiến độ Màn</p>
+          <div class="speed-stats-bar">
+            <div class="timer-pill" id="speed-timer">⏱️ 15s</div>
+            <div class="score-pill" id="speed-score">🎯 0/7 cặp</div>
+          </div>
+          <div class="speed-progress-bg">
+            <div id="speed-timer-bar" class="speed-progress-fill"></div>
+          </div>
+        </div>
+
+        <div id="speed-match-arena" class="speed-match-arena">
+          <div class="speed-col" id="speed-words-col"></div>
+          <div class="speed-col" id="speed-meanings-col"></div>
+        </div>
+
+        <!-- Màn hình kết quả thử thách -->
+        <div id="speed-result-area" class="speed-result-area hidden">
+          <div id="speed-result-icon" style="font-size: 50px; margin-bottom: 8px;">🏆</div>
+          <h3 id="speed-result-title" style="font-size: 22px; color: var(--primary-color); font-weight: 800;">Xuất sắc!</h3>
+          <p id="speed-result-desc" style="font-size: 16px; color: #555; margin: 12px 0 20px; font-weight: bold;"></p>
+          <div class="controls">
+            <button class="btn secondary" onclick="retrySpeedMatch()">🔄 Thử lại</button>
+            <button class="btn primary" onclick="finishSpeedMatch()">Đóng bài thi</button>
+          </div>
         </div>
       </div>
     </div>
@@ -25,9 +65,9 @@
     <div id="exam-modal" class="modal-overlay hidden">
       <div class="modal slide-up">
         <h2 id="exam-title">📝 Bài kiểm tra</h2>
-        <p id="exam-desc">Thời gian: 15 phút - 30 câu hỏi.</p>
+        <p id="exam-desc">Thời gian: 15 giây - Thử thách phản xạ nối 7 từ vựng!</p>
         <div class="controls">
-          <button class="btn primary" onclick="alert('Tính năng làm bài thi có bấm giờ đang được phát triển!')">Bắt đầu làm bài</button>
+          <button class="btn primary" id="btn-start-exam-now">⚡ Bắt đầu thử thách 15s</button>
           <button class="btn skip" onclick="document.getElementById('exam-modal').classList.add('hidden')">Đóng</button>
         </div>
       </div>
@@ -37,7 +77,7 @@
     <div id="congrats-modal" class="modal-overlay hidden">
       <div class="modal slide-up">
         <h2>🏆 Xuất sắc!</h2>
-        <p>Bạn đã đạt mục tiêu 60 câu hôm nay!</p>
+        <p>Bạn đã đạt mục tiêu 80 câu hôm nay (trọn vẹn 4 ải)!</p>
         <div class="controls column-controls">
           <label style="font-size: 16px; color: #555; text-align: center; margin-bottom: 10px; cursor: pointer; font-weight: bold;">
             <input type="checkbox" id="dont-remind-today" style="transform: scale(1.2); margin-right: 5px;"> Không nhắc lại trong hôm nay
@@ -92,7 +132,7 @@
         <button class="btn skip" onclick="resetProgress()" style="width:100%; margin-bottom: 25px; padding: 12px; font-size: 16px;">🔄 Học lại từ đầu môn này</button>
 
         <div class="progress-bar-container">
-          <p>🔥 Mục tiêu ngày: <span id="daily-progress-text">0/60</span> câu</p>
+          <p>🔥 Mục tiêu ngày: <span id="daily-progress-text">0/80</span> câu (4 Ải / Màn)</p>
           <div class="progress-bg"><div class="progress-fill" id="daily-progress-fill"></div></div>
         </div>
       </div>
@@ -108,11 +148,19 @@
         
         <!-- Khu vực từ vựng lật (Vocab Card) -->
         <div id="vocab-hint-container" class="vocab-hint-container hidden">
-          <button class="btn-toggle-vocab" onclick="toggleVocab()">📖 Trợ giúp từ vựng</button>
+          <button class="btn-toggle-vocab" onclick="toggleVocab()">📖 Trợ giúp từ vựng & Cấu trúc câu</button>
           <div id="vocab-card" class="vocab-card hidden slide-up">
             <h3 id="vocab-word">word</h3>
             <p id="vocab-type">(type)</p>
             <p id="vocab-meaning">meaning</p>
+            <div id="vocab-grammar-box" class="vocab-grammar-box hidden">
+              <span class="vocab-grammar-label">💡 Cấu trúc câu & Ngữ pháp:</span>
+              <p id="vocab-grammar" class="vocab-grammar-text"></p>
+            </div>
+            <div id="vocab-sentence-box" class="vocab-sentence-box hidden">
+              <p id="vocab-sentence" class="vocab-sentence-en"></p>
+              <p id="vocab-trans" class="vocab-sentence-vi"></p>
+            </div>
           </div>
         </div>
 
