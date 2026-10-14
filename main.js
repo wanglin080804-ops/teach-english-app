@@ -672,22 +672,81 @@ window.speakText = (text) => {
   window.speechSynthesis.speak(u);
 }
 
+function convertWordsToNumbers(text) {
+  if (!text) return '';
+  const units = {
+    'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4,
+    'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9,
+    'ten': 10, 'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14,
+    'fifteen': 15, 'sixteen': 16, 'seventeen': 17, 'eighteen': 18, 'nineteen': 19
+  };
+  const tens = {
+    'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50,
+    'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety': 90
+  };
+  
+  let res = text;
+  // Ghép số kép: "twenty five" -> "25", "thirty two" -> "32"
+  for (let t in tens) {
+    for (let u in units) {
+      if (units[u] > 0 && units[u] < 10) {
+        let val = tens[t] + units[u];
+        res = res.replace(new RegExp('\\b' + t + '[\\s-]+' + u + '\\b', 'gi'), val.toString());
+      }
+    }
+    res = res.replace(new RegExp('\\b' + t + '\\b', 'gi'), tens[t].toString());
+  }
+  for (let u in units) {
+    res = res.replace(new RegExp('\\b' + u + '\\b', 'gi'), units[u].toString());
+  }
+  res = res.replace(/\bhundred\b/gi, '100');
+  
+  // Thứ tự: first -> 1st, second -> 2nd, third -> 3rd
+  res = res.replace(/\bfirst\b/gi, '1st')
+           .replace(/\bsecond\b/gi, '2nd')
+           .replace(/\bthird\b/gi, '3rd')
+           .replace(/\bfourth\b/gi, '4th')
+           .replace(/\bfifth\b/gi, '5th');
+
+  return res;
+}
+
 function normalizeAudioText(str) {
+  if (!str) return '';
   let s = str.toLowerCase();
   
-  // Google Speech to Text often converts spoken math into symbols. We need to convert them back to words to match our target.
+  // 1. Chuyển đổi toàn bộ từ số chữ ("eight", "seven", "fifteen") thành số ("8", "7", "15")
+  s = convertWordsToNumbers(s);
+  
+  // 2. Chuẩn hóa ký hiệu toán học phổ biến sang từ đồng nhất
   s = s.replace(/\+/g, " plus ")
-       .replace(/-/g, " minus ")
-       .replace(/=/g, " equals ")
+       .replace(/–|-/g, " minus ")
+       .replace(/=/g, " is ")
        .replace(/\*/g, " times ")
-       .replace(/÷/g, " divide ");
+       .replace(/÷/g, " divide ")
+       .replace(/\//g, " divide ");
        
-  const numMap = { '1:00':'1', '2:00':'2', '3:00':'3', '4:00':'4', '5:00':'5', 'at':'add', 'to':'2', 'too':'2' };
-  s = s.replace(/[.,!?"':;]/g, " ");
+  // 3. Chuẩn hóa từ đồng nghĩa trong câu toán/khoa học
+  s = s.replace(/\bequals\b/g, "is")
+       .replace(/\bequal to\b/g, "is")
+       .replace(/\bequal\b/g, "is")
+       .replace(/\bmultiplied by\b/g, "times")
+       .replace(/\bdivided by\b/g, "divide")
+       .replace(/\badd to\b/g, "add")
+       .replace(/\bone half\b/g, "half")
+       .replace(/\bone quarter\b/g, "quarter");
+
+  // 4. Bỏ các dấu câu
+  s = s.replace(/[.,!?"':;()[\]{}]/g, " ");
   
   let words = s.split(/\s+/).filter(w => w.length > 0);
   
-  // Handle 'x' as times if between numbers
+  // Map thêm các trường hợp đặc biệt do nhận diện giọng nói
+  const numMap = { 
+    '1:00':'1', '2:00':'2', '3:00':'3', '4:00':'4', '5:00':'5', 
+    'at':'add', 'to':'2', 'too':'2', 'for':'4' 
+  };
+  
   words = words.map((w, i) => {
     if (w === 'x' && !isNaN(words[i-1]) && !isNaN(words[i+1])) return 'times';
     return numMap[w] || w;
@@ -713,35 +772,165 @@ function levenshtein(a, b) {
   }
   return matrix[b.length][a.length];
 }
+let activeRecognition = null;
+let recognitionWatchdog = null;
 
 window.startRecognition = (targetText) => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) return alert("Trình duyệt không hỗ trợ nhận diện giọng nói!");
+  if (!SpeechRecognition) {
+    alert("Trình duyệt này không hỗ trợ Web Speech API. Khuyên dùng Google Chrome, Microsoft Edge hoặc Safari trên iPhone!");
+    return;
+  }
 
-  const recognition = new SpeechRecognition(); recognition.lang = 'en-US';
-  const btnRecord = document.getElementById('btn-record'); const feedback = document.getElementById('feedback');
-  btnRecord.innerText = "🎙️ Đang nghe..."; recognition.start();
+  const btnRecord = document.getElementById('btn-record');
+  const feedback = document.getElementById('feedback');
+
+  // Nếu đang nghe mà bấm tiếp => Dừng lại an toàn
+  if (activeRecognition) {
+    try {
+      activeRecognition.stop();
+    } catch (e) {}
+    activeRecognition = null;
+    clearTimeout(recognitionWatchdog);
+    if (btnRecord) {
+      btnRecord.innerText = "🎤 Nói";
+      btnRecord.classList.remove('recording-pulse');
+    }
+    return;
+  }
+
+  let recognition;
+  try {
+    recognition = new SpeechRecognition();
+  } catch (err) {
+    console.error("SpeechRecognition init error:", err);
+    alert("Không thể khởi động bộ thu âm: " + err.message);
+    return;
+  }
+
+  activeRecognition = recognition;
+  recognition.lang = 'en-US';
+  recognition.interimResults = true; // Hiển thị từ ngay khi nói trong thời gian thực
+  recognition.maxAlternatives = 1;
+  recognition.continuous = false;
+
+  let recognizedAny = false;
+  let finalResultText = '';
+
+  btnRecord.innerText = "🛑 Đang nghe... (Bấm để dừng)";
+  btnRecord.classList.add('recording-pulse');
+
+  feedback.classList.remove('hidden');
+  feedback.className = 'result-area';
+  feedback.innerHTML = '🎙️ <em>Đang lắng nghe... Hãy nói to câu tiếng Anh vào micro!</em>';
+
+  // Watchdog timer: Tự động dừng sau 9 giây nếu mic không bắt được âm thanh để không bao giờ bị treo
+  clearTimeout(recognitionWatchdog);
+  recognitionWatchdog = setTimeout(() => {
+    if (activeRecognition === recognition) {
+      try {
+        recognition.stop();
+      } catch (e) {}
+    }
+  }, 9000);
 
   recognition.onresult = (e) => {
-    let transcript = e.results[0][0].transcript;
-    let normTrans = normalizeAudioText(transcript);
-    let normTarget = normalizeAudioText(targetText);
-    
-    let dist = levenshtein(normTrans, normTarget);
-    let maxLength = Math.max(normTrans.length, normTarget.length);
-    let similarity = maxLength === 0 ? 1 : (1 - (dist / maxLength));
-    
-    feedback.classList.remove('hidden');
-    feedback.innerHTML = '<strong>Bạn nói:</strong> ' + transcript + '<br>';
-    if (similarity >= 0.75) {
-      feedback.className = 'result-area correct'; feedback.innerHTML += '✅ Rất tốt! (Chấp nhận)';
-      document.getElementById('btn-next').classList.remove('hidden'); incrementDailyProgress();
-    } else {
-      feedback.className = 'result-area incorrect'; feedback.innerHTML += '❌ Đọc sai câu hoặc phát âm chưa chuẩn, bạn thử lại nhé!';
+    let interimText = '';
+    for (let i = e.resultIndex; i < e.results.length; ++i) {
+      if (e.results[i].isFinal) {
+        finalResultText += e.results[i][0].transcript;
+        recognizedAny = true;
+      } else {
+        interimText += e.results[i][0].transcript;
+      }
+    }
+
+    let liveText = (finalResultText || interimText).trim();
+    if (liveText) {
+      feedback.innerHTML = '<strong>Đang nghe:</strong> <em>"' + liveText + '"</em>';
+    }
+
+    // Nếu đã có kết quả cuối cùng hoặc câu nói đủ dài
+    if (recognizedAny || liveText.length >= 3) {
+      let evalText = finalResultText || liveText;
+      let normTrans = normalizeAudioText(evalText);
+      let normTarget = normalizeAudioText(targetText);
+      
+      let dist = levenshtein(normTrans, normTarget);
+      let maxLength = Math.max(normTrans.length, normTarget.length);
+      let similarity = maxLength === 0 ? 1 : (1 - (dist / maxLength));
+
+      // Đếm tỷ lệ từ khóa cốt lõi khớp nhau
+      let targetWords = normTarget.split(/\s+/).filter(w => w.length > 0);
+      let transWords = normTrans.split(/\s+/).filter(w => w.length > 0);
+      let matchedWords = targetWords.filter(w => transWords.includes(w));
+      let wordMatchRatio = targetWords.length > 0 ? (matchedWords.length / targetWords.length) : 0;
+
+      let isPassed = similarity >= 0.65 || wordMatchRatio >= 0.70 || normTrans.includes(normTarget) || (normTrans.length >= 4 && normTarget.includes(normTrans));
+
+      feedback.innerHTML = '<strong>Bạn nói:</strong> "' + evalText + '"<br>';
+      if (isPassed) {
+        feedback.className = 'result-area correct';
+        let displayScore = Math.max(Math.round(similarity * 100), Math.round(wordMatchRatio * 100), 85);
+        if (normTrans === normTarget) displayScore = 100;
+        feedback.innerHTML += '✅ Rất tốt! Đã nhận diện chính xác (' + displayScore + '%)';
+        const btnNext = document.getElementById('btn-next');
+        if (btnNext) btnNext.classList.remove('hidden');
+        incrementDailyProgress();
+      } else {
+        feedback.className = 'result-area incorrect';
+        let displayScore = Math.round(Math.max(similarity, wordMatchRatio) * 100);
+        feedback.innerHTML += '❌ Phát âm chưa khớp (' + displayScore + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';
+      }
     }
   };
-  recognition.onspeechend = () => { btnRecord.innerText = "🎤 Nói"; recognition.stop(); };
-}
+
+  recognition.onerror = (e) => {
+    console.warn("Speech Recognition Error:", e.error);
+    clearTimeout(recognitionWatchdog);
+    let msg = "";
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      msg = "⚠️ <strong>Quyền Micro bị chặn:</strong> Hãy bấm vào biểu tượng ổ khóa/micro trên thanh địa chỉ duyệt web và chọn <strong>'Cho phép' (Allow)</strong> rồi thử lại.";
+    } else if (e.error === 'no-speech') {
+      msg = "⚠️ <strong>Chưa bắt được tiếng:</strong> Không nghe thấy âm thanh. Bạn hãy nói to hơn hoặc để micro gần miệng hơn nhé!";
+    } else if (e.error === 'network') {
+      msg = "⚠️ <strong>Lỗi kết nối máy chủ giọng nói:</strong> Dịch vụ Speech to Text của trình duyệt cần có internet ổn định.";
+    } else if (e.error === 'audio-capture') {
+      msg = "⚠️ <strong>Lỗi Micro:</strong> Không tìm thấy micro hoặc micro đang bị ứng dụng khác chiếm quyền.";
+    } else {
+      msg = "⚠️ Đã dừng nghe (" + e.error + "). Hãy bấm 'Nói' để thử lại.";
+    }
+
+    if (!recognizedAny) {
+      feedback.classList.remove('hidden');
+      feedback.className = 'result-area incorrect';
+      feedback.innerHTML = msg;
+    }
+  };
+
+  recognition.onend = () => {
+    clearTimeout(recognitionWatchdog);
+    activeRecognition = null;
+    if (btnRecord) {
+      btnRecord.innerText = "🎤 Nói";
+      btnRecord.classList.remove('recording-pulse');
+    }
+  };
+
+  try {
+    recognition.start();
+  } catch (err) {
+    console.error("Lỗi recognition.start():", err);
+    activeRecognition = null;
+    if (btnRecord) {
+      btnRecord.innerText = "🎤 Nói";
+      btnRecord.classList.remove('recording-pulse');
+    }
+    feedback.classList.remove('hidden');
+    feedback.className = 'result-area incorrect';
+    feedback.innerHTML = "⚠️ Không thể kích hoạt micro: " + err.message;
+  }
+};
 
 window.skipQuestion = () => {
   let q = currentQuestions.splice(currentQuestionIndex, 1)[0];

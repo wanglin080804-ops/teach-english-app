@@ -36,36 +36,36 @@ export const mathStagesInfo = {
 };
 
 export const scienceStagesInfo = {
-  c1s1: { stage: 1, title: 'Màn 1: Các bộ phận thực vật (Plant Anatomy)' },
-  c1s2: { stage: 2, title: 'Màn 2: Quang hợp & Nhu cầu cây (Plant Growth)' },
-  c1s3: { stage: 3, title: 'Màn 3: Thụ phấn & Phát tán hạt (Pollination)' },
-  c1s4: { stage: 4, title: 'Màn 4: Phân loại sinh vật (Living Things)' },
-  c1s5: { stage: 5, title: 'Màn 5: Vòng đời sinh vật (Life Cycles)' },
-  c2s1: { stage: 1, title: 'Màn 1: Động vật có xương sống (Vertebrates)' },
-  c2s2: { stage: 2, title: 'Màn 2: Chế độ ăn & Chuỗi thức ăn (Food Chains)' },
-  c2s3: { stage: 3, title: 'Màn 3: Lưới thức ăn & Hệ sinh thái (Ecosystems)' },
-  c2s4: { stage: 4, title: 'Màn 4: Môi trường sống (Habitats)' },
-  c2s5: { stage: 5, title: 'Màn 5: Sự thích nghi & Sinh tồn (Adaptation)' },
-  c3s1: { stage: 1, title: 'Màn 1: Năm giác quan (The Five Senses)' },
-  c3s2: { stage: 2, title: 'Màn 2: Hệ xương & Cơ bắp (Skeletal System)' },
-  c3s3: { stage: 3, title: 'Màn 3: Hệ tuần hoàn & Hô hấp (Circulation)' },
-  c3s4: { stage: 4, title: 'Màn 4: Hệ tiêu hóa (Digestive System)' },
-  c3s5: { stage: 5, title: 'Màn 5: Dinh dưỡng & Vệ sinh (Health & Nutrition)' },
-  c4s1: { stage: 1, title: 'Màn 1: Ba trạng thái vật chất (States of Matter)' },
-  c4s2: { stage: 2, title: 'Màn 2: Sự chuyển thể của vật chất (Changes of State)' },
-  c4s3: { stage: 3, title: 'Màn 3: Tính chất vật liệu (Material Properties)' },
-  c4s4: { stage: 4, title: 'Màn 4: Dung dịch & Sự hòa tan (Dissolving)' },
-  c4s5: { stage: 5, title: 'Màn 5: Biến đổi vật lý & Hóa học (Changes)' },
-  c5s1: { stage: 1, title: 'Màn 1: Lực & Sự chuyển động (Forces & Motion)' },
-  c5s2: { stage: 2, title: 'Màn 2: Nam châm & Từ tính (Magnets)' },
-  c5s3: { stage: 3, title: 'Màn 3: Ánh sáng & Bóng râm (Light & Shadows)' },
-  c5s4: { stage: 4, title: 'Màn 4: Âm thanh & Độ rung (Sound & Vibrations)' },
-  c5s5: { stage: 5, title: 'Màn 5: Điện & Mạch điện (Electricity)' },
-  c6s1: { stage: 1, title: 'Màn 1: Hệ mặt trời & Các hành tinh (Solar System)' },
-  c6s2: { stage: 2, title: 'Màn 2: Thời tiết & Chu trình nước (Water Cycle)' },
-  c6s3: { stage: 3, title: 'Màn 3: Đất đá & Khoáng sản (Rocks & Soil)' },
-  c6s4: { stage: 4, title: 'Màn 4: Bảo vệ môi trường & Quy tắc 3R (Conservation)' },
-  c6s5: { stage: 5, title: 'Màn 5: Phương pháp nghiên cứu khoa học (Inquiry)' }
+  c1s1: { stage: 1, title: 'Màn 1: Các bộ phận của cây (Plant Parts)' },
+  c1s2: { stage: 2, title: 'Màn 2: Cây cần gì để lớn? (What Plants Need)' },
+  c1s3: { stage: 3, title: 'Màn 3: Sự phát triển của cây (How Plants Grow)' },
+  c1s4: { stage: 4, title: 'Màn 4: Vật sống & Vật không sống (Living Things)' },
+  c1s5: { stage: 5, title: 'Màn 5: Cây cối trong tự nhiên (Trees in Nature)' },
+  c2s1: { stage: 1, title: 'Màn 1: Các loài động vật quen thuộc (Everyday Animals)' },
+  c2s2: { stage: 2, title: 'Màn 2: Các bộ phận động vật (Animal Body Parts)' },
+  c2s3: { stage: 3, title: 'Màn 3: Cách động vật di chuyển (How Animals Move)' },
+  c2s4: { stage: 4, title: 'Màn 4: Thức ăn của con vật (Animal Food)' },
+  c2s5: { stage: 5, title: 'Màn 5: Ngôi nhà của con vật (Animal Homes)' },
+  c3s1: { stage: 1, title: 'Màn 1: Các bộ phận cơ thể (Body Parts)' },
+  c3s2: { stage: 2, title: 'Màn 2: Năm giác quan cơ bản (The 5 Senses)' },
+  c3s3: { stage: 3, title: 'Màn 3: Mắt, Tai, Mũi & Miệng (Face Organs)' },
+  c3s4: { stage: 4, title: 'Màn 4: Xương & Vận động (Bones & Movement)' },
+  c3s5: { stage: 5, title: 'Màn 5: Giữ gìn sức khỏe (Healthy Habits)' },
+  c4s1: { stage: 1, title: 'Màn 1: Rắn, Lỏng và Khí (States of Matter)' },
+  c4s2: { stage: 2, title: 'Màn 2: Nóng & Lạnh (Hot & Cold)' },
+  c4s3: { stage: 3, title: 'Màn 3: Các chất liệu quen thuộc (Common Materials)' },
+  c4s4: { stage: 4, title: 'Màn 4: Đặc điểm của đồ vật (Properties)' },
+  c4s5: { stage: 5, title: 'Màn 5: Nổi & Chìm trong nước (Float & Sink)' },
+  c5s1: { stage: 1, title: 'Màn 1: Đẩy & Kéo (Push & Pull)' },
+  c5s2: { stage: 2, title: 'Màn 2: Nam châm quen thuộc (Magnets)' },
+  c5s3: { stage: 3, title: 'Màn 3: Ánh sáng & Bóng tối (Light & Shadows)' },
+  c5s4: { stage: 4, title: 'Màn 4: Âm thanh quanh em (Sounds & Hearing)' },
+  c5s5: { stage: 5, title: 'Màn 5: Pin & Bóng đèn (Batteries & Bulbs)' },
+  c6s1: { stage: 1, title: 'Màn 1: Mặt trời, Mặt trăng & Sao (Sky & Space)' },
+  c6s2: { stage: 2, title: 'Màn 2: Thời tiết bốn mùa (Weather)' },
+  c6s3: { stage: 3, title: 'Màn 3: Nước & Mưa (Water & Rain)' },
+  c6s4: { stage: 4, title: 'Màn 4: Đất, Cát & Đá cuội (Rocks & Soil)' },
+  c6s5: { stage: 5, title: 'Màn 5: Yêu thiên nhiên quanh em (Care for Nature)' }
 };
 
 // ==========================================
@@ -75,18 +75,18 @@ export const mathVocab = {
   // Chương 1: Số học & Phép tính cơ bản
   // Màn 1: Hoàn thành ĐỦ CẢ 4 PHÉP TÍNH: Cộng, Trừ, Nhân, Chia
   c1s1: [
-    { word: 'add', wordType: '(v)', meaning: 'cộng vào', op: '+', template: 'If you add {A} to {B}, you get {C}.', trans: 'Nếu bạn cộng {A} vào {B}, bạn được {C}.', grammar: 'Cấu trúc điều kiện: If you add A to B, you get C.' },
-    { word: 'plus', wordType: '(prep)', meaning: 'cộng', op: '+', template: '{A} plus {B} is {C}.', trans: '{A} cộng {B} là {C}.', grammar: 'Mẫu câu tính toán: A plus B is/equals C.' },
+    { word: 'add', wordType: '(v)', meaning: 'thêm vào, cộng', op: '+', template: 'If you add {A} to {B}, you get {C}.', trans: 'Nếu bạn cộng {A} vào {B}, bạn được {C}.', grammar: 'Cấu trúc điều kiện: If you add A to B, you get C.' },
+    { word: 'plus', wordType: '(prep)', meaning: 'dấu cộng (+)', op: '+', template: '{A} plus {B} is {C}.', trans: '{A} cộng {B} là {C}.', grammar: 'Mẫu câu tính toán: A plus B is/equals C.' },
     { word: 'sum', wordType: '(n)', meaning: 'tổng số', op: '+', template: 'The sum of {A} and {B} is {C}.', trans: 'Tổng của {A} và {B} là {C}.', grammar: 'Cấu trúc danh từ: The sum of A and B is C.' },
-    { word: 'subtract', wordType: '(v)', meaning: 'trừ đi', op: '-', template: 'If you subtract {B} from {A}, you get {C}.', trans: 'Nếu bạn trừ {B} khỏi {A}, bạn được {C}.', grammar: 'Cấu trúc giới từ: Subtract A from B (Trừ A khỏi B).' },
-    { word: 'minus', wordType: '(prep)', meaning: 'trừ', op: '-', template: '{A} minus {B} is {C}.', trans: '{A} trừ {B} là {C}.', grammar: 'Mẫu câu cơ bản: A minus B is C.' },
+    { word: 'subtract', wordType: '(v)', meaning: 'trừ đi, bớt đi', op: '-', template: 'If you subtract {B} from {A}, you get {C}.', trans: 'Nếu bạn trừ {B} khỏi {A}, bạn được {C}.', grammar: 'Cấu trúc giới từ: Subtract A from B (Trừ A khỏi B).' },
+    { word: 'minus', wordType: '(prep)', meaning: 'dấu trừ (-)', op: '-', template: '{A} minus {B} is {C}.', trans: '{A} trừ {B} là {C}.', grammar: 'Mẫu câu cơ bản: A minus B is C.' },
     { word: 'difference', wordType: '(n)', meaning: 'hiệu số', op: '-', template: 'The difference between {A} and {B} is {C}.', trans: 'Hiệu số giữa {A} và {B} là {C}.', grammar: 'Cấu trúc: The difference between A and B is C.' },
-    { word: 'multiply', wordType: '(v)', meaning: 'nhân', op: '*', template: 'If you multiply {A} by {B}, you get {C}.', trans: 'Nếu bạn nhân {A} với {B}, bạn được {C}.', grammar: 'Cấu trúc: Multiply A by B to get C.' },
-    { word: 'times', wordType: '(prep)', meaning: 'lần, nhân', op: '*', template: '{A} times {B} is {C}.', trans: '{A} nhân {B} là {C}.', grammar: 'Mẫu câu: A times B is C.' },
+    { word: 'multiply', wordType: '(v)', meaning: 'nhân lên', op: '*', template: 'If you multiply {A} by {B}, you get {C}.', trans: 'Nếu bạn nhân {A} với {B}, bạn được {C}.', grammar: 'Cấu trúc: Multiply A by B to get C.' },
+    { word: 'times', wordType: '(prep)', meaning: 'dấu nhân (x)', op: '*', template: '{A} times {B} is {C}.', trans: '{A} nhân {B} là {C}.', grammar: 'Mẫu câu: A times B is C.' },
     { word: 'product', wordType: '(n)', meaning: 'tích số', op: '*', template: 'The product of {A} and {B} is {C}.', trans: 'Tích số của {A} và {B} là {C}.', grammar: 'Cấu trúc: The product of A and B is C.' },
-    { word: 'divide', wordType: '(v)', meaning: 'chia', op: '/', template: 'If you divide {A} by {B}, you get {C}.', trans: 'Nếu bạn chia {A} cho {B}, bạn được {C}.', grammar: 'Cấu trúc: Divide A by B to get C.' },
+    { word: 'divide', wordType: '(v)', meaning: 'chia ra', op: '/', template: 'If you divide {A} by {B}, you get {C}.', trans: 'Nếu bạn chia {A} cho {B}, bạn được {C}.', grammar: 'Cấu trúc: Divide A by B to get C.' },
     { word: 'quotient', wordType: '(n)', meaning: 'thương số', op: '/', template: 'The quotient of {A} and {B} is {C}.', trans: 'Thương số của {A} và {B} là {C}.', grammar: 'Cấu trúc: The quotient of A and B is C.' },
-    { word: 'equal', wordType: '(v)', meaning: 'bằng', matchWord: 'equals', op: '+', template: '{A} plus {B} equals {C}.', trans: '{A} cộng {B} bằng {C}.', grammar: 'Mẫu câu vị ngữ: A plus B equals C.' }
+    { word: 'equal', wordType: '(v)', meaning: 'bằng nhau (=)', matchWord: 'equals', op: '+', template: '{A} plus {B} equals {C}.', trans: '{A} cộng {B} bằng {C}.', grammar: 'Mẫu câu vị ngữ: A plus B equals C.' }
   ],
   c1s2: [
     { word: 'total', wordType: '(n)', meaning: 'tổng cộng', sentence: 'The total number of pencils is eight.', translation: 'Tổng số bút chì là tám.', grammar: 'Cấu trúc số lượng: The total number of [noun] is [number].' },
@@ -365,292 +365,293 @@ export const mathVocab = {
 // NGÂN HÀNG TỪ VỰNG KHOA HỌC (210 TỪ)
 // ==========================================
 export const scienceVocab = {
-  // Chương 1: Thực vật & Thế giới sinh vật
+  // Chương 1: Cây cối quanh em (Plants & Nature)
   c1s1: [
-    { word: 'root', wordType: '(n)', meaning: 'rễ cây', sentence: 'Roots anchor the plant firmly in the soil.', translation: 'Rễ cây giữ chặt cây ở trong lòng đất.', grammar: 'Thì hiện tại đơn chỉ chức năng: Roots anchor the plant.' },
-    { word: 'stem', wordType: '(n)', meaning: 'thân cây', sentence: 'The stem transports water upward to the leaves.', translation: 'Thân cây vận chuyển nước hướng lên các tán lá.', grammar: 'Chức năng cơ quan: The stem transports [substance] to [part].' },
-    { word: 'leaf', wordType: '(n)', meaning: 'lá cây', sentence: 'The green leaf makes food using sunlight.', translation: 'Chiếc lá xanh tạo ra thức ăn nhờ sử dụng ánh nắng mặt trời.', grammar: 'Mệnh đề hiện tại: The leaf makes food using sunlight.' },
-    { word: 'flower', wordType: '(n)', meaning: 'bông hoa', sentence: 'Bright flowers attract flying insects like bees.', translation: 'Những bông hoa rực rỡ thu hút các loài côn trùng bay như ong.', grammar: 'Thích nghi sinh thái: Flowers attract [animals].' },
-    { word: 'seed', wordType: '(n)', meaning: 'hạt giống', sentence: 'A seed needs moisture and warmth to sprout.', translation: 'Một hạt giống cần độ ẩm và hơi ấm để nảy mầm.', grammar: 'Điều kiện nảy mầm: A seed needs A and B to [verb].' },
-    { word: 'fruit', wordType: '(n)', meaning: 'quả, trái cây', sentence: 'The juicy fruit protects the developing seeds inside.', translation: 'Trái cây mọng nước bảo vệ những hạt giống đang phát triển bên trong.', grammar: 'Chức năng: Fruit protects seeds inside.' },
-    { word: 'petal', wordType: '(n)', meaning: 'cánh hoa', sentence: 'Colorful petals guide butterflies to sweet nectar.', translation: 'Các cánh hoa sặc sỡ dẫn lối bướm đến với mật hoa ngọt ngào.', grammar: 'Cấu tạo sinh học: Petals guide [insects] to [nectar].' }
+    { word: 'leaf', wordType: '(n)', meaning: 'lá cây', sentence: 'The green leaf is small.', translation: 'Chiếc lá màu xanh thì nhỏ.', grammar: 'Tính từ đứng trước danh từ: The green leaf is small.' },
+    { word: 'root', wordType: '(n)', meaning: 'rễ cây', sentence: 'Roots grow in the soil.', translation: 'Rễ cây mọc ở trong đất.', grammar: 'Thì hiện tại đơn: Roots grow in the soil.' },
+    { word: 'stem', wordType: '(n)', meaning: 'thân cây', sentence: 'The stem holds the flower.', translation: 'Thân cây nâng đỡ bông hoa.', grammar: 'Cấu tạo cây: The stem holds the flower.' },
+    { word: 'flower', wordType: '(n)', meaning: 'bông hoa', sentence: 'The yellow flower is pretty.', translation: 'Bông hoa màu vàng rất đẹp.', grammar: 'Mẫu câu miêu tả: The flower is pretty.' },
+    { word: 'seed', wordType: '(n)', meaning: 'hạt giống', sentence: 'A seed grows into a plant.', translation: 'Một hạt giống lớn lên thành cái cây.', grammar: 'Vòng đời cơ bản: A seed grows into a plant.' },
+    { word: 'tree', wordType: '(n)', meaning: 'cái cây', sentence: 'Birds sing in the big tree.', translation: 'Chim hót trên cái cây to.', grammar: 'Vị trí: in the big tree.' },
+    { word: 'fruit', wordType: '(n)', meaning: 'trái cây, quả', sentence: 'Apples are sweet red fruit.', translation: 'Táo là loại trái cây màu đỏ ngọt ngào.', grammar: 'Phân loại: Apples are sweet fruit.' }
   ],
   c1s2: [
-    { word: 'germinate', wordType: '(v)', meaning: 'nảy mầm', sentence: 'Bean seeds germinate quickly in moist soil.', translation: 'Hạt đậu nảy mầm nhanh chóng trong đất ẩm.', grammar: 'Hiện tượng sinh học: Seeds germinate in [conditions].' },
-    { word: 'absorb', wordType: '(v)', meaning: 'hấp thụ', sentence: 'Roots absorb water and vital minerals from soil.', translation: 'Rễ cây hấp thụ nước và các khoáng chất thiết yếu từ đất.', grammar: 'Hành động sinh lý: Roots absorb [nutrients] from soil.' },
-    { word: 'photosynthesis', wordType: '(n)', meaning: 'quang hợp', sentence: 'Green plants use photosynthesis to produce glucose.', translation: 'Cây xanh sử dụng quang hợp để sản xuất đường glucose.', grammar: 'Quá trình sinh học: Plants use photosynthesis to produce [food].' },
-    { word: 'chlorophyll', wordType: '(n)', meaning: 'chất diệp lục', sentence: 'Chlorophyll gives plants their vibrant green color.', translation: 'Chất diệp lục mang lại cho thực vật màu xanh tràn đầy sức sống.', grammar: 'Đặc tính sắc tố: Chlorophyll gives plants their green color.' },
-    { word: 'sunlight', wordType: '(n)', meaning: 'ánh nắng mặt trời', sentence: 'Leaves capture energy directly from sunlight.', translation: 'Lá cây hấp thu năng lượng trực tiếp từ ánh nắng mặt trời.', grammar: 'Nguồn năng lượng: Plants capture energy from sunlight.' },
-    { word: 'oxygen', wordType: '(n)', meaning: 'khí ô-xy', sentence: 'Plants release oxygen during the daytime.', translation: 'Cây xanh nhả khí ô-xy vào ban ngày.', grammar: 'Trao đổi khí: Plants release oxygen during daytime.' },
-    { word: 'carbon dioxide', wordType: '(n)', meaning: 'khí các-bô-níc (CO2)', matchWord: 'carbon dioxide', sentence: 'Plants take in carbon dioxide through tiny pores.', translation: 'Thực vật hít vào khí các-bô-níc qua các lỗ khí khổng nhỏ.', grammar: 'Trao đổi khí: Plants take in carbon dioxide.' }
+    { word: 'sun', wordType: '(n)', meaning: 'mặt trời', sentence: 'The sun is warm and bright.', translation: 'Mặt trời ấm áp và rực rỡ.', grammar: 'Tính từ miêu tả: The sun is warm and bright.' },
+    { word: 'water', wordType: '(n)', meaning: 'nước', sentence: 'Plants need water to grow.', translation: 'Cây cối cần nước để lớn lên.', grammar: 'Nhu cầu sống: Plants need water to grow.' },
+    { word: 'soil', wordType: '(n)', meaning: 'đất trồng', sentence: 'We put seeds in dark soil.', translation: 'Chúng em gieo hạt vào đất mùn tối màu.', grammar: 'Hành động: Put seeds in dark soil.' },
+    { word: 'air', wordType: '(n)', meaning: 'không khí', sentence: 'All plants need fresh air.', translation: 'Mọi loài cây đều cần không khí trong lành.', grammar: 'Nhu cầu: Plants need fresh air.' },
+    { word: 'grow', wordType: '(v)', meaning: 'lớn lên, phát triển', sentence: 'Little plants grow very fast.', translation: 'Những cây nhỏ lớn lên rất nhanh.', grammar: 'Động từ chỉ sự phát triển: Plants grow fast.' },
+    { word: 'green', wordType: '(adj)', meaning: 'màu xanh lá', sentence: 'The leaves are fresh and green.', translation: 'Những chiếc lá tươi và xanh.', grammar: 'Màu sắc: Leaves are fresh and green.' },
+    { word: 'light', wordType: '(n)', meaning: 'ánh sáng', sentence: 'Plants need sunlight to live.', translation: 'Cây cối cần ánh sáng mặt trời để sống.', grammar: 'Nguồn sống: Plants need sunlight to live.' }
   ],
   c1s3: [
-    { word: 'pollination', wordType: '(n)', meaning: 'sự thụ phấn', sentence: 'Pollination is essential for plants to produce seeds.', translation: 'Sự thụ phấn là thiết yếu để thực vật sinh ra hạt giống.', grammar: 'Cấu trúc thiết yếu: [Process] is essential for [purpose].' },
-    { word: 'pollen', wordType: '(n)', meaning: 'phấn hoa', sentence: 'Yellow pollen grains stick to the bees fuzzy legs.', translation: 'Những hạt phấn hoa vàng dính vào đôi chân nhiều lông của chú ong.', grammar: 'Mô tả hiện tượng: Pollen sticks to [insects].' },
-    { word: 'nectar', wordType: '(n)', meaning: 'mật hoa', sentence: 'Sweet nectar is an energetic reward for pollinators.', translation: 'Mật hoa ngọt ngào là phần thưởng giàu năng lượng cho các con vật thụ phấn.', grammar: 'Khái niệm sinh học: Nectar is a reward for pollinators.' },
-    { word: 'disperse', wordType: '(v)', meaning: 'phát tán', sentence: 'Dandelion seeds disperse floating on gentle breezes.', translation: 'Hạt bồ công anh phát tán trôi bồng bềnh theo làn gió nhẹ.', grammar: 'Phương thức phát tán: Seeds disperse by [wind/water/animals].' },
-    { word: 'seedling', wordType: '(n)', meaning: 'cây mầm, cây con', sentence: 'Water the delicate seedling every morning.', translation: 'Hãy tưới nước cho cây mầm non nớt mỗi buổi sáng.', grammar: 'Chăm sóc sinh vật: Water the seedling regularly.' },
-    { word: 'wilt', wordType: '(v)', meaning: 'héo rũ', sentence: 'Without water, plant leaves will wilt and drop.', translation: 'Nếu không có nước, lá cây sẽ bị héo rũ và rụng xuống.', grammar: 'Điều kiện thiếu thốn: Without water, plants wilt.' },
-    { word: 'soil', wordType: '(n)', meaning: 'đất trồng', sentence: 'Healthy soil contains organic matter and nutrients.', translation: 'Đất trồng màu mỡ chứa chất hữu cơ và các chất dinh dưỡng.', grammar: 'Môi trường sống: Healthy soil contains [elements].' }
+    { word: 'plant', wordType: '(v)', meaning: 'trồng cây', sentence: 'I help plant a new tree.', translation: 'Em giúp trồng một cái cây mới.', grammar: 'Động từ hành động: Help plant a tree.' },
+    { word: 'sprout', wordType: '(n)', meaning: 'mầm cây', sentence: 'A green sprout comes up.', translation: 'Một mầm cây xanh nhú lên.', grammar: 'Sự nảy mầm: A sprout comes up.' },
+    { word: 'drop', wordType: '(v)', meaning: 'rụng xuống, rơi', sentence: 'Brown leaves drop from the branch.', translation: 'Những chiếc lá màu nâu rụng xuống từ cành cây.', grammar: 'Hiện tượng tự nhiên: Leaves drop from branches.' },
+    { word: 'tall', wordType: '(adj)', meaning: 'cao', sentence: 'Sunflowers can grow very tall.', translation: 'Hoa hướng dương có thể mọc rất cao.', grammar: 'Tính từ miêu tả: Grow very tall.' },
+    { word: 'open', wordType: '(v)', meaning: 'nở ra, mở ra', sentence: 'Flowers open in the morning.', translation: 'Hoa nở ra vào buổi sáng.', grammar: 'Thói quen của hoa: Flowers open in the morning.' },
+    { word: 'fresh', wordType: '(adj)', meaning: 'tươi tắn, trong lành', sentence: 'Fresh air feels very good.', translation: 'Không khí trong lành cho cảm giác rất dễ chịu.', grammar: 'Cảm giác: Fresh air feels good.' },
+    { word: 'garden', wordType: '(n)', meaning: 'khu vườn', sentence: 'We have flowers in the garden.', translation: 'Chúng em có hoa trong khu vườn.', grammar: 'Nơi chốn: in the garden.' }
   ],
   c1s4: [
-    { word: 'organism', wordType: '(n)', meaning: 'sinh vật, cơ thể sống', sentence: 'Every living organism needs food, water, and air.', translation: 'Mỗi sinh vật sống đều cần thức ăn, nước uống và không khí.', grammar: 'Nhu cầu cơ bản: Every living organism needs [essentials].' },
-    { word: 'alive', wordType: '(adj)', meaning: 'còn sống', sentence: 'Is a fast-flowing river really alive?', translation: 'Một dòng sông chảy xiết có thực sự còn sống không?', grammar: 'Câu hỏi phân biệt: Is [object] really alive?' },
-    { word: 'non-living', wordType: '(adj)', meaning: 'vật không sống, vô sinh', matchWord: 'non-living', sentence: 'Rocks and plastic toys are non-living things.', translation: 'Đá cuội và đồ chơi bằng nhựa là những vật không sống.', grammar: 'Phân loại: [Items] are non-living things.' },
-    { word: 'classify', wordType: '(v)', meaning: 'phân loại', sentence: 'Scientists classify organisms into different kingdoms.', translation: 'Các nhà khoa học phân loại sinh vật thành các giới khác nhau.', grammar: 'Kỹ năng khoa học: Classify organisms into [groups].' },
-    { word: 'reproduce', wordType: '(v)', meaning: 'sinh sản', sentence: 'All living creatures reproduce to make new offspring.', translation: 'Tất cả sinh vật sống đều sinh sản để tạo ra thế hệ con mới.', grammar: 'Đặc trưng sự sống: Living things reproduce to make offspring.' },
-    { word: 'grow', wordType: '(v)', meaning: 'lớn lên, phát triển', sentence: 'Living things feed, respire, and grow over time.', translation: 'Các sinh vật sống ăn uống, hô hấp và lớn lên theo thời gian.', grammar: 'Đặc trưng: Living things grow over time.' },
-    { word: 'respond', wordType: '(v)', meaning: 'phản ứng với kích thích', sentence: 'Sunflowers respond to light by turning toward it.', translation: 'Hoa hướng dương phản ứng với ánh sáng bằng cách quay về phía nó.', grammar: 'Cảm ứng sinh học: Plants respond to [stimulus] by [action].' }
+    { word: 'living', wordType: '(adj)', meaning: 'vật sống, còn sống', sentence: 'Cats and dogs are living things.', translation: 'Mèo và chó là những vật sống.', grammar: 'Phân loại: Living things grow and eat.' },
+    { word: 'non-living', wordType: '(adj)', meaning: 'vật không sống, vô sinh', matchWord: 'non-living', sentence: 'A toy car is a non-living thing.', translation: 'Chiếc ô tô đồ chơi là vật không sống.', grammar: 'Phân loại: Toys are non-living things.' },
+    { word: 'move', wordType: '(v)', meaning: 'di chuyển, cử động', sentence: 'Animals can run and move.', translation: 'Động vật có thể chạy và di chuyển.', grammar: 'Động từ: Animals can move.' },
+    { word: 'breathe', wordType: '(v)', meaning: 'thở, hô hấp', sentence: 'Living things breathe air to live.', translation: 'Sinh vật sống thở không khí để sống.', grammar: 'Hành động sống: Breathe air to live.' },
+    { word: 'eat', wordType: '(v)', meaning: 'ăn', sentence: 'Little rabbits like to eat carrots.', translation: 'Những chú thỏ nhỏ thích ăn cà rốt.', grammar: 'Thói quen: Like to eat carrots.' },
+    { word: 'drink', wordType: '(v)', meaning: 'uống', sentence: 'We drink clean water every day.', translation: 'Chúng ta uống nước sạch mỗi ngày.', grammar: 'Nhu cầu nước: Drink clean water.' },
+    { word: 'rock', wordType: '(n)', meaning: 'hòn đá', sentence: 'A hard rock is not alive.', translation: 'Hòn đá cứng không phải vật sống.', grammar: 'Vô sinh: A rock is not alive.' }
   ],
   c1s5: [
-    { word: 'life cycle', wordType: '(n)', meaning: 'vòng đời', matchWord: 'life cycle', sentence: 'The diagram illustrates the life cycle of a frog.', translation: 'Sơ đồ minh họa vòng đời của một chú ếch.', grammar: 'Mô tả quy trình: The diagram illustrates the life cycle of [animal].' },
-    { word: 'stage', wordType: '(n)', meaning: 'giai đoạn', sentence: 'The egg is the first stage in a bird life.', translation: 'Trứng là giai đoạn đầu tiên trong cuộc đời của loài chim.', grammar: 'Thứ tự giai đoạn: [Item] is the first/second stage.' },
-    { word: 'hatch', wordType: '(v)', meaning: 'nở (ra từ trứng)', sentence: 'Tiny baby turtles hatch from eggs buried in sand.', translation: 'Những chú rùa con tí hon nở ra từ những quả trứng vùi trong cát.', grammar: 'Sinh sản: Baby animals hatch from eggs.' },
-    { word: 'metamorphosis', wordType: '(n)', meaning: 'sự biến thái hoàn toàn', sentence: 'Caterpillars undergo metamorphosis to become butterflies.', translation: 'Sâu bướm trải qua sự biến thái để biến thành những cánh bướm.', grammar: 'Hiện tượng: [Animals] undergo metamorphosis to become [adult].' },
-    { word: 'pupa', wordType: '(n)', meaning: 'nhộng, kén', sentence: 'The insect rests inside the protective pupa casing.', translation: 'Con côn trùng nghỉ ngơi bên trong lớp vỏ nhộng bảo vệ.', grammar: 'Giai đoạn nhộng: The insect rests inside the pupa.' },
-    { word: 'adult', wordType: '(n)', meaning: 'con trưởng thành', sentence: 'An adult frog breathes with lungs on land.', translation: 'Một chú ếch trưởng thành thở bằng phổi ở trên cạn.', grammar: 'Đặc điểm cá thể lớn: An adult [animal] has [features].' },
-    { word: 'offspring', wordType: '(n)', meaning: 'con non, thế hệ sau', sentence: 'Adult birds feed their hungry offspring in the nest.', translation: 'Những chú chim trưởng thành mớm mồi cho bầy con non đói lử trong tổ.', grammar: 'Tình mẫu tử sinh học: Parents protect their offspring.' }
+    { word: 'forest', wordType: '(n)', meaning: 'khu rừng', sentence: 'Many tall trees live in the forest.', translation: 'Nhiều cây cao sống trong khu rừng.', grammar: 'Môi trường sống: Trees live in the forest.' },
+    { word: 'grass', wordType: '(n)', meaning: 'cỏ', sentence: 'Cows eat green grass outside.', translation: 'Những chú bò ăn cỏ xanh bên ngoài.', grammar: 'Thức ăn tự nhiên: Eat green grass.' },
+    { word: 'wood', wordType: '(n)', meaning: 'gỗ', sentence: 'This study desk is made of wood.', translation: 'Bàn học này được làm từ gỗ.', grammar: 'Chất liệu: Made of wood.' },
+    { word: 'branch', wordType: '(n)', meaning: 'cành cây', sentence: 'A bird sits on the branch.', translation: 'Một chú chim đậu trên cành cây.', grammar: 'Vị trí: Sit on the branch.' },
+    { word: 'park', wordType: '(n)', meaning: 'công viên', sentence: 'We play ball in the park.', translation: 'Chúng em chơi bóng trong công viên.', grammar: 'Địa điểm: Play in the park.' },
+    { word: 'shade', wordType: '(n)', meaning: 'bóng râm', sentence: 'Sit in the cool shade.', translation: 'Hãy ngồi trong bóng râm mát mẻ.', grammar: 'Thời tiết mát mẻ: In the cool shade.' },
+    { word: 'nature', wordType: '(n)', meaning: 'thiên nhiên', sentence: 'We love and protect nature.', translation: 'Chúng ta yêu và bảo vệ thiên nhiên.', grammar: 'Ý thức: Love and protect nature.' }
   ],
 
-  // Chương 2: Động vật, Môi trường & Hệ sinh thái
+  // Chương 2: Thế giới động vật (Animals & Habitats)
   c2s1: [
-    { word: 'mammal', wordType: '(n)', meaning: 'động vật có vú', sentence: 'Mammals are warm-blooded and have warm fur.', translation: 'Động vật có vú là động vật máu nóng và có bộ lông ấm áp.', grammar: 'Đặc điểm nhóm: Mammals are warm-blooded and have fur.' },
-    { word: 'reptile', wordType: '(n)', meaning: 'loài bò sát', sentence: 'A snake is a cold-blooded reptile with dry scales.', translation: 'Rắn là loài bò sát máu lạnh có vảy khô ráp.', grammar: 'Đặc điểm: Reptiles have dry scales and lay eggs.' },
-    { word: 'amphibian', wordType: '(n)', meaning: 'loài lưỡng cư', sentence: 'Amphibians can live both in fresh water and on land.', translation: 'Loài lưỡng cư có thể sống cả ở dưới nước ngọt lẫn trên cạn.', grammar: 'Môi trường sống: Amphibians live both in water and on land.' },
-    { word: 'bird', wordType: '(n)', meaning: 'loài chim', sentence: 'Every bird has feathers, a beak, and wings.', translation: 'Mỗi loài chim đều có lông vũ, một chiếc mỏ và đôi cánh.', grammar: 'Đặc trưng: Birds have feathers, beaks, and wings.' },
-    { word: 'fish', wordType: '(n)', meaning: 'loài cá', sentence: 'Fish use gills to breathe dissolved oxygen in water.', translation: 'Cá dùng mang để thở lượng ô-xy hòa tan trong nước.', grammar: 'Cơ quan hô hấp: Fish use gills to breathe in water.' },
-    { word: 'vertebrate', wordType: '(n)', meaning: 'động vật có xương sống', sentence: 'Animals with a strong backbone are called vertebrates.', translation: 'Những động vật có xương sống chắc khỏe được gọi là động vật có xương sống.', grammar: 'Định nghĩa: Animals with a backbone are vertebrates.' },
-    { word: 'invertebrate', wordType: '(n)', meaning: 'động vật không xương sống', sentence: 'Insects and worms are common invertebrates.', translation: 'Côn trùng và giun đất là những động vật không xương sống phổ biến.', grammar: 'Ví dụ: [Creatures] are common invertebrates.' }
+    { word: 'cat', wordType: '(n)', meaning: 'con mèo', sentence: 'The cat likes warm milk.', translation: 'Con mèo thích sữa ấm.', grammar: 'Sở thích con vật: The cat likes milk.' },
+    { word: 'dog', wordType: '(n)', meaning: 'con chó', sentence: 'The happy dog wags its tail.', translation: 'Chú chó vui vẻ vẫy đuôi.', grammar: 'Hành động: The dog wags its tail.' },
+    { word: 'bird', wordType: '(n)', meaning: 'con chim', sentence: 'A blue bird can fly high.', translation: 'Một chú chim xanh có thể bay cao.', grammar: 'Khả năng: A bird can fly.' },
+    { word: 'fish', wordType: '(n)', meaning: 'con cá', sentence: 'Fish swim in the clear river.', translation: 'Cá bơi trong dòng sông trong xanh.', grammar: 'Môi trường sống: Fish swim in water.' },
+    { word: 'duck', wordType: '(n)', meaning: 'con vịt', sentence: 'Yellow ducks swim in the pond.', translation: 'Những chú vịt vàng bơi trong ao.', grammar: 'Số nhiều: Ducks swim in the pond.' },
+    { word: 'frog', wordType: '(n)', meaning: 'con ếch', sentence: 'The green frog jumps very far.', translation: 'Chú ếch xanh nhảy rất xa.', grammar: 'Động từ di chuyển: The frog jumps.' },
+    { word: 'horse', wordType: '(n)', meaning: 'con ngựa', sentence: 'A strong horse runs fast.', translation: 'Một chú ngựa khỏe chạy rất nhanh.', grammar: 'Miêu tả: A strong horse runs fast.' }
   ],
   c2s2: [
-    { word: 'herbivore', wordType: '(n)', meaning: 'động vật ăn thực vật', sentence: 'A giant elephant is a herbivore eating leaves and grass.', translation: 'Chú voi khổng lồ là động vật ăn cỏ chuyên ăn lá và cỏ.', grammar: 'Chế độ ăn: [Animal] is a herbivore eating plants.' },
-    { word: 'carnivore', wordType: '(n)', meaning: 'động vật ăn thịt', sentence: 'Lions and tigers are ferocious carnivores.', translation: 'Sư tử và hổ là những loài động vật ăn thịt hung dữ.', grammar: 'Phân loại dinh dưỡng: [Animals] are carnivores.' },
-    { word: 'omnivore', wordType: '(n)', meaning: 'động vật ăn tạp', sentence: 'Humans and brown bears are natural omnivores.', translation: 'Con người và gấu nâu là những loài ăn tạp tự nhiên.', grammar: 'Thực đơn phong phú: Omnivores eat both plants and meat.' },
-    { word: 'predator', wordType: '(n)', meaning: 'kẻ săn mồi', sentence: 'The swift hawk is a skilled predator hunting mice.', translation: 'Chim ưng nhanh nhẹn là kẻ săn mồi điêu luyện chuyên săn chuột.', grammar: 'Quan hệ săn mồi: [Animal] is a predator hunting [prey].' },
-    { word: 'prey', wordType: '(n)', meaning: 'con mồi', sentence: 'Small mice are prey for owls and snakes.', translation: 'Những chú chuột nhắt nhỏ là con mồi cho cú mèo và loài rắn.', grammar: 'Quan hệ con mồi: [Animal] is prey for [predators].' },
-    { word: 'food chain', wordType: '(n)', meaning: 'chuỗi thức ăn', matchWord: 'food chain', sentence: 'A simple food chain starts with a green plant.', translation: 'Một chuỗi thức ăn đơn giản bắt đầu bằng một cây xanh.', grammar: 'Quy luật chuỗi thức ăn: A food chain starts with [producer].' },
-    { word: 'producer', wordType: '(n)', meaning: 'sinh vật sản xuất', sentence: 'Plants are producers because they manufacture food.', translation: 'Cây cối là sinh vật sản xuất vì chúng tự tạo ra thức ăn.', grammar: 'Vai trò sinh thái: Plants are producers because...' }
+    { word: 'wing', wordType: '(n)', meaning: 'cánh', sentence: 'Birds have two wings to fly.', translation: 'Chim có hai cánh để bay.', grammar: 'Bộ phận cơ thể: Birds have two wings.' },
+    { word: 'tail', wordType: '(n)', meaning: 'cái đuôi', sentence: 'A monkey has a long tail.', translation: 'Con khỉ có một cái đuôi dài.', grammar: 'Miêu tả đặc điểm: Has a long tail.' },
+    { word: 'fur', wordType: '(n)', meaning: 'lông mao', sentence: 'Rabbits have soft white fur.', translation: 'Thỏ có bộ lông mao trắng mềm mại.', grammar: 'Lông thú: Has soft fur.' },
+    { word: 'feather', wordType: '(n)', meaning: 'lông vũ', sentence: 'The duck has smooth feathers.', translation: 'Con vịt có những chiếc lông vũ mượt mà.', grammar: 'Lông chim: Smooth feathers.' },
+    { word: 'beak', wordType: '(n)', meaning: 'cái mỏ (chim)', sentence: 'Birds use their beak to eat.', translation: 'Chim dùng mỏ để ăn.', grammar: 'Công dụng cơ quan: Use their beak to eat.' },
+    { word: 'leg', wordType: '(n)', meaning: 'cái chân', sentence: 'A frog has two long legs.', translation: 'Một con ếch có hai cái chân dài.', grammar: 'Đặc điểm: Has two long legs.' },
+    { word: 'fin', wordType: '(n)', meaning: 'vây cá', sentence: 'Fish use fins to swim.', translation: 'Cá dùng vây để bơi lội.', grammar: 'Chức năng cơ quan: Use fins to swim.' }
   ],
   c2s3: [
-    { word: 'consumer', wordType: '(n)', meaning: 'sinh vật tiêu thụ', sentence: 'Animals are consumers that eat other living things.', translation: 'Động vật là sinh vật tiêu thụ ăn các sinh vật sống khác.', grammar: 'Định nghĩa: Consumers eat other living organisms.' },
-    { word: 'decomposer', wordType: '(n)', meaning: 'sinh vật phân hủy', sentence: 'Mushrooms and bacteria act as essential decomposers.', translation: 'Nấm và vi khuẩn đóng vai trò là những sinh vật phân hủy thiết yếu.', grammar: 'Vai trò: [Fungi/Bacteria] act as decomposers.' },
-    { word: 'food web', wordType: '(n)', meaning: 'lưới thức ăn', matchWord: 'food web', sentence: 'Connected food chains form an intricate food web.', translation: 'Các chuỗi thức ăn gắn kết với nhau tạo thành một lưới thức ăn chằng chịt.', grammar: 'Cấu trúc phức hợp: Connected food chains form a food web.' },
-    { word: 'energy', wordType: '(n)', meaning: 'năng lượng', sentence: 'The sun provides all the energy for life on Earth.', translation: 'Mặt trời cung cấp toàn bộ năng lượng cho sự sống trên Trái đất.', grammar: 'Dòng năng lượng: The sun provides energy for life.' },
-    { word: 'ecosystem', wordType: '(n)', meaning: 'hệ sinh thái', sentence: 'A coral reef is a diverse marine ecosystem.', translation: 'Rạn san hô là một hệ sinh thái biển vô cùng phong phú.', grammar: 'Môi trường sống sinh thái: [Habitat] is a [adjective] ecosystem.' },
-    { word: 'nutrient', wordType: '(n)', meaning: 'chất dinh dưỡng', sentence: 'Soil rich in nutrients helps green vegetables grow.', translation: 'Đất giàu chất dinh dưỡng giúp rau xanh tươi tốt.', grammar: 'Tính chất hỗ trợ: Soil rich in nutrients helps plants grow.' },
-    { word: 'decay', wordType: '(v)', meaning: 'thối rữa, phân hủy', sentence: 'Fallen leaves decay and return minerals to the ground.', translation: 'Lá rụng phân hủy và trả lại các chất khoáng về cho đất mẹ.', grammar: 'Chu trình vật chất: Organic matter decays and returns to soil.' }
+    { word: 'fly', wordType: '(v)', meaning: 'bay', sentence: 'Birds can fly in the sky.', translation: 'Chim có thể bay trên bầu trời.', grammar: 'Động từ di chuyển: Fly in the sky.' },
+    { word: 'swim', wordType: '(v)', meaning: 'bơi', sentence: 'Dolphins swim fast in the sea.', translation: 'Cá heo bơi nhanh dưới biển.', grammar: 'Hành động dưới nước: Swim in the sea.' },
+    { word: 'hop', wordType: '(v)', meaning: 'nhảy lò cò, nhảy ngắn', sentence: 'Rabbits hop on the grass.', translation: 'Những chú thỏ nhảy trên cỏ.', grammar: 'Cách di chuyển: Rabbits hop.' },
+    { word: 'run', wordType: '(v)', meaning: 'chạy', sentence: 'Horses can run very fast.', translation: 'Ngựa có thể chạy rất nhanh.', grammar: 'Khả năng: Can run very fast.' },
+    { word: 'walk', wordType: '(v)', meaning: 'đi bộ', sentence: 'Elephants walk slowly in forest.', translation: 'Những chú voi đi bộ chầm chậm trong rừng.', grammar: 'Tốc độ: Walk slowly.' },
+    { word: 'climb', wordType: '(v)', meaning: 'trèo, leo', sentence: 'Monkeys climb tall trees.', translation: 'Khỉ trèo lên những cây cao.', grammar: 'Hành động: Climb tall trees.' },
+    { word: 'crawl', wordType: '(v)', meaning: 'bò', sentence: 'Turtles crawl on the sand.', translation: 'Rùa bò trên cát.', grammar: 'Di chuyển chậm: Crawl on the sand.' }
   ],
   c2s4: [
-    { word: 'habitat', wordType: '(n)', meaning: 'môi trường sống tự nhiên', sentence: 'A dark cave is a natural habitat for bats.', translation: 'Hang động tối tăm là môi trường sống tự nhiên của loài dơi.', grammar: 'Nơi cư trú: [Place] is a natural habitat for [animals].' },
-    { word: 'desert', wordType: '(n)', meaning: 'sa mạc', sentence: 'Camels store water to endure the harsh dry desert.', translation: 'Lạc đà trữ nước để chịu đựng vùng sa mạc khô hạn khắc nghiệt.', grammar: 'Thích nghi khí hậu: Animals survive in the dry desert.' },
-    { word: 'ocean', wordType: '(n)', meaning: 'đại dương', sentence: 'The vast ocean is home to blue whales and dolphins.', translation: 'Đại dương bao la là ngôi nhà của cá voi xanh và cá heo.', grammar: 'Môi trường đại dương: The ocean is home to [creatures].' },
-    { word: 'forest', wordType: '(n)', meaning: 'rừng cây', sentence: 'Tall pine trees dominate the temperate forest.', translation: 'Những cây thông cao vút thống trị khu rừng ôn đới.', grammar: 'Thảm thực vật: Trees dominate the forest.' },
-    { word: 'grassland', wordType: '(n)', meaning: 'đồng cỏ', sentence: 'Zebra herds graze peacefully across the wide grassland.', translation: 'Những đàn ngựa vằn gặm cỏ thanh bình khắp vùng đồng cỏ rộng lớn.', grammar: 'Đồng cỏ: Herds graze across the grassland.' },
-    { word: 'wetland', wordType: '(n)', meaning: 'vùng đất ngập nước', sentence: 'Mangrove wetlands protect the shore from sea waves.', translation: 'Vùng đất ngập nước rừng ngập mặn bảo vệ bờ biển khỏi sóng biển.', grammar: 'Vai trò bảo vệ: Wetlands protect the environment.' },
-    { word: 'shelter', wordType: '(n)', meaning: 'nơi trú ẩn', sentence: 'Animals build shelters to keep their newborn babies safe.', translation: 'Động vật xây nơi trú ẩn để giữ cho con non mới sinh an toàn.', grammar: 'Bản năng sinh tồn: Animals build shelters to keep babies safe.' }
+    { word: 'meat', wordType: '(n)', meaning: 'thịt', sentence: 'Lions like to eat fresh meat.', translation: 'Sư tử thích ăn thịt tươi.', grammar: 'Thức ăn: Eat fresh meat.' },
+    { word: 'grass', wordType: '(n)', meaning: 'cỏ', sentence: 'Horses eat sweet green grass.', translation: 'Ngựa ăn cỏ xanh ngon lành.', grammar: 'Thức ăn động vật ăn cỏ: Eat green grass.' },
+    { word: 'bug', wordType: '(n)', meaning: 'con bọ, côn trùng nhỏ', sentence: 'Spiders catch small bugs to eat.', translation: 'Nhện bắt các con bọ nhỏ để ăn.', grammar: 'Săn mồi đơn giản: Catch small bugs.' },
+    { word: 'seed', wordType: '(n)', meaning: 'hạt', sentence: 'Little birds peck small seeds.', translation: 'Những chú chim nhỏ mổ các hạt nhỏ.', grammar: 'Hành động ăn: Peck small seeds.' },
+    { word: 'hunt', wordType: '(v)', meaning: 'săn bắt', sentence: 'Owls hunt mice at night.', translation: 'Cú mèo săn chuột vào ban đêm.', grammar: 'Tập tính săn mồi: Hunt at night.' },
+    { word: 'hungry', wordType: '(adj)', meaning: 'đói bụng', sentence: 'The little puppies are hungry.', translation: 'Những chú cún nhỏ đang đói bụng.', grammar: 'Trạng thái: Puppies are hungry.' },
+    { word: 'feed', wordType: '(v)', meaning: 'cho ăn', sentence: 'I feed my lovely cat.', translation: 'Em cho chú mèo đáng yêu ăn.', grammar: 'Chăm sóc thú cưng: Feed my cat.' }
   ],
   c2s5: [
-    { word: 'adapt', wordType: '(v)', meaning: 'thích nghi', sentence: 'Cactus plants adapt to dry climates with sharp spines.', translation: 'Cây xương rồng thích nghi với khí hậu khô hạn nhờ gai nhọn.', grammar: 'Cấu trúc thích nghi: Plants adapt to [conditions] with [features].' },
-    { word: 'adaptation', wordType: '(n)', meaning: 'đặc điểm thích nghi', sentence: 'Thick white fur is an adaptation for polar bears.', translation: 'Bộ lông dày màu trắng là một đặc điểm thích nghi cho gấu bắc cực.', grammar: 'Khái niệm: [Feature] is an adaptation for [animal].' },
-    { word: 'camouflage', wordType: '(n)', meaning: 'sự ngụy trang', sentence: 'Chameleons use color camouflage to hide from danger.', translation: 'Tắc kè hoa dùng khả năng ngụy trang đổi màu để trốn khỏi nguy hiểm.', grammar: 'Cơ chế tự vệ: Animals use camouflage to hide from danger.' },
-    { word: 'hibernate', wordType: '(v)', meaning: 'ngủ đông', sentence: 'Black bears hibernate in caves during frosty winters.', translation: 'Gấu đen ngủ đông trong hang suốt những mùa đông băng giá.', grammar: 'Tập tính mùa đông: Animals hibernate during winter.' },
-    { word: 'migrate', wordType: '(v)', meaning: 'di cư', sentence: 'Many swallow birds migrate south to find warm weather.', translation: 'Nhiều loài chim én di cư về phương nam để tìm thời tiết ấm áp.', grammar: 'Tập tính di cư: Birds migrate to find warm weather.' },
-    { word: 'survive', wordType: '(v)', meaning: 'sinh tồn, sống sót', sentence: 'Animals must find enough food to survive the dry season.', translation: 'Động vật phải tìm đủ thức ăn để sinh tồn qua mùa khô.', grammar: 'Mục đích sinh tồn: Animals must [action] to survive.' },
-    { word: 'extinct', wordType: '(adj)', meaning: 'tuyệt chủng', sentence: 'Dinosaurs became extinct millions of years ago.', translation: 'Khủng long đã bị tuyệt chủng hàng triệu năm trước.', grammar: 'Biến mất vĩnh viễn: [Species] became extinct years ago.' }
+    { word: 'nest', wordType: '(n)', meaning: 'tổ chim', sentence: 'The mother bird builds a nest.', translation: 'Chim mẹ xây một cái tổ.', grammar: 'Nơi ở: Builds a nest.' },
+    { word: 'cave', wordType: '(n)', meaning: 'hang động', sentence: 'Bears sleep in a dark cave.', translation: 'Những chú gấu ngủ trong hang tối.', grammar: 'Nơi trú ẩn: Sleep in a cave.' },
+    { word: 'pond', wordType: '(n)', meaning: 'cái ao', sentence: 'Ducks swim in the small pond.', translation: 'Những chú vịt bơi trong ao nhỏ.', grammar: 'Nơi sống: Swim in the pond.' },
+    { word: 'sea', wordType: '(n)', meaning: 'biển', sentence: 'Big whales live in the sea.', translation: 'Những con cá voi to lớn sống dưới biển.', grammar: 'Môi trường biển: Live in the sea.' },
+    { word: 'farm', wordType: '(n)', meaning: 'trang trại', sentence: 'Cows and sheep live on a farm.', translation: 'Bò và cừu sống ở trang trại.', grammar: 'Vị trí: on a farm.' },
+    { word: 'zoo', wordType: '(n)', meaning: 'sở thú', sentence: 'Children see tigers at the zoo.', translation: 'Các bạn nhỏ xem hổ ở sở thú.', grammar: 'Địa điểm: at the zoo.' },
+    { word: 'home', wordType: '(n)', meaning: 'ngôi nhà, tổ ấm', sentence: 'Every animal needs a safe home.', translation: 'Mỗi con vật đều cần một ngôi nhà an toàn.', grammar: 'Nhu cầu an toàn: Needs a safe home.' }
   ],
 
-  // Chương 3: Cơ thể người & Sức khỏe
+  // Chương 3: Cơ thể em & 5 Giác quan (Body & 5 Senses)
   c3s1: [
-    { word: 'sense', wordType: '(n)', meaning: 'giác quan', sentence: 'Humans have five amazing senses to explore the surroundings.', translation: 'Con người có năm giác quan tuyệt vời để khám phá thế giới xung quanh.', grammar: 'Số lượng: Humans have five senses to explore.' },
-    { word: 'sight', wordType: '(n)', meaning: 'thị giác', sentence: 'Our eyes provide the wonderful sense of sight.', translation: 'Đôi mắt mang lại cho chúng ta thị giác tuyệt diệu.', grammar: 'Cơ quan giác quan: Eyes provide the sense of sight.' },
-    { word: 'hearing', wordType: '(n)', meaning: 'thính giác', sentence: 'Ears capture vibrations to give us hearing.', translation: 'Đôi tai bắt các rung động để đem lại thính giác cho chúng ta.', grammar: 'Cơ chế thính giác: Ears capture vibrations for hearing.' },
-    { word: 'smell', wordType: '(n)', meaning: 'khứu giác', sentence: 'The nose can smell thousands of distinct scents.', translation: 'Chiếc mũi có thể ngửi thấy hàng nghìn mùi hương khác nhau.', grammar: 'Chức năng mũi: The nose can smell distinct scents.' },
-    { word: 'taste', wordType: '(n)', meaning: 'vị giác', sentence: 'Taste buds on your tongue detect sweet and sour.', translation: 'Các chồi vị giác trên lưỡi phát hiện vị ngọt và chua.', grammar: 'Vị giác: Taste buds detect sweet, salty, and sour.' },
-    { word: 'touch', wordType: '(n)', meaning: 'xúc giác', sentence: 'Skin has receptors to detect temperature and touch.', translation: 'Làn da có các thụ thể để nhận biết nhiệt độ và xúc giác.', grammar: 'Thụ thể da: Skin has receptors to detect touch.' },
-    { word: 'skin', wordType: '(n)', meaning: 'làn da', sentence: 'Skin is the largest protective organ of our body.', translation: 'Làn da là cơ quan bảo vệ lớn nhất của cơ thể chúng ta.', grammar: 'Đặc điểm giải phẫu: Skin is the largest organ of the body.' }
+    { word: 'head', wordType: '(n)', meaning: 'cái đầu', sentence: 'Wear a nice hat on your head.', translation: 'Hãy đội một chiếc mũ xinh lên đầu.', grammar: 'Vị trí: on your head.' },
+    { word: 'arm', wordType: '(n)', meaning: 'cánh tay', sentence: 'I lift the bag with my arm.', translation: 'Em nhấc chiếc túi bằng cánh tay.', grammar: 'Bộ phận cử động: with my arm.' },
+    { word: 'leg', wordType: '(n)', meaning: 'cái chân', sentence: 'We have two strong legs.', translation: 'Chúng ta có hai cái chân khỏe.', grammar: 'Số lượng: two strong legs.' },
+    { word: 'hand', wordType: '(n)', meaning: 'bàn tay', sentence: 'Wash your hands with soap.', translation: 'Hãy rửa tay bằng xà phòng.', grammar: 'Vệ sinh: Wash your hands.' },
+    { word: 'foot', wordType: '(n)', meaning: 'bàn chân', sentence: 'Kick the ball with your foot.', translation: 'Hãy đá bóng bằng bàn chân.', grammar: 'Bộ phận vận động: with your foot.' },
+    { word: 'face', wordType: '(n)', meaning: 'khuôn mặt', sentence: 'Wash your face with clean water.', translation: 'Hãy rửa mặt bằng nước sạch.', grammar: 'Hành động: Wash your face.' },
+    { word: 'body', wordType: '(n)', meaning: 'cơ thể', sentence: 'Healthy food is good for body.', translation: 'Thức ăn lành mạnh rất tốt cho cơ thể.', grammar: 'Dinh dưỡng: Good for your body.' }
   ],
   c3s2: [
-    { word: 'skeleton', wordType: '(n)', meaning: 'bộ xương', sentence: 'The human skeleton contains over two hundred bones.', translation: 'Bộ xương người chứa hơn hai trăm chiếc xương.', grammar: 'Số lượng xương: The skeleton contains over 200 bones.' },
-    { word: 'bone', wordType: '(n)', meaning: 'xương', sentence: 'Calcium helps our bones grow dense and strong.', translation: 'Can-xi giúp xương của chúng ta phát triển đặc và chắc khỏe.', grammar: 'Dinh dưỡng xương: Calcium helps bones grow strong.' },
-    { word: 'muscle', wordType: '(n)', meaning: 'cơ bắp', sentence: 'Muscles pull on bones to move our arms and legs.', translation: 'Các cơ bắp kéo xương để cử động cánh tay và đôi chân.', grammar: 'Cơ chế vận động: Muscles pull on bones to move limbs.' },
-    { word: 'joint', wordType: '(n)', meaning: 'khớp xương', sentence: 'A joint is a location where two bones connect.', translation: 'Khớp xương là vị trí nơi hai khúc xương nối với nhau.', grammar: 'Định nghĩa giải phẫu: A joint is where two bones meet.' },
-    { word: 'skull', wordType: '(n)', meaning: 'hộp sọ', sentence: 'The hard skull protects the brain from external injury.', translation: 'Hộp sọ cứng cáp bảo vệ bộ não khỏi những chấn thương bên ngoài.', grammar: 'Chức năng bảo vệ: The skull protects the brain.' },
-    { word: 'spine', wordType: '(n)', meaning: 'cột sống', sentence: 'Keep your spine straight when carrying heavy backpacks.', translation: 'Giữ cột sống thẳng khi đeo những chiếc ba-lô nặng.', grammar: 'Tư thế đúng: Keep your spine straight.' },
-    { word: 'rib', wordType: '(n)', meaning: 'xương sườn', sentence: 'The curved ribs form a protective cage around lungs.', translation: 'Những chiếc xương sườn cong tạo thành lồng bảo vệ quanh hai lá phổi.', grammar: 'Bảo vệ nội tạng: Ribs form a cage around the heart and lungs.' }
+    { word: 'see', wordType: '(v)', meaning: 'nhìn thấy', sentence: 'We see colors with our eyes.', translation: 'Chúng ta nhìn thấy màu sắc bằng mắt.', grammar: 'Giác quan nhìn: See with our eyes.' },
+    { word: 'hear', wordType: '(v)', meaning: 'nghe thấy', sentence: 'We hear sounds with our ears.', translation: 'Chúng ta nghe âm thanh bằng tai.', grammar: 'Giác quan nghe: Hear with our ears.' },
+    { word: 'smell', wordType: '(v)', meaning: 'ngửi thấy', sentence: 'We smell sweet roses with our nose.', translation: 'Chúng ta ngửi hoa hồng thơm bằng mũi.', grammar: 'Giác quan ngửi: Smell with our nose.' },
+    { word: 'taste', wordType: '(v)', meaning: 'nếm vị', sentence: 'We taste sweet candy with tongue.', translation: 'Chúng ta nếm kẹo ngọt bằng lưỡi.', grammar: 'Giác quan nếm: Taste with tongue.' },
+    { word: 'touch', wordType: '(v)', meaning: 'chạm vào, sờ', sentence: 'We touch soft toys with hands.', translation: 'Chúng ta chạm vào đồ chơi mềm bằng tay.', grammar: 'Giác quan xúc giác: Touch with hands.' },
+    { word: 'look', wordType: '(v)', meaning: 'nhìn ngắm', sentence: 'Look at the blue rainbow.', translation: 'Hãy nhìn chiếc cầu vồng màu xanh kia.', grammar: 'Câu mệnh lệnh: Look at the rainbow.' },
+    { word: 'listen', wordType: '(v)', meaning: 'lắng nghe', sentence: 'Listen to the happy music.', translation: 'Hãy lắng nghe bản nhạc vui tươi nhé.', grammar: 'Lắng nghe: Listen to music.' }
   ],
   c3s3: [
-    { word: 'heart', wordType: '(n)', meaning: 'trái tim', sentence: 'The heart pumps oxygen-rich blood day and night.', translation: 'Trái tim bơm dòng máu giàu ô-xy suốt cả ngày lẫn đêm.', grammar: 'Hoạt động tuần hoàn: The heart pumps blood continuously.' },
-    { word: 'blood', wordType: '(n)', meaning: 'máu', sentence: 'Red blood cells deliver oxygen to every muscle cell.', translation: 'Các tế bào hồng cầu vận chuyển ô-xy đến từng tế bào cơ.', grammar: 'Vận chuyển chất: Blood cells deliver oxygen to cells.' },
-    { word: 'blood vessel', wordType: '(n)', meaning: 'mạch máu', matchWord: 'blood vessel', sentence: 'Arteries and veins are types of blood vessels.', translation: 'Động mạch và tĩnh mạch là các loại mạch máu.', grammar: 'Cấu tạo: Arteries and veins are blood vessels.' },
-    { word: 'lungs', wordType: '(n)', meaning: 'hai lá phổi', sentence: 'Our lungs expand like balloons when we breathe in air.', translation: 'Hai lá phổi phồng to như quả bóng khi chúng ta hít không khí vào.', grammar: 'Hô hấp trực quan: Lungs expand like balloons.' },
-    { word: 'breathe', wordType: '(v)', meaning: 'hô hấp, thở', sentence: 'We breathe in oxygen and breathe out carbon dioxide.', translation: 'Chúng ta hít vào khí ô-xy và thở ra khí các-bô-níc.', grammar: 'Chu trình hít thở: Breathe in oxygen and breathe out CO2.' },
-    { word: 'inhale', wordType: '(v)', meaning: 'hít vào', sentence: 'Inhale fresh morning air through your clean nose.', translation: 'Hít bầu không khí buổi sớm trong lành qua chiếc mũi sạch sẽ.', grammar: 'Hành động: Inhale fresh air through your nose.' },
-    { word: 'exhale', wordType: '(v)', meaning: 'thở ra', sentence: 'Exhale slowly to relax your racing heart rate.', translation: 'Thở ra chầm chậm để thư giãn nhịp tim đang đập nhanh.', grammar: 'Thư giãn: Exhale slowly to relax.' }
+    { word: 'eye', wordType: '(n)', meaning: 'con mắt', sentence: 'Close your eyes and sleep.', translation: 'Hãy nhắm mắt lại và ngủ nào.', grammar: 'Bộ phận mặt: Close your eyes.' },
+    { word: 'ear', wordType: '(n)', meaning: 'cái tai', sentence: 'Rabbits have two long ears.', translation: 'Thỏ có hai cái tai dài.', grammar: 'Đặc điểm: two long ears.' },
+    { word: 'nose', wordType: '(n)', meaning: 'cái mũi', sentence: 'My dog has a wet black nose.', translation: 'Chú chó của em có cái mũi đen ươn ướt.', grammar: 'Miêu tả: A wet black nose.' },
+    { word: 'mouth', wordType: '(n)', meaning: 'cái miệng', sentence: 'Open your mouth and smile.', translation: 'Hãy mở miệng ra và mỉm cười nhé.', grammar: 'Mệnh lệnh: Open your mouth.' },
+    { word: 'tooth', wordType: '(n)', meaning: 'chiếc răng', sentence: 'Brush your teeth every day.', translation: 'Hãy đánh răng mỗi ngày nhé.', grammar: 'Vệ sinh răng miệng: Brush your teeth.' },
+    { word: 'tongue', wordType: '(n)', meaning: 'cái lưỡi', sentence: 'Cats use tongue to clean fur.', translation: 'Mèo dùng lưỡi để liếm sạch lông.', grammar: 'Chức năng: Use tongue to clean.' },
+    { word: 'hair', wordType: '(n)', meaning: 'mái tóc', sentence: 'She combs her brown hair.', translation: 'Bạn ấy chải mái tóc màu nâu.', grammar: 'Chăm sóc cá nhân: Comb your hair.' }
   ],
   c3s4: [
-    { word: 'digest', wordType: '(v)', meaning: 'tiêu hóa', sentence: 'Our bodies digest meals to extract fuel for energy.', translation: 'Cơ thể chúng ta tiêu hóa các bữa ăn để rút ra nhiên liệu tạo năng lượng.', grammar: 'Mục đích tiêu hóa: The body digests food to extract energy.' },
-    { word: 'stomach', wordType: '(n)', meaning: 'dạ dày', sentence: 'Strong stomach acids break food into a smooth mixture.', translation: 'A-xít dạ dày mạnh mẽ nghiền thức ăn thành một hỗn hợp mịn.', grammar: 'Chức năng dạ dày: Stomach acids break down food.' },
-    { word: 'intestine', wordType: '(n)', meaning: 'đường ruột', sentence: 'The long small intestine absorbs nutrients into the blood.', translation: 'Đoạn ruột non dài hấp thụ các chất dinh dưỡng đi vào máu.', grammar: 'Hấp thụ dinh dưỡng: The small intestine absorbs nutrients.' },
-    { word: 'chew', wordType: '(v)', meaning: 'nhai', sentence: 'Chew your solid food thoroughly before you swallow it.', translation: 'Hãy nhai kỹ thức ăn đặc trước khi em nuốt xuống.', grammar: 'Thói quen ăn uống: Chew your food thoroughly before swallowing.' },
-    { word: 'swallow', wordType: '(v)', meaning: 'nuốt', sentence: 'Drink a sip of pure water to swallow medicine.', translation: 'Uống một ngụm nước tinh khiết để nuốt viên thuốc dễ dàng.', grammar: 'Thao tác: Drink water to swallow medicine.' },
-    { word: 'saliva', wordType: '(n)', meaning: 'nước bọt, nước miếng', sentence: 'Saliva in the mouth starts the chemical digestion.', translation: 'Nước bọt trong khoang miệng bắt đầu quá trình tiêu hóa hóa học.', grammar: 'Enzyme nước bọt: Saliva in the mouth starts digestion.' },
-    { word: 'esophagus', wordType: '(n)', meaning: 'thực quản', sentence: 'Food slides down the muscular esophagus to the stomach.', translation: 'Thức ăn trượt xuống ống thực quản cơ bắp để vào dạ dày.', grammar: 'Đường đi của thức ăn: Food slides down the esophagus.' }
+    { word: 'bone', wordType: '(n)', meaning: 'xương', sentence: 'Milk helps build strong bones.', translation: 'Sữa giúp xây dựng xương chắc khỏe.', grammar: 'Dinh dưỡng xương: Build strong bones.' },
+    { word: 'muscle', wordType: '(n)', meaning: 'cơ bắp', sentence: 'Muscles help our body move.', translation: 'Cơ bắp giúp cơ thể chúng ta di chuyển.', grammar: 'Chức năng cơ bắp: Help the body move.' },
+    { word: 'heart', wordType: '(n)', meaning: 'trái tim', sentence: 'The heart pumps blood all day.', translation: 'Trái tim bơm máu suốt cả ngày.', grammar: 'Tuần hoàn: Heart pumps blood.' },
+    { word: 'strong', wordType: '(adj)', meaning: 'khỏe mạnh', sentence: 'Healthy food makes you strong.', translation: 'Thức ăn lành mạnh làm cho em khỏe mạnh.', grammar: 'Mẫu câu: Makes you strong.' },
+    { word: 'jump', wordType: '(v)', meaning: 'nhảy lên', sentence: 'We can jump up and down.', translation: 'Chúng ta có thể nhảy lên nhảy xuống.', grammar: 'Vận động: Jump up and down.' },
+    { word: 'bend', wordType: '(v)', meaning: 'gập lại, uốn cong', sentence: 'Bend your knees to touch feet.', translation: 'Hãy gập đầu gối để chạm vào chân nhé.', grammar: 'Vận động: Bend your knees.' },
+    { word: 'run', wordType: '(v)', meaning: 'chạy bộ', sentence: 'Children run happily in yard.', translation: 'Các bạn nhỏ chạy chơi vui vẻ trong sân.', grammar: 'Vận động ngoài trời: Run in the yard.' }
   ],
   c3s5: [
-    { word: 'healthy', wordType: '(adj)', meaning: 'khỏe mạnh, lành mạnh', sentence: 'Fresh green vegetables are part of a healthy lifestyle.', translation: 'Rau xanh tươi là một phần của lối sống khỏe mạnh.', grammar: 'Lối sống: Vegetables are part of a healthy diet.' },
-    { word: 'balanced diet', wordType: '(n)', meaning: 'chế độ ăn cân đối', matchWord: 'balanced diet', sentence: 'A balanced diet includes grains, proteins, and fruits.', translation: 'Một chế độ ăn cân đối bao gồm ngũ cốc, đạm và hoa quả.', grammar: 'Dinh dưỡng cân đối: A balanced diet includes [food groups].' },
-    { word: 'vitamin', wordType: '(n)', meaning: 'vi-ta-min', sentence: 'Oranges are bursting with natural vitamin C.', translation: 'Những quả cam mọng nước chứa đầy vi-ta-min C tự nhiên.', grammar: 'Nguồn vi-ta-min: [Fruit] is bursting with vitamin C.' },
-    { word: 'mineral', wordType: '(n)', meaning: 'khoáng chất', sentence: 'Iron is a critical mineral for healthy red blood.', translation: 'Sắt là một khoáng chất thiết yếu cho dòng máu đỏ khỏe mạnh.', grammar: 'Khoáng chất dinh dưỡng: [Mineral] is critical for [function].' },
-    { word: 'protein', wordType: '(n)', meaning: 'chất đạm, protein', sentence: 'Eggs, beans, and lean fish are rich in protein.', translation: 'Trứng, các loại đậu và cá nạc rất giàu chất đạm.', grammar: 'Thực phẩm giàu đạm: [Foods] are rich in protein.' },
-    { word: 'hygiene', wordType: '(n)', meaning: 'vệ sinh thân thể', sentence: 'Washing dirty hands before lunch is good hygiene.', translation: 'Rửa sạch đôi tay bẩn trước giờ ăn trưa là vệ sinh tốt.', grammar: 'Quy tắc vệ sinh: Washing hands is good hygiene.' },
-    { word: 'exercise', wordType: '(n)', meaning: 'tập thể dục, vận động', sentence: 'Regular physical exercise keeps your lungs and heart fit.', translation: 'Tập thể dục thường xuyên giữ cho phổi và tim của em khỏe khoắn.', grammar: 'Tác dụng thể dục: Exercise keeps your heart and body fit.' }
+    { word: 'clean', wordType: '(adj)', meaning: 'sạch sẽ', sentence: 'Always keep your hands clean.', translation: 'Luôn giữ cho đôi bàn tay sạch sẽ.', grammar: 'Giữ vệ sinh: Keep hands clean.' },
+    { word: 'wash', wordType: '(v)', meaning: 'rửa, giặt', sentence: 'Wash hands before you eat.', translation: 'Hãy rửa tay trước khi ăn nhé.', grammar: 'Thói quen tốt: Wash hands before eating.' },
+    { word: 'sleep', wordType: '(v)', meaning: 'ngủ', sentence: 'Children sleep eight hours a night.', translation: 'Trẻ em ngủ tám tiếng mỗi đêm.', grammar: 'Giấc ngủ: Sleep eight hours.' },
+    { word: 'fruit', wordType: '(n)', meaning: 'hoa quả', sentence: 'Eat fresh fruit every day.', translation: 'Hãy ăn hoa quả tươi mỗi ngày nhé.', grammar: 'Ăn uống lành mạnh: Eat fresh fruit.' },
+    { word: 'milk', wordType: '(n)', meaning: 'sữa', sentence: 'Drink a glass of warm milk.', translation: 'Hãy uống một ly sữa ấm nhé.', grammar: 'Uống sữa: Drink warm milk.' },
+    { word: 'healthy', wordType: '(adj)', meaning: 'khỏe khoắn, lành mạnh', sentence: 'Apples are good and healthy.', translation: 'Táo ngon và rất lành mạnh.', grammar: 'Tính từ: Good and healthy.' },
+    { word: 'fit', wordType: '(adj)', meaning: 'vừa vặn, cân đối', sentence: 'Running helps you stay fit.', translation: 'Chạy bộ giúp em giữ dáng khỏe khoắn.', grammar: 'Sức khỏe: Stay fit.' }
   ],
 
-  // Chương 4: Vật chất & Tính chất vật liệu
+  // Chương 4: Đồ vật & Chất liệu quanh ta (Materials & States)
   c4s1: [
-    { word: 'matter', wordType: '(n)', meaning: 'vật chất', sentence: 'Matter is anything that has mass and occupies volume.', translation: 'Vật chất là bất cứ thứ gì có khối lượng và chiếm thể tích.', grammar: 'Định nghĩa khoa học: Matter has mass and occupies volume.' },
-    { word: 'solid', wordType: '(n)', meaning: 'chất rắn', sentence: 'A solid has a definite shape and fixed volume.', translation: 'Chất rắn có một hình dạng xác định và thể tích cố định.', grammar: 'Đặc tính thể rắn: A solid has a definite shape and volume.' },
-    { word: 'liquid', wordType: '(n)', meaning: 'chất lỏng', sentence: 'A liquid takes the exact shape of its container.', translation: 'Chất lỏng nhận hình dạng chính xác của chiếc bình chứa nó.', grammar: 'Đặc tính thể lỏng: A liquid takes the shape of its container.' },
-    { word: 'gas', wordType: '(n)', meaning: 'chất khí', sentence: 'Gas expands freely to fill any empty space.', translation: 'Chất khí lan tỏa tự do để lấp đầy bất kỳ khoảng trống nào.', grammar: 'Đặc tính thể khí: Gas expands to fill space.' },
-    { word: 'particle', wordType: '(n)', meaning: 'hạt vi mô, phân tử', sentence: 'Particles in a cold solid are packed tightly together.', translation: 'Các hạt trong chất rắn lạnh được xếp khít chặt lại với nhau.', grammar: 'Mô hình hạt: Particles in a solid are packed tightly.' },
-    { word: 'shape', wordType: '(n)', meaning: 'hình dạng', sentence: 'Clay can easily be squished into any new shape.', translation: 'Đất nặn có thể dễ dàng bị bóp thành bất kỳ hình dạng mới nào.', grammar: 'Tính chất hình học: Change into a new shape.' },
-    { word: 'state', wordType: '(n)', meaning: 'trạng thái, thể', sentence: 'Water can exist in three physical states: solid, liquid, gas.', translation: 'Nước có thể tồn tại ở ba thể vật lý: rắn, lỏng, khí.', grammar: 'Ba thể vật chất: Water exists in three physical states.' }
+    { word: 'solid', wordType: '(n)', meaning: 'chất rắn', sentence: 'A wooden chair is a solid.', translation: 'Chiếc ghế gỗ là một chất rắn.', grammar: 'Thể rắn: A chair is a solid.' },
+    { word: 'liquid', wordType: '(n)', meaning: 'chất lỏng', sentence: 'Orange juice is a cool liquid.', translation: 'Nước cam ép là một chất lỏng mát lành.', grammar: 'Thể lỏng: Juice is a liquid.' },
+    { word: 'gas', wordType: '(n)', meaning: 'chất khí', sentence: 'Air in the room is a gas.', translation: 'Không khí trong phòng là chất khí.', grammar: 'Thể khí: Air is a gas.' },
+    { word: 'ice', wordType: '(n)', meaning: 'nước đá, băng', sentence: 'Cold ice floats on water.', translation: 'Nước đá lạnh nổi trên mặt nước.', grammar: 'Đá nổi: Ice floats on water.' },
+    { word: 'water', wordType: '(n)', meaning: 'nước', sentence: 'Water flows down the cup.', translation: 'Nước chảy xuống chiếc cốc.', grammar: 'Chảy: Water flows down.' },
+    { word: 'steam', wordType: '(n)', meaning: 'hơi nước', sentence: 'Hot steam rises from the tea.', translation: 'Hơi nước nóng bốc lên từ tách trà.', grammar: 'Bay hơi: Steam rises.' },
+    { word: 'air', wordType: '(n)', meaning: 'không khí', sentence: 'We blow air into the balloon.', translation: 'Chúng em thổi không khí vào quả bóng bay.', grammar: 'Thổi khí: Blow air into balloon.' }
   ],
   c4s2: [
-    { word: 'melt', wordType: '(v)', meaning: 'tan chảy', sentence: 'Ice cubes melt quickly under warm sunshine.', translation: 'Các viên đá lạnh tan chảy nhanh chóng dưới ánh nắng ấm áp.', grammar: 'Chuyển thể rắn sang lỏng: [Solids] melt when heated.' },
-    { word: 'freeze', wordType: '(v)', meaning: 'đóng băng, đông đặc', sentence: 'Liquid water will freeze into ice at zero degrees.', translation: 'Nước lỏng sẽ đóng băng thành đá ở nhiệt độ không độ C.', grammar: 'Chuyển thể lỏng sang rắn: Water freezes at 0 degrees.' },
-    { word: 'evaporate', wordType: '(v)', meaning: 'bay hơi', sentence: 'Water drops evaporate when warmed by the sun.', translation: 'Các giọt nước bay hơi khi được sưởi ấm bởi ánh mặt trời.', grammar: 'Chuyển thể lỏng sang khí: Water evaporates when heated.' },
-    { word: 'condense', wordType: '(v)', meaning: 'ngưng tụ', sentence: 'Hot steam will condense into cool drops on glass.', translation: 'Hơi nước nóng sẽ ngưng tụ thành các giọt mát lạnh trên mặt kính.', grammar: 'Chuyển thể khí sang lỏng: Steam condenses into water.' },
-    { word: 'boil', wordType: '(v)', meaning: 'sôi', sentence: 'Pure water begins to boil at one hundred degrees.', translation: 'Nước tinh khiết bắt đầu sôi ở một trăm độ C.', grammar: 'Điểm sôi: Water boils at 100 degrees Celsius.' },
-    { word: 'temperature', wordType: '(n)', meaning: 'nhiệt độ', sentence: 'The thermometer reading shows a high outdoor temperature.', translation: 'Số đo trên nhiệt kế cho thấy nhiệt độ ngoài trời rất cao.', grammar: 'Đo lường: The thermometer shows temperature.' },
-    { word: 'thermometer', wordType: '(n)', meaning: 'nhiệt kế', sentence: 'A clinical thermometer measures our internal body heat.', translation: 'Nhiệt kế y tế đo nhiệt độ bên trong cơ thể chúng ta.', grammar: 'Dụng cụ thí nghiệm: A thermometer measures heat.' }
+    { word: 'hot', wordType: '(adj)', meaning: 'nóng', sentence: 'Hot soup is good in winter.', translation: 'Súp nóng rất ngon vào mùa đông.', grammar: 'Nhiệt độ cao: Hot soup is good.' },
+    { word: 'cold', wordType: '(adj)', meaning: 'lạnh', sentence: 'Snow in the yard is very cold.', translation: 'Tuyết ngoài sân rất là lạnh.', grammar: 'Nhiệt độ thấp: Snow is cold.' },
+    { word: 'warm', wordType: '(adj)', meaning: 'ấm áp', sentence: 'The sun feels nice and warm.', translation: 'Mặt trời cho cảm giác ấm áp dễ chịu.', grammar: 'Ấm: Nice and warm.' },
+    { word: 'cool', wordType: '(adj)', meaning: 'mát mẻ', sentence: 'Drink a glass of cool water.', translation: 'Hãy uống một ly nước mát nhé.', grammar: 'Mát: Cool water.' },
+    { word: 'melt', wordType: '(v)', meaning: 'tan chảy', sentence: 'Ice cream will melt in the sun.', translation: 'Kem sẽ tan chảy dưới ánh nắng.', grammar: 'Hiện tượng tan chảy: Melt in the sun.' },
+    { word: 'freeze', wordType: '(v)', meaning: 'đóng băng', sentence: 'Water will freeze into cold ice.', translation: 'Nước sẽ đóng băng thành đá lạnh.', grammar: 'Đông đặc: Freeze into ice.' },
+    { word: 'boil', wordType: '(v)', meaning: 'sôi lên', sentence: 'Hot water bubbles when it boils.', translation: 'Nước nóng sủi bọt khi sôi lên.', grammar: 'Nước sôi: Bubbles when it boils.' }
   ],
   c4s3: [
-    { word: 'flexible', wordType: '(adj)', meaning: 'dẻo, dễ uốn', sentence: 'Rubber bands are flexible and bend without snapping.', translation: 'Dây thun cao su rất dẻo và uốn cong mà không bị đứt gãy.', grammar: 'Tính chất cơ học: [Material] is flexible and bends.' },
-    { word: 'rigid', wordType: '(adj)', meaning: 'cứng nhắc, không uốn được', sentence: 'Thick steel rulers are rigid and remain straight.', translation: 'Thước thép dày rất cứng cáp và luôn giữ thẳng tắp.', grammar: 'Tính chất: [Material] is rigid and holds shape.' },
-    { word: 'transparent', wordType: '(adj)', meaning: 'trong suốt', sentence: 'Glass windows are transparent so bright light passes.', translation: 'Cửa sổ kính trong suốt nên ánh sáng rực rỡ có thể đi xuyên qua.', grammar: 'Tính chất quang học: [Material] is transparent, light passes.' },
-    { word: 'opaque', wordType: '(adj)', meaning: 'mờ đục, chắn sáng', sentence: 'Wood is opaque and casts a dark shadow behind.', translation: 'Gỗ là vật liệu chắn sáng và tạo ra một cái bóng đen phía sau.', grammar: 'Tạo bóng: Opaque materials block light.' },
-    { word: 'waterproof', wordType: '(adj)', meaning: 'chống thấm nước', sentence: 'A plastic raincoat is completely waterproof.', translation: 'Áo mưa bằng nhựa hoàn toàn chống thấm nước.', grammar: 'Khả năng ngăn nước: [Material] is waterproof.' },
-    { word: 'absorbent', wordType: '(adj)', meaning: 'thấm hút tốt', sentence: 'Cotton paper towels are soft and very absorbent.', translation: 'Khăn giấy bằng cotton rất mềm và thấm hút rất tốt.', grammar: 'Khả năng hút nước: Paper towels are absorbent.' },
-    { word: 'durable', wordType: '(adj)', meaning: 'bền bỉ', sentence: 'Leather safety shoes are durable for rough work.', translation: 'Giày bảo hộ bằng da rất bền bỉ cho công việc gồ ghề vất vả.', grammar: 'Độ bền: [Material] is durable for tough use.' }
+    { word: 'wood', wordType: '(n)', meaning: 'gỗ', sentence: 'This brown table is made of wood.', translation: 'Chiếc bàn nâu này được làm từ gỗ.', grammar: 'Vật liệu: Made of wood.' },
+    { word: 'metal', wordType: '(n)', meaning: 'kim loại', sentence: 'Keys and spoons are made of metal.', translation: 'Chìa khóa và thìa làm bằng kim loại.', grammar: 'Kim loại: Made of metal.' },
+    { word: 'plastic', wordType: '(n)', meaning: 'nhựa', sentence: 'Toy bricks are made of plastic.', translation: 'Những viên gạch đồ chơi làm bằng nhựa.', grammar: 'Nhựa: Made of plastic.' },
+    { word: 'glass', wordType: '(n)', meaning: 'thủy tinh, kính', sentence: 'Windows are made of clear glass.', translation: 'Cửa sổ được làm bằng kính trong suốt.', grammar: 'Thủy tinh: Made of clear glass.' },
+    { word: 'paper', wordType: '(n)', meaning: 'giấy', sentence: 'We write notes on white paper.', translation: 'Chúng em viết ghi chú lên giấy trắng.', grammar: 'Giấy: On white paper.' },
+    { word: 'rock', wordType: '(n)', meaning: 'đá', sentence: 'The garden wall is made of rock.', translation: 'Bức tường vườn được làm từ đá.', grammar: 'Đá tự nhiên: Made of rock.' },
+    { word: 'cloth', wordType: '(n)', meaning: 'vải', sentence: 'My shirt is made of soft cloth.', translation: 'Áo của em làm bằng vải mềm.', grammar: 'Chất liệu vải: Made of soft cloth.' }
   ],
   c4s4: [
-    { word: 'dissolve', wordType: '(v)', meaning: 'hòa tan', sentence: 'Stir white sugar granules to dissolve them in tea.', translation: 'Hãy khuấy các hạt đường trắng để hòa tan chúng trong tách trà.', grammar: 'Hành động hòa tan: Stir to dissolve solute in liquid.' },
-    { word: 'soluble', wordType: '(adj)', meaning: 'có thể hòa tan', sentence: 'Table salt is highly soluble in warm water.', translation: 'Muối ăn có thể hòa tan rất tốt trong nước ấm.', grammar: 'Tính chất hòa tan: Salt is soluble in water.' },
-    { word: 'insoluble', wordType: '(adj)', meaning: 'không tan được', sentence: 'Yellow sand is insoluble and settles at the bottom.', translation: 'Cát vàng không thể hòa tan và lắng xuống dưới đáy.', grammar: 'Tính chất: Sand is insoluble in water.' },
-    { word: 'mixture', wordType: '(n)', meaning: 'hỗn hợp', sentence: 'Trail mix is a dry mixture of nuts and raisins.', translation: 'Món ăn vặt là một hỗn hợp khô gồm các loại hạt và nho khô.', grammar: 'Định nghĩa: A mixture contains different substances.' },
-    { word: 'solution', wordType: '(n)', meaning: 'dung dịch', sentence: 'Clear saltwater is a transparent chemical solution.', translation: 'Nước muối trong vắt là một dung dịch hóa học trong suốt.', grammar: 'Khái niệm dung dịch: Saltwater is a solution.' },
-    { word: 'filter', wordType: '(v)', meaning: 'lọc', sentence: 'Filter the muddy river water through porous paper.', translation: 'Lọc nước sông đục ngầu qua một tấm giấy có lỗ xốp.', grammar: 'Tách chất: Filter the liquid through filter paper.' },
-    { word: 'separate', wordType: '(v)', meaning: 'tách riêng biệt', sentence: 'Use a strong magnet to separate metal paperclips.', translation: 'Dùng một thanh nam châm mạnh để tách các kẹp giấy kim loại ra.', grammar: 'Phương pháp tách: Use [tool] to separate [substances].' }
+    { word: 'hard', wordType: '(adj)', meaning: 'cứng', sentence: 'A heavy brick is hard.', translation: 'Viên gạch nặng thì cứng.', grammar: 'Tính chất cứng: A brick is hard.' },
+    { word: 'soft', wordType: '(adj)', meaning: 'mềm mại', sentence: 'The small white kitten is soft.', translation: 'Chú mèo con màu trắng thì mềm mại.', grammar: 'Mềm: The kitten is soft.' },
+    { word: 'heavy', wordType: '(adj)', meaning: 'nặng', sentence: 'A big stone is very heavy.', translation: 'Hòn đá to thì rất nặng.', grammar: 'Nặng: A stone is heavy.' },
+    { word: 'light', wordType: '(adj)', meaning: 'nhẹ', sentence: 'A bird feather is very light.', translation: 'Chiếc lông chim thì rất nhẹ.', grammar: 'Trọng lượng nhẹ: Very light.' },
+    { word: 'rough', wordType: '(adj)', meaning: 'thô ráp, sần sùi', sentence: 'Tree bark feels bumpy and rough.', translation: 'Vỏ cây sần sùi và thô ráp.', grammar: 'Bề mặt ráp: Feels rough.' },
+    { word: 'smooth', wordType: '(adj)', meaning: 'trơn mịn, nhẵn', sentence: 'A glass cup feels very smooth.', translation: 'Chiếc cốc thủy tinh sờ vào rất nhẵn mịn.', grammar: 'Bề mặt nhẵn: Feels very smooth.' },
+    { word: 'bendy', wordType: '(adj)', meaning: 'dẻo, dễ uốn cong', sentence: 'A rubber ruler is bendy.', translation: 'Cây thước cao su thì dẻo dễ uốn.', grammar: 'Uốn cong: A ruler is bendy.' }
   ],
   c4s5: [
-    { word: 'reversible', wordType: '(adj)', meaning: 'thuận nghịch, đảo ngược được', sentence: 'Melting ice back into liquid is a reversible change.', translation: 'Làm tan chảy đá trở lại thành chất lỏng là biến đổi thuận nghịch.', grammar: 'Biến đổi thuận nghịch: Melting is a reversible change.' },
-    { word: 'irreversible', wordType: '(adj)', meaning: 'bất thuận nghịch, không thể đảo ngược', sentence: 'Baking cookie dough is an irreversible chemical change.', translation: 'Nướng bột bánh quy là một sự biến đổi hóa học không thể đảo ngược.', grammar: 'Biến đổi vĩnh viễn: Baking is an irreversible change.' },
-    { word: 'burn', wordType: '(v)', meaning: 'cháy, đốt cháy', sentence: 'Dry firewood will burn and leave black powdery ash.', translation: 'Củi khô sẽ cháy và để lại tro bụi màu đen.', grammar: 'Phản ứng cháy: Firewood burns to produce ash.' },
-    { word: 'rust', wordType: '(n)', meaning: 'rỉ sét', sentence: 'Wet iron nails develop reddish-brown rust over time.', translation: 'Những chiếc đinh sắt bị ướt sẽ sinh ra rỉ sét màu nâu đỏ theo thời gian.', grammar: 'Oxy hóa: Iron reacts with water to form rust.' },
-    { word: 'reaction', wordType: '(n)', meaning: 'phản ứng hóa học', sentence: 'Mixing vinegar and baking soda causes a fizzy reaction.', translation: 'Trộn giấm và bột nở tạo ra một phản ứng sủi bọt xèo xèo.', grammar: 'Hiện tượng phản ứng: Mixing A and B causes a reaction.' },
-    { word: 'substance', wordType: '(n)', meaning: 'chất', sentence: 'A brand new substance is created in the experiment.', translation: 'Một chất hoàn toàn mới được tạo ra trong cuộc thí nghiệm.', grammar: 'Sản phẩm phản ứng: A new substance is created.' },
-    { word: 'bubble', wordType: '(n)', meaning: 'bọt khí, bong bóng', sentence: 'Gas bubbles rise vigorously to the foaming surface.', translation: 'Những bong bóng khí nổi lên cuồn cuộn lên bề mặt sủi bọt.', grammar: 'Dấu hiệu nhận biết: Gas bubbles rise to the surface.' }
+    { word: 'float', wordType: '(v)', meaning: 'nổi trên nước', sentence: 'Wooden toys float on the water.', translation: 'Đồ chơi bằng gỗ nổi trên mặt nước.', grammar: 'Hiện tượng nổi: Float on water.' },
+    { word: 'sink', wordType: '(v)', meaning: 'chìm xuống nước', sentence: 'Heavy coins sink in the pond.', translation: 'Những đồng xu nặng chìm trong ao.', grammar: 'Hiện tượng chìm: Sink in the pond.' },
+    { word: 'boat', wordType: '(n)', meaning: 'chiếc thuyền', sentence: 'A toy boat sails in the pool.', translation: 'Chiếc thuyền đồ chơi trôi trong bể bơi.', grammar: 'Thuyền bơi: Boat sails in pool.' },
+    { word: 'stone', wordType: '(n)', meaning: 'hòn đá cuội', sentence: 'The heavy stone sinks fast.', translation: 'Hòn đá nặng chìm xuống rất nhanh.', grammar: 'Chìm nhanh: Stone sinks fast.' },
+    { word: 'drop', wordType: '(v)', meaning: 'làm rơi, thả xuống', sentence: 'Do not drop the glass cup.', translation: 'Đừng làm rơi chiếc cốc thủy tinh nhé.', grammar: 'Cảnh báo: Do not drop the cup.' },
+    { word: 'wet', wordType: '(adj)', meaning: 'ướt', sentence: 'Rain makes the grass wet.', translation: 'Mưa làm cho bãi cỏ bị ướt.', grammar: 'Trạng thái ướt: Makes grass wet.' },
+    { word: 'dry', wordType: '(adj)', meaning: 'khô ráo', sentence: 'Dry your hands with a towel.', translation: 'Hãy lau khô tay bằng chiếc khăn nhé.', grammar: 'Làm khô: Dry your hands.' }
   ],
 
-  // Chương 5: Lực, Năng lượng, Ánh sáng & Âm thanh
+  // Chương 5: Lực, Ánh sáng & Âm thanh (Forces, Light, Sound)
   c5s1: [
-    { word: 'push', wordType: '(v)', meaning: 'đẩy', sentence: 'Push the heavy wooden door to open the room.', translation: 'Hãy đẩy cánh cửa gỗ nặng nề để mở căn phòng.', grammar: 'Tác dụng lực: Push the door to open it.' },
-    { word: 'pull', wordType: '(v)', meaning: 'kéo', sentence: 'Pull the rope hard during the tug-of-war game.', translation: 'Hãy kéo sợi dây thật mạnh trong trò chơi kéo co.', grammar: 'Tác dụng lực: Pull the rope with both hands.' },
-    { word: 'gravity', wordType: '(n)', meaning: 'trọng lực, lực hút Trái đất', sentence: 'Gravity pulls falling ripe apples straight to Earth.', translation: 'Trọng lực kéo những quả táo chín rơi thẳng xuống Trái đất.', grammar: 'Định luật vạn vật hấp dẫn: Gravity pulls objects downward.' },
-    { word: 'friction', wordType: '(n)', meaning: 'lực ma sát', sentence: 'Rough sandpaper produces high frictional resistance.', translation: 'Giấy ráp xù xì sinh ra lực ma sát cản trở rất lớn.', grammar: 'Ma sát bề mặt: Rough surfaces create high friction.' },
-    { word: 'motion', wordType: '(n)', meaning: 'chuyển động', sentence: 'A rolling ball stays in continuous rolling motion.', translation: 'Quả bóng đang lăn tiếp tục duy trì chuyển động lăn liên tục.', grammar: 'Trạng thái động lực: Objects stay in motion.' },
-    { word: 'speed', wordType: '(n)', meaning: 'tốc độ', sentence: 'The red bicycle travels at a steady road speed.', translation: 'Chiếc xe đạp màu đỏ di chuyển với một tốc độ ổn định trên đường.', grammar: 'Độ nhanh chậm: Travel at a steady speed.' },
-    { word: 'surface', wordType: '(n)', meaning: 'bề mặt', sentence: 'Ice has an extremely slippery, frictionless surface.', translation: 'Băng tuyết có một bề mặt cực kỳ trơn trượt hầu như không có ma sát.', grammar: 'Đặc điểm tiếp xúc: The surface is smooth and slippery.' }
+    { word: 'push', wordType: '(v)', meaning: 'đẩy', sentence: 'Push the door to open it.', translation: 'Hãy đẩy cửa để mở ra nhé.', grammar: 'Lực đẩy: Push the door to open.' },
+    { word: 'pull', wordType: '(v)', meaning: 'kéo', sentence: 'Pull the box across the room.', translation: 'Hãy kéo chiếc hộp băng qua phòng.', grammar: 'Lực kéo: Pull the box.' },
+    { word: 'move', wordType: '(v)', meaning: 'chuyển động, di chuyển', sentence: 'Wind makes green leaves move.', translation: 'Gió làm những chiếc lá xanh lay động.', grammar: 'Chuyển động: Leaves move.' },
+    { word: 'stop', wordType: '(v)', meaning: 'dừng lại', sentence: 'Cars stop at the red light.', translation: 'Ô tô dừng lại khi gặp đèn đỏ.', grammar: 'Dừng xe: Stop at the red light.' },
+    { word: 'fast', wordType: '(adv)', meaning: 'nhanh', sentence: 'Rabbits can run very fast.', translation: 'Những chú thỏ có thể chạy rất nhanh.', grammar: 'Trạng từ: Run very fast.' },
+    { word: 'slow', wordType: '(adj)', meaning: 'chậm chạp', sentence: 'The green turtle is very slow.', translation: 'Chú rùa xanh thì rất chậm chạp.', grammar: 'Tính từ: Turtle is slow.' },
+    { word: 'roll', wordType: '(v)', meaning: 'lăn', sentence: 'Kick the ball to make it roll.', translation: 'Đá quả bóng để làm nó lăn đi nhé.', grammar: 'Lăn bóng: Make it roll.' }
   ],
   c5s2: [
-    { word: 'magnet', wordType: '(n)', meaning: 'thanh nam châm', sentence: 'A bar magnet attracts small steel pins nearby.', translation: 'Một thanh nam châm hút những chiếc ghim thép nhỏ ở gần.', grammar: 'Từ tính: A magnet attracts iron and steel.' },
-    { word: 'attract', wordType: '(v)', meaning: 'hút (nhau)', sentence: 'Opposite magnetic poles attract each other closely.', translation: 'Các cực từ trái dấu hút chặt lấy nhau.', grammar: 'Quy tắc từ cực: Opposite poles attract each other.' },
-    { word: 'repel', wordType: '(v)', meaning: 'đẩy (nhau)', sentence: 'Identical magnetic poles repel each other strongly.', translation: 'Các cực từ cùng dấu đẩy nhau ra rất mạnh mẽ.', grammar: 'Quy tắc từ cực: Like poles repel each other.' },
-    { word: 'pole', wordType: '(n)', meaning: 'cực (nam châm)', sentence: 'Every magnet has a North pole and South pole.', translation: 'Mỗi thanh nam châm đều có một cực Bắc và một cực Nam.', grammar: 'Cực từ: Every magnet has North and South poles.' },
-    { word: 'magnetic field', wordType: '(n)', meaning: 'từ trường', matchWord: 'magnetic field', sentence: 'Iron filings trace invisible lines of a magnetic field.', translation: 'Mạt sắt vạch ra những đường vô hình của từ trường.', grammar: 'Trường lực: Filings trace lines of a magnetic field.' },
-    { word: 'magnetic', wordType: '(adj)', meaning: 'có từ tính (bị nam châm hút)', sentence: 'Steel and iron are classic magnetic materials.', translation: 'Thép và sắt là những vật liệu có từ tính kinh điển.', grammar: 'Phân loại vật liệu: [Metals] are magnetic materials.' },
-    { word: 'non-magnetic', wordType: '(adj)', meaning: 'không có từ tính', matchWord: 'non-magnetic', sentence: 'Wood, glass, and copper are non-magnetic objects.', translation: 'Gỗ, thủy tinh và đồng là những vật thể không có từ tính.', grammar: 'Phân loại: Wood and plastic are non-magnetic.' }
+    { word: 'magnet', wordType: '(n)', meaning: 'thanh nam châm', sentence: 'The magnet sticks to the fridge.', translation: 'Thanh nam châm dính vào tủ lạnh.', grammar: 'Nam châm: Magnet sticks to fridge.' },
+    { word: 'stick', wordType: '(v)', meaning: 'dính vào', sentence: 'Pins stick to the strong magnet.', translation: 'Những chiếc ghim dính vào thanh nam châm mạnh.', grammar: 'Hút dính: Stick to the magnet.' },
+    { word: 'metal', wordType: '(n)', meaning: 'kim loại', sentence: 'Magnets pull things made of metal.', translation: 'Nam châm hút những thứ làm bằng kim loại.', grammar: 'Tính từ từ tính: Made of metal.' },
+    { word: 'iron', wordType: '(n)', meaning: 'sắt', sentence: 'Nails are made of strong iron.', translation: 'Những chiếc đinh được làm từ sắt cứng chắc.', grammar: 'Kim loại sắt: Made of iron.' },
+    { word: 'attract', wordType: '(v)', meaning: 'hút nhau', sentence: 'Different poles attract each other.', translation: 'Hai cực khác dấu hút nhau.', grammar: 'Từ cực hút: Poles attract each other.' },
+    { word: 'push away', wordType: '(v)', meaning: 'đẩy nhau ra', matchWord: 'push away', sentence: 'Same poles will push away.', translation: 'Hai cực giống nhau sẽ đẩy nhau ra.', grammar: 'Từ cực đẩy: Same poles push away.' },
+    { word: 'hold', wordType: '(v)', meaning: 'giữ chặt', sentence: 'A magnet can hold small paper.', translation: 'Thanh nam châm có thể giữ tờ giấy nhỏ.', grammar: 'Giữ giấy: Hold small paper.' }
   ],
   c5s3: [
-    { word: 'light', wordType: '(n)', meaning: 'ánh sáng', sentence: 'Light travels in straight lines across the room.', translation: 'Ánh sáng truyền đi theo đường thẳng băng qua căn phòng.', grammar: 'Định luật truyền ánh sáng: Light travels in straight lines.' },
-    { word: 'shadow', wordType: '(n)', meaning: 'bóng râm, bóng tối', sentence: 'An opaque body blocks rays to cast a shadow.', translation: 'Một vật thể chắn sáng chặn các tia sáng để tạo nên bóng râm.', grammar: 'Sự tạo bóng: Blocking light casts a dark shadow.' },
-    { word: 'reflect', wordType: '(v)', meaning: 'phản chiếu, phản xạ', sentence: 'Smooth shiny mirrors reflect light beams accurately.', translation: 'Những chiếc gương sáng bóng phản xạ các chùm ánh sáng chuẩn xác.', grammar: 'Định luật phản xạ: Mirrors reflect light beams.' },
-    { word: 'source', wordType: '(n)', meaning: 'nguồn phát', sentence: 'The burning Sun is our primary source of light.', translation: 'Mặt trời rực lửa là nguồn phát ánh sáng chính yếu của chúng ta.', grammar: 'Nguồn năng lượng: The sun is our primary source of light.' },
-    { word: 'beam', wordType: '(n)', meaning: 'chùm tia sáng', sentence: 'A bright beam from the flashlight cuts through fog.', translation: 'Một chùm tia sáng rực rỡ từ đèn pin cắt xuyên qua màn sương mù.', grammar: 'Tia sáng: A beam of light shines through [space].' },
-    { word: 'mirror', wordType: '(n)', meaning: 'chiếc gương', sentence: 'Look into the bathroom mirror to see your reflection.', translation: 'Hãy nhìn vào chiếc gương phòng tắm để thấy hình ảnh phản chiếu của em.', grammar: 'Dụng cụ quang học: Look into the mirror to see reflections.' },
-    { word: 'bright', wordType: '(adj)', meaning: 'sáng rực', sentence: 'Do not look directly at the bright midday sun.', translation: 'Đừng nhìn thẳng trực tiếp vào mặt trời giữa trưa sáng rực rỡ.', grammar: 'Cảnh báo an toàn: Do not look at bright sunlight.' }
+    { word: 'light', wordType: '(n)', meaning: 'ánh sáng', sentence: 'Turn on the lamp for light.', translation: 'Hãy bật đèn để có ánh sáng nhé.', grammar: 'Ánh sáng: Lamp gives light.' },
+    { word: 'dark', wordType: '(adj)', meaning: 'tối tăm', sentence: 'The room gets dark at night.', translation: 'Căn phòng trở nên tối vào ban đêm.', grammar: 'Tối: Gets dark at night.' },
+    { word: 'sun', wordType: '(n)', meaning: 'mặt trời', sentence: 'The sun gives us bright light.', translation: 'Mặt trời đem lại cho chúng ta ánh sáng rực rỡ.', grammar: 'Nguồn sáng: Sun gives light.' },
+    { word: 'lamp', wordType: '(n)', meaning: 'cái đèn', sentence: 'A desk lamp helps me read.', translation: 'Chiếc đèn bàn giúp em đọc sách.', grammar: 'Dụng cụ chiếu sáng: Lamp helps me read.' },
+    { word: 'shadow', wordType: '(n)', meaning: 'cái bóng', sentence: 'Walking in sunshine makes a shadow.', translation: 'Đi dưới nắng sẽ tạo ra cái bóng.', grammar: 'Tạo bóng: Makes a shadow.' },
+    { word: 'bright', wordType: '(adj)', meaning: 'sáng rực', sentence: 'The yellow star shines bright.', translation: 'Ngôi sao vàng tỏa sáng rực rỡ.', grammar: 'Tỏa sáng: Shines bright.' },
+    { word: 'night', wordType: '(n)', meaning: 'ban đêm', sentence: 'We look at stars at night.', translation: 'Chúng em ngắm các ngôi sao vào ban đêm.', grammar: 'Thời gian: at night.' }
   ],
   c5s4: [
-    { word: 'sound', wordType: '(n)', meaning: 'âm thanh', sentence: 'Sound is produced whenever an object vibrates rapidly.', translation: 'Âm thanh được sinh ra bất cứ khi nào một vật rung động nhanh chóng.', grammar: 'Nguồn gốc âm thanh: Sound is produced when objects vibrate.' },
-    { word: 'vibrate', wordType: '(v)', meaning: 'rung động', sentence: 'Guitar strings vibrate back and forth when plucked.', translation: 'Dây đàn ghi-ta rung động qua lại khi được gảy lên.', grammar: 'Cơ chế phát âm: Strings vibrate back and forth.' },
-    { word: 'pitch', wordType: '(n)', meaning: 'cao độ (trầm/bổng)', sentence: 'A tiny whistle creates a sound of high pitch.', translation: 'Một chiếc còi tí hon tạo ra âm thanh có cao độ bổng vút.', grammar: 'Đặc trưng âm học: A whistle creates high pitch.' },
-    { word: 'volume', wordType: '(n)', meaning: 'âm lượng (to/nhỏ)', sentence: 'Turn down the speaker volume to protect young ears.', translation: 'Vặn nhỏ âm lượng loa xuống để bảo vệ đôi tai non trẻ.', grammar: 'Điều chỉnh âm: Turn down the volume to protect ears.' },
-    { word: 'loud', wordType: '(adj)', meaning: 'to, ầm ĩ', sentence: 'A crashing thunderstorm makes a very loud bang.', translation: 'Cơn giông bão sấm chớp ầm ĩ tạo ra tiếng nổ rất to.', grammar: 'Cường độ âm thanh: Thunder makes a loud noise.' },
-    { word: 'quiet', wordType: '(adj)', meaning: 'êm dịu, nhỏ nhẹ', sentence: 'A gentle whisper in the library should be quiet.', translation: 'Lời thì thầm dịu dàng trong thư viện cần phải nhỏ nhẹ.', grammar: 'Mô tả âm lượng: A whisper is gentle and quiet.' },
-    { word: 'echo', wordType: '(n)', meaning: 'tiếng vang, âm dội lại', sentence: 'Shout in an empty cave to hear your own echo.', translation: 'Hãy hét lên trong một hang động trống để nghe tiếng vang của chính em.', grammar: 'Hiện tượng phản xạ âm: Shout to hear an echo.' }
+    { word: 'sound', wordType: '(n)', meaning: 'âm thanh', sentence: 'Bells make a cheerful sound.', translation: 'Những chiếc chuông phát ra âm thanh vui tươi.', grammar: 'Âm thanh: Make a cheerful sound.' },
+    { word: 'hear', wordType: '(v)', meaning: 'nghe thấy', sentence: 'I can hear the soft rain.', translation: 'Em có thể nghe thấy tiếng mưa êm đềm.', grammar: 'Thính giác: Hear the soft rain.' },
+    { word: 'loud', wordType: '(adj)', meaning: 'to, ầm ĩ', sentence: 'Thunder makes a loud noise.', translation: 'Sấm sét tạo ra tiếng động rất to.', grammar: 'Âm lượng to: A loud noise.' },
+    { word: 'quiet', wordType: '(adj)', meaning: 'yên lặng, nhỏ nhẹ', sentence: 'Please be quiet in the room.', translation: 'Xin hãy giữ yên lặng trong phòng nhé.', grammar: 'Giữ yên lặng: Please be quiet.' },
+    { word: 'music', wordType: '(n)', meaning: 'âm nhạc', sentence: 'We listen to happy music.', translation: 'Chúng em nghe những bản nhạc vui tươi.', grammar: 'Âm nhạc: Listen to music.' },
+    { word: 'sing', wordType: '(v)', meaning: 'hát', sentence: 'Birds sing sweet songs in trees.', translation: 'Chim hót những bài ca ngọt ngào trên cây.', grammar: 'Tiếng chim hót: Birds sing songs.' },
+    { word: 'noise', wordType: '(n)', meaning: 'tiếng ồn', sentence: 'Cars on the road make noise.', translation: 'Ô tô trên đường tạo ra tiếng ồn.', grammar: 'Tiếng ồn: Cars make noise.' }
   ],
   c5s5: [
-    { word: 'electricity', wordType: '(n)', meaning: 'dòng điện', sentence: 'Electricity flows along copper wires to illuminate lamps.', translation: 'Dòng điện chạy dọc theo các dây đồng để thắp sáng bóng đèn.', grammar: 'Dòng điện: Electricity flows along wires to power lamps.' },
-    { word: 'circuit', wordType: '(n)', meaning: 'mạch điện', sentence: 'A complete unbroken loop is called a closed circuit.', translation: 'Một vòng khép kín không đứt đoạn được gọi là một mạch điện kín.', grammar: 'Mạch điện: A complete loop forms a closed circuit.' },
-    { word: 'battery', wordType: '(n)', meaning: 'cục pin', sentence: 'A chemical battery supplies voltage to the circuit.', translation: 'Cục pin hóa học cung cấp điện áp cho mạch điện.', grammar: 'Nguồn điện di động: A battery supplies energy to the circuit.' },
-    { word: 'wire', wordType: '(n)', meaning: 'dây dẫn điện', sentence: 'Insulated copper wire safely conducts electric power.', translation: 'Dây đồng có bọc cách điện dẫn dòng điện một cách an toàn.', grammar: 'Dẫn điện: Copper wire conducts electric power.' },
-    { word: 'conductor', wordType: '(n)', meaning: 'chất dẫn điện tốt', sentence: 'Silver, gold, and copper metals are great conductors.', translation: 'Các kim loại bạc, vàng và đồng là những chất dẫn điện tuyệt vời.', grammar: 'Đặc tính dẫn điện: Metals are good electrical conductors.' },
-    { word: 'insulator', wordType: '(n)', meaning: 'chất cách điện', sentence: 'Rubber handles act as safe protective insulators.', translation: 'Tay cầm bằng cao su đóng vai trò là những chất cách điện an toàn.', grammar: 'An toàn điện: Rubber acts as a protective insulator.' },
-    { word: 'renewable', wordType: '(adj)', meaning: 'tái tạo được', sentence: 'Wind and solar generators provide clean renewable power.', translation: 'Máy phát điện gió và mặt trời cung cấp nguồn năng lượng tái tạo sạch sẽ.', grammar: 'Năng lượng tương lai: Solar power is a clean renewable energy.' }
+    { word: 'battery', wordType: '(n)', meaning: 'cục pin', sentence: 'A toy car needs a battery.', translation: 'Chiếc ô tô đồ chơi cần một cục pin.', grammar: 'Nguồn pin: Needs a battery.' },
+    { word: 'bulb', wordType: '(n)', meaning: 'bóng đèn', sentence: 'The little bulb gives off light.', translation: 'Bóng đèn nhỏ phát ra ánh sáng.', grammar: 'Phát sáng: Bulb gives off light.' },
+    { word: 'wire', wordType: '(n)', meaning: 'dây điện', sentence: 'Electricity runs through wire.', translation: 'Dòng điện chạy qua dây dẫn.', grammar: 'Dây dẫn: Runs through wire.' },
+    { word: 'switch', wordType: '(n)', meaning: 'công tắc', sentence: 'Press the switch to turn lights on.', translation: 'Bấm công tắc để mở đèn lên nhé.', grammar: 'Công tắc: Press the switch.' },
+    { word: 'on', wordType: '(adv)', meaning: 'bật lên, mở', sentence: 'Turn the desk lamp on.', translation: 'Hãy bật chiếc đèn bàn lên nhé.', grammar: 'Bật đèn: Turn on.' },
+    { word: 'off', wordType: '(adv)', meaning: 'tắt đi', sentence: 'Turn the lights off when sleeping.', translation: 'Hãy tắt đèn khi đi ngủ nhé.', grammar: 'Tắt đèn: Turn off.' },
+    { word: 'light up', wordType: '(v)', meaning: 'thắp sáng, sáng lên', matchWord: 'light up', sentence: 'Flashlights light up the room.', translation: 'Đèn pin thắp sáng cả căn phòng.', grammar: 'Cụm động từ: Light up the room.' }
   ],
 
-  // Chương 6: Trái đất, Vũ trụ & Môi trường
+  // Chương 6: Bầu trời, Thời tiết & Trái đất (Earth & Space)
   c6s1: [
-    { word: 'solar system', wordType: '(n)', meaning: 'hệ mặt trời', matchWord: 'solar system', sentence: 'Eight planets orbit our Sun in the solar system.', translation: 'Tám hành tinh quay quanh Mặt trời của chúng ta trong hệ mặt trời.', grammar: 'Thiên văn học: Eight planets orbit the sun in our solar system.' },
-    { word: 'planet', wordType: '(n)', meaning: 'hành tinh', sentence: 'Earth is the third rocky planet from the Sun.', translation: 'Trái đất là hành tinh đá thứ ba tính từ Mặt trời.', grammar: 'Vị trí hành tinh: Earth is the third planet from the sun.' },
-    { word: 'orbit', wordType: '(v)', meaning: 'quay theo quỹ đạo', sentence: 'The Moon takes four weeks to orbit planet Earth.', translation: 'Mặt trăng mất bốn tuần để quay theo quỹ đạo quanh hành tinh Trái đất.', grammar: 'Chuyển động vũ trụ: The moon orbits around the Earth.' },
-    { word: 'moon', wordType: '(n)', meaning: 'mặt trăng', sentence: 'The bright Moon reflects golden sunlight toward Earth.', translation: 'Mặt trăng sáng rực phản chiếu ánh nắng vàng về phía Trái đất.', grammar: 'Đặc điểm thiên thể: The moon reflects light from the sun.' },
-    { word: 'star', wordType: '(n)', meaning: 'ngôi sao', sentence: 'Distant shining stars twinkle softly in the night.', translation: 'Những ngôi sao chiếu sáng xa xăm lấp lánh nhẹ nhàng trong đêm.', grammar: 'Vũ trụ: Distant stars twinkle in the night sky.' },
-    { word: 'rotate', wordType: '(v)', meaning: 'tự xoay quanh trục', sentence: 'Earth takes twenty-four hours to rotate once.', translation: 'Trái đất mất hai mươi bốn giờ để tự xoay một vòng quanh trục.', grammar: 'Chu kỳ ngày đêm: Earth rotates once every 24 hours.' },
-    { word: 'axis', wordType: '(n)', meaning: 'trục quay Trái đất', sentence: 'Day and night happen because Earth spins on its axis.', translation: 'Ngày và đêm xảy ra vì Trái đất tự quay quanh trục của nó.', grammar: 'Giải thích hiện tượng: Day and night happen as Earth spins on its axis.' }
+    { word: 'sun', wordType: '(n)', meaning: 'mặt trời', sentence: 'The morning sun is very bright.', translation: 'Mặt trời buổi sớm rất rực rỡ.', grammar: 'Mặt trời mọc: Morning sun is bright.' },
+    { word: 'moon', wordType: '(n)', meaning: 'mặt trăng', sentence: 'The round moon shines at night.', translation: 'Mặt trăng tròn tỏa sáng vào ban đêm.', grammar: 'Mặt trăng đêm: Moon shines at night.' },
+    { word: 'star', wordType: '(n)', meaning: 'ngôi sao', sentence: 'Little stars twinkle in the sky.', translation: 'Những ngôi sao nhỏ lấp lánh trên bầu trời.', grammar: 'Sao trời: Stars twinkle in the sky.' },
+    { word: 'sky', wordType: '(n)', meaning: 'bầu trời', sentence: 'The sky is clear and blue.', translation: 'Bầu trời trong xanh và không một gợn mây.', grammar: 'Bầu trời xanh: The sky is blue.' },
+    { word: 'earth', wordType: '(n)', meaning: 'trái đất', sentence: 'We live together on Earth.', translation: 'Chúng ta cùng sống trên Trái đất.', grammar: 'Hành tinh: Live on Earth.' },
+    { word: 'day', wordType: '(n)', meaning: 'ban ngày', sentence: 'The sun shines in the day.', translation: 'Mặt trời chiếu sáng vào ban ngày.', grammar: 'Ban ngày: In the day.' },
+    { word: 'night', wordType: '(n)', meaning: 'ban đêm', sentence: 'We go to sleep at night.', translation: 'Chúng em đi ngủ vào ban đêm.', grammar: 'Ban đêm: at night.' }
   ],
   c6s2: [
-    { word: 'weather', wordType: '(n)', meaning: 'thời tiết', sentence: 'Meteorologists study conditions to forecast daily weather.', translation: 'Các nhà khí tượng học nghiên cứu các điều kiện để dự báo thời tiết hàng ngày.', grammar: 'Khoa học thời tiết: Study conditions to forecast weather.' },
-    { word: 'water cycle', wordType: '(n)', meaning: 'chu trình nước', matchWord: 'water cycle', sentence: 'The continuous water cycle recycles moisture on Earth.', translation: 'Chu trình nước liên tục tái tuần hoàn hơi ẩm trên Trái đất.', grammar: 'Chu trình tự nhiên: The water cycle recycles water on Earth.' },
-    { word: 'precipitation', wordType: '(n)', meaning: 'lượng giáng thủy (mưa/tuyết)', sentence: 'Rain, hail, and fluffy snow are forms of precipitation.', translation: 'Mưa, mưa đá và tuyết xốp là các dạng của lượng giáng thủy.', grammar: 'Phân loại giáng thủy: Rain and snow are forms of precipitation.' },
-    { word: 'cloud', wordType: '(n)', meaning: 'đám mây', sentence: 'Floating clouds contain millions of tiny water droplets.', translation: 'Những đám mây lơ lửng chứa hàng triệu giọt nước nhỏ xíu.', grammar: 'Cấu tạo mây: Clouds contain millions of water droplets.' },
-    { word: 'rain', wordType: '(n)', meaning: 'cơn mưa', sentence: 'Spring rain nourishes thirsty wild plants in forests.', translation: 'Cơn mưa mùa xuân nuôi dưỡng cây cối đang khát trong những cánh rừng.', grammar: 'Tác dụng: Rain nourishes plants and fills rivers.' },
-    { word: 'wind', wordType: '(n)', meaning: 'cơn gió', sentence: 'Gentle blowing wind turns giant blades of windmills.', translation: 'Cơn gió thổi nhè nhẹ làm quay những cánh quạt khổng lồ của cối xay gió.', grammar: 'Năng lượng gió: Wind turns the blades of windmills.' },
-    { word: 'storm', wordType: '(n)', meaning: 'cơn giông bão', sentence: 'A violent storm brings thunderous lightning strikes.', translation: 'Cơn bão dữ dội mang theo những cú sét đánh sấm sét rền vang.', grammar: 'Hiện tượng thời tiết cực đoan: A storm brings wind and lightning.' }
+    { word: 'sunny', wordType: '(adj)', meaning: 'nhiều nắng', sentence: 'Today is a warm sunny day.', translation: 'Hôm nay là một ngày nhiều nắng ấm áp.', grammar: 'Thời tiết nắng: A sunny day.' },
+    { word: 'rainy', wordType: '(adj)', meaning: 'có mưa', sentence: 'Take an umbrella on rainy days.', translation: 'Hãy mang theo ô vào những ngày mưa nhé.', grammar: 'Thời tiết mưa: on rainy days.' },
+    { word: 'windy', wordType: '(adj)', meaning: 'có gió, lộng gió', sentence: 'We fly kites on a windy day.', translation: 'Chúng em thả diều vào một ngày lộng gió.', grammar: 'Thời tiết có gió: on a windy day.' },
+    { word: 'cloudy', wordType: '(adj)', meaning: 'nhiều mây', sentence: 'The grey sky is very cloudy.', translation: 'Bầu trời màu xám có rất nhiều mây.', grammar: 'Nhiều mây: Sky is cloudy.' },
+    { word: 'hot', wordType: '(adj)', meaning: 'nóng bức', sentence: 'Summer days are very hot.', translation: 'Những ngày mùa hè rất là nóng bức.', grammar: 'Mùa hè nóng: Days are hot.' },
+    { word: 'cold', wordType: '(adj)', meaning: 'lạnh giá', sentence: 'Winter mornings feel very cold.', translation: 'Những buổi sáng mùa đông cho cảm giác rất lạnh.', grammar: 'Mùa đông lạnh: Mornings feel cold.' },
+    { word: 'weather', wordType: '(n)', meaning: 'thời tiết', sentence: 'What is the weather like today?', translation: 'Thời tiết hôm nay như thế nào?', grammar: 'Câu hỏi thời tiết: What is the weather like?' }
   ],
   c6s3: [
-    { word: 'rock', wordType: '(n)', meaning: 'đá', sentence: 'Granite is a very hard, enduring igneous rock.', translation: 'Đá hoa cương là một loại đá magma rất cứng và bền vững.', grammar: 'Địa chất học: Granite is a hard igneous rock.' },
-    { word: 'mineral', wordType: '(n)', meaning: 'khoáng vật', sentence: 'A mineral has an orderly, repeating crystal structure.', translation: 'Một khoáng vật có cấu trúc tinh thể trật tự và lặp lại.', grammar: 'Khái niệm khoáng vật: A mineral has a crystal structure.' },
-    { word: 'fossil', wordType: '(n)', meaning: 'hóa thạch', sentence: 'Scientists discover fossil bones preserved in sandstone.', translation: 'Các nhà khoa học phát hiện xương hóa thạch được bảo tồn trong đá sa thạch.', grammar: 'Bảo tồn dấu tích: Fossil bones are preserved in rock layers.' },
-    { word: 'volcano', wordType: '(n)', meaning: 'núi lửa', sentence: 'Red-hot liquid magma erupts out of an active volcano.', translation: 'Magma lỏng đỏ rực phun trào ra khỏi một ngọn núi lửa đang hoạt động.', grammar: 'Hiện tượng địa chất: Magma erupts out of a volcano.' },
-    { word: 'earthquake', wordType: '(n)', meaning: 'trận động đất', sentence: 'Shifting tectonic plates trigger a sudden strong earthquake.', translation: 'Các mảng kiến tạo dịch chuyển gây ra một trận động đất dữ dội bất ngờ.', grammar: 'Nguyên nhân địa chấn: Shifting plates trigger an earthquake.' },
-    { word: 'erosion', wordType: '(n)', meaning: 'sự xói mòn đất đá', sentence: 'Fast rushing river water causes steep rock erosion.', translation: 'Dòng nước sông chảy xiết gây ra sự xói mòn đá hiểm trở.', grammar: 'Hiện tượng bào mòn: Water and wind cause rock erosion.' },
-    { word: 'mountain', wordType: '(n)', meaning: 'ngọn núi cao', sentence: 'Crisp cold snow covers the rocky peak of a mountain.', translation: 'Tuyết lạnh giòn tan bao phủ đỉnh đá gồ ghề của ngọn núi.', grammar: 'Địa hình: Snow covers the peak of the mountain.' }
+    { word: 'rain', wordType: '(n)', meaning: 'cơn mưa', sentence: 'Rain falls from the grey clouds.', translation: 'Mưa rơi xuống từ những đám mây xám.', grammar: 'Mưa rơi: Rain falls from clouds.' },
+    { word: 'cloud', wordType: '(n)', meaning: 'đám mây', sentence: 'White fluffy clouds float in sky.', translation: 'Những đám mây trắng xốp trôi trên bầu trời.', grammar: 'Mây trôi: Clouds float in sky.' },
+    { word: 'river', wordType: '(n)', meaning: 'dòng sông', sentence: 'Fresh water flows in the river.', translation: 'Nước ngọt chảy trong dòng sông.', grammar: 'Nước sông: Flows in the river.' },
+    { word: 'sea', wordType: '(n)', meaning: 'biển', sentence: 'Fish swim in the salty sea.', translation: 'Cá bơi trong làn nước biển mặn.', grammar: 'Biển mặn: In the salty sea.' },
+    { word: 'puddle', wordType: '(n)', meaning: 'vũng nước mưa', sentence: 'Boots splash in the rain puddle.', translation: 'Những chiếc ủng lội bì bõm trong vũng nước mưa.', grammar: 'Vũng nước: In the rain puddle.' },
+    { word: 'wet', wordType: '(adj)', meaning: 'ướt', sentence: 'Do not play in the wet grass.', translation: 'Đừng chơi trên bãi cỏ ướt nhé.', grammar: 'Cỏ ướt: In the wet grass.' },
+    { word: 'drop', wordType: '(n)', meaning: 'giọt nước', sentence: 'Raindrops tap on the window glass.', translation: 'Những giọt mưa gõ lách tách trên cửa kính.', grammar: 'Giọt mưa: Raindrops tap on glass.' }
   ],
   c6s4: [
-    { word: 'pollution', wordType: '(n)', meaning: 'sự ô nhiễm môi trường', sentence: 'Smoky chimney exhaust causes hazardous air pollution.', translation: 'Khói xả ra từ ống khói gây ra ô nhiễm không khí nguy hại.', grammar: 'Tác hại môi trường: Waste causes air and water pollution.' },
-    { word: 'recycle', wordType: '(v)', meaning: 'tái chế', sentence: 'Recycle clean paper, plastics, and aluminum cans.', translation: 'Hãy tái chế giấy sạch, đồ nhựa và vỏ lon nhôm.', grammar: 'Hành động 3R: Recycle paper, plastic, and glass.' },
-    { word: 'reduce', wordType: '(v)', meaning: 'giảm thiểu tiêu thụ rác', sentence: 'Reduce plastic bag usage when you go shopping.', translation: 'Hãy giảm thiểu việc sử dụng túi ni-lông khi em đi mua sắm.', grammar: 'Hành động 3R: Reduce plastic usage when shopping.' },
-    { word: 'reuse', wordType: '(v)', meaning: 'tái sử dụng', sentence: 'Reuse glass jars to store sweet cookies or jam.', translation: 'Hãy tái sử dụng những chiếc lọ thủy tinh để đựng bánh quy ngọt hoặc mứt.', grammar: 'Hành động 3R: Reuse containers to store items.' },
-    { word: 'environment', wordType: '(n)', meaning: 'môi trường sống', sentence: 'Planting leafy green trees purifies our shared environment.', translation: 'Trồng cây xanh tốt làm thanh lọc môi trường sống chung của chúng ta.', grammar: 'Bảo vệ môi trường: Planting trees purifies our environment.' },
-    { word: 'global warming', wordType: '(n)', meaning: 'sự ấm lên toàn cầu', matchWord: 'global warming', sentence: 'Carbon emissions are speeding up global warming trends.', translation: 'Lượng phát thải các-bon đang đẩy nhanh các xu hướng ấm lên toàn cầu.', grammar: 'Biến đổi khí hậu: Emissions contribute to global warming.' },
-    { word: 'protect', wordType: '(v)', meaning: 'bảo vệ, gìn giữ', sentence: 'We must protect wild animals from losing habitats.', translation: 'Chúng ta phải bảo vệ các loài động vật hoang dã khỏi mất môi trường sống.', grammar: 'Trách nhiệm sinh thái: We must protect animals from habitat loss.' }
+    { word: 'rock', wordType: '(n)', meaning: 'tảng đá', sentence: 'A grey rock sits in the garden.', translation: 'Một tảng đá màu xám nằm trong vườn.', grammar: 'Đá: A rock in the garden.' },
+    { word: 'stone', wordType: '(n)', meaning: 'hòn đá cuội', sentence: 'Smooth stones sit by the stream.', translation: 'Những hòn đá cuội nhẵn nhụi nằm bên bờ suối.', grammar: 'Đá cuội: Smooth stones.' },
+    { word: 'sand', wordType: '(n)', meaning: 'cát', sentence: 'Children build castles with sand.', translation: 'Các bạn nhỏ xây lâu đài bằng cát.', grammar: 'Cát biển: Build castles with sand.' },
+    { word: 'soil', wordType: '(n)', meaning: 'đất mùn', sentence: 'Worms live in dark damp soil.', translation: 'Những chú giun sống trong đất ẩm màu tối.', grammar: 'Đất: Live in damp soil.' },
+    { word: 'mud', wordType: '(n)', meaning: 'bùn đất', sentence: 'Pigs like to roll in cool mud.', translation: 'Những chú lợn thích lăn trong bùn mát.', grammar: 'Bùn mát: In cool mud.' },
+    { word: 'hill', wordType: '(n)', meaning: 'ngọn đồi', sentence: 'We run up the green hill.', translation: 'Chúng em chạy lên ngọn đồi xanh.', grammar: 'Địa hình đồi: Run up the hill.' },
+    { word: 'beach', wordType: '(n)', meaning: 'bãi biển', sentence: 'We pick up shells on the beach.', translation: 'Chúng em nhặt vỏ sò trên bãi biển.', grammar: 'Bãi biển: on the beach.' }
   ],
   c6s5: [
-    { word: 'observe', wordType: '(v)', meaning: 'quan sát kỹ càng', sentence: 'Observe the green insect through a clear magnifying glass.', translation: 'Hãy quan sát chú côn trùng màu xanh qua một chiếc kính lúp trong suốt.', grammar: 'Kỹ năng nghiên cứu: Observe the specimen through a magnifying glass.' },
-    { word: 'experiment', wordType: '(n)', meaning: 'thí nghiệm khoa học', sentence: 'Wear safety goggles before starting the science experiment.', translation: 'Đeo kính bảo hộ an toàn trước khi bắt đầu bài thí nghiệm khoa học.', grammar: 'An toàn phòng lab: Wear goggles during the science experiment.' },
-    { word: 'hypothesis', wordType: '(n)', meaning: 'giả thuyết khoa học', sentence: 'Form a testable hypothesis before you begin measurements.', translation: 'Hãy lập một giả thuyết có thể kiểm chứng trước khi em đo đạc.', grammar: 'Phương pháp khoa học: Form a hypothesis before testing.' },
-    { word: 'record', wordType: '(v)', meaning: 'ghi chép số liệu', sentence: 'Record each temperature reading accurately in your log.', translation: 'Hãy ghi chép từng số đo nhiệt độ chuẩn xác vào sổ theo dõi của em.', grammar: 'Kỹ năng ghi số liệu: Record each reading in your table.' },
-    { word: 'conclusion', wordType: '(n)', meaning: 'kết luận khoa học', sentence: 'Write a valid conclusion based on lab evidence.', translation: 'Viết một kết luận chuẩn xác dựa vào các bằng chứng trong phòng thí nghiệm.', grammar: 'Rút ra kết luận: Write a conclusion based on evidence.' },
-    { word: 'investigate', wordType: '(v)', meaning: 'điều tra, khảo cứu', sentence: 'Investigate how warm temperature changes dissolving rates.', translation: 'Khảo cứu xem nhiệt độ ấm làm thay đổi tốc độ hòa tan ra sao.', grammar: 'Khám phá: Investigate how A affects B.' },
-    { word: 'compare', wordType: '(v)', meaning: 'so sánh đối chiếu', sentence: 'Compare height differences between both sunflower pots.', translation: 'So sánh sự khác biệt về chiều cao giữa cả hai chậu hoa hướng dương.', grammar: 'Đối chiếu khoa học: Compare differences between two groups.' }
+    { word: 'clean', wordType: '(adj)', meaning: 'sạch sẽ', sentence: 'Keep our schoolyard tidy and clean.', translation: 'Hãy giữ cho sân trường gọn gàng và sạch sẽ nhé.', grammar: 'Giữ sạch: Tidy and clean.' },
+    { word: 'trash', wordType: '(n)', meaning: 'rác rưởi', sentence: 'Put trash into the trash bin.', translation: 'Hãy bỏ rác vào thùng rác nhé.', grammar: 'Vứt rác: Put trash into bin.' },
+    { word: 'tree', wordType: '(n)', meaning: 'cây xanh', sentence: 'Planting a tree helps the Earth.', translation: 'Trồng một cái cây giúp ích cho Trái đất.', grammar: 'Trồng cây: Planting a tree.' },
+    { word: 'plant', wordType: '(v)', meaning: 'gieo trồng', sentence: 'We plant small flowers at home.', translation: 'Chúng em trồng những bông hoa nhỏ ở nhà.', grammar: 'Trồng hoa: Plant flowers.' },
+    { word: 'recycle', wordType: '(v)', meaning: 'tái chế', sentence: 'Recycle old paper and bottles.', translation: 'Hãy tái chế giấy cũ và chai lọ nhé.', grammar: 'Tái chế: Recycle paper and bottles.' },
+    { word: 'save', wordType: '(v)', meaning: 'tiết kiệm, gìn giữ', sentence: 'Turn off the tap to save water.', translation: 'Hãy khóa vòi nước để tiết kiệm nước nhé.', grammar: 'Tiết kiệm nước: Save water.' },
+    { word: 'help', wordType: '(v)', meaning: 'giúp đỡ, chung tay', sentence: 'We help keep the Earth green.', translation: 'Chúng em chung tay giữ cho Trái đất luôn xanh.', grammar: 'Bảo vệ hành tinh: Help keep the Earth green.' }
   ]
 };
 
 // --- HÀM TẠO 1 CÂU HỎI ĐƠN LẺ VỚI LOGIC LINH HOẠT ---
-function createSingleQuestion(vOrig, type, vocabBank) {
+function createSingleQuestion(vOrig, type, vocabBank, fullPool = null) {
   let v = { ...vOrig };
+  const pool = (fullPool && fullPool.length >= 3) ? fullPool : vocabBank;
   
   if (v.template && v.op) {
     let a, b, c;
@@ -685,12 +686,33 @@ function createSingleQuestion(vOrig, type, vocabBank) {
   }
   
   if (type === 'vocab_match') {
-    let wrongAnswers = vocabBank
-      .filter(x => x.word !== v.word)
-      .map(x => x.meaning)
+    // Lọc bỏ triệt để các đáp án trùng lặp hoặc na ná nhau (vd: không để "cộng" cạnh "cộng vào", "trừ" cạnh "trừ đi")
+    const rootWords = ['cộng', 'trừ', 'nhân', 'chia', 'tổng', 'hiệu', 'tích', 'thương', 'bằng', 'lớn hơn', 'nhỏ hơn', 'phân số', 'thập phân'];
+    const currentRoots = rootWords.filter(rw => v.meaning.toLowerCase().includes(rw));
+
+    let candidatePool = pool.filter(x => {
+      if (x.word === v.word) return false;
+      if (x.meaning === v.meaning) return false;
+      
+      let xMeaningLower = x.meaning.toLowerCase();
+      // Nếu từ đối thủ có chung gốc nghĩa thì loại bỏ
+      for (let rw of currentRoots) {
+        if (xMeaningLower.includes(rw)) return false;
+      }
+      return true;
+    });
+
+    let wrongAnswers = candidatePool
       .sort(() => Math.random() - 0.5)
-      .slice(0, 2);
-    if (wrongAnswers.length < 2) wrongAnswers = ['đáp án mẫu A', 'đáp án mẫu B'];
+      .slice(0, 2)
+      .map(x => x.meaning);
+
+    if (wrongAnswers.length < 2) {
+      const defaultDistractors = ['trừ đi, bớt đi', 'nhân lên', 'chia ra', 'bằng nhau (=)', 'hình vuông', 'phân số'];
+      const filteredDefaults = defaultDistractors.filter(d => !currentRoots.some(rw => d.includes(rw)));
+      wrongAnswers = filteredDefaults.slice(0, 2);
+    }
+
     return { 
       type, 
       word: v.word, 
@@ -712,11 +734,21 @@ function createSingleQuestion(vOrig, type, vocabBank) {
       qText = v.sentence + " (Chọn từ đúng điền vào câu)";
     }
     
-    let wrongs = vocabBank
-      .filter(x => x.word !== v.word)
+    // Ưu tiên các từ cùng từ loại nhưng khác từ
+    let wrongs = pool
+      .filter(x => x.word !== v.word && (x.wordType === v.wordType || !v.wordType))
       .map(x => x.word + " " + x.wordType)
       .sort(() => Math.random() - 0.5)
       .slice(0, 2);
+
+    if (wrongs.length < 2) {
+      wrongs = pool
+        .filter(x => x.word !== v.word)
+        .map(x => x.word + " " + x.wordType)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 2);
+    }
+
     let options = [v.word + " " + v.wordType, ...wrongs].sort(() => Math.random() - 0.5);
     return { type, question: qText, answer: v.word, options, vocab: v };
   } 
@@ -739,12 +771,7 @@ function createSingleQuestion(vOrig, type, vocabBank) {
 }
 
 // --- ENGINE TẠO CÂU HỎI TỰ ĐỘNG CHUẨN SƯ PHẠM TIỂU HỌC ---
-// ĐẢM BẢO MỖI ẢI LUYỆN ĐỦ CẢ 3 TRỤ CỘT:
-// 1. Từ vựng (7 câu)
-// 2. Ngữ pháp & Cấu trúc câu (7 câu)
-// 3. Phát âm & Luyện nói phản xạ (6 câu)
-// Tổng cộng = 20 câu / Ải (xáo trộn ngẫu nhiên)
-export function generateQuestions(vocabBank, numQuestions = 20) {
+export function generateQuestions(vocabBank, numQuestions = 20, fullPool = null) {
   let questions = [];
   
   // 1. Nhóm từ vựng (7 câu)
@@ -752,7 +779,7 @@ export function generateQuestions(vocabBank, numQuestions = 20) {
   for (let i = 0; i < 7; i++) {
     let v = vocabBank[i % vocabBank.length];
     let type = vocabTypes[i % vocabTypes.length];
-    let q = createSingleQuestion(v, type, vocabBank);
+    let q = createSingleQuestion(v, type, vocabBank, fullPool);
     if (q) questions.push(q);
   }
   
@@ -761,7 +788,7 @@ export function generateQuestions(vocabBank, numQuestions = 20) {
   for (let i = 0; i < 7; i++) {
     let v = vocabBank[i % vocabBank.length];
     let type = grammarTypes[i % grammarTypes.length];
-    let q = createSingleQuestion(v, type, vocabBank);
+    let q = createSingleQuestion(v, type, vocabBank, fullPool);
     if (q) questions.push(q);
   }
   
@@ -770,7 +797,7 @@ export function generateQuestions(vocabBank, numQuestions = 20) {
   for (let i = 0; i < 6; i++) {
     let v = vocabBank[i % vocabBank.length];
     let type = speechTypes[i % speechTypes.length];
-    let q = createSingleQuestion(v, type, vocabBank);
+    let q = createSingleQuestion(v, type, vocabBank, fullPool);
     if (q) questions.push(q);
   }
   
@@ -779,7 +806,7 @@ export function generateQuestions(vocabBank, numQuestions = 20) {
     let v = vocabBank[Math.floor(Math.random() * vocabBank.length)];
     let types = ['vocab_match', 'fill', 'arrange', 'speak', 'qa_speak', 'math_calc'];
     let type = types[Math.floor(Math.random() * types.length)];
-    let q = createSingleQuestion(v, type, vocabBank);
+    let q = createSingleQuestion(v, type, vocabBank, fullPool);
     if (q) questions.push(q);
   }
   
@@ -843,8 +870,8 @@ function generateCurriculum() {
       // Mỗi Màn có đúng 4 Ải (Level 1 -> 4)
       for (let l = 1; l <= 4; l++) {
         let mBank = mBankForLevels[l-1] || mathVocabBank;
-        let mQs = generateQuestions(mBank, 20);
-        let sQs = generateQuestions(sciVocabBank, 20);
+        let mQs = generateQuestions(mBank, 20, mathVocabBank);
+        let sQs = generateQuestions(sciVocabBank, 20, sciVocabBank);
         
         mathLevels.push({ id: l, title: "Ải " + l, questions: mQs });
         scienceLevels.push({ id: l, title: "Ải " + l, questions: sQs });
