@@ -51,7 +51,9 @@ header p { font-size: 16px; color: #777; font-weight: bold;}
 /* Level States */
 .level-btn.completed { background: #e5e5e5; color: #777; box-shadow: 0 4px 0 #d5d5d5; }
 .level-btn.current { background: var(--orange-color); color: white; box-shadow: 0 4px 0 var(--orange-shadow); animation: pulse 2s infinite; z-index: 10;}
+.level-btn.in-progress { background: #fff7ed; color: #c2410c; border: 2px solid #ea580c; box-shadow: 0 4px 0 #ea580c; animation: pulse 1.8s infinite; z-index: 10; }
 .level-btn.locked { background: #f0f0f0; color: #ccc; box-shadow: 0 4px 0 #e0e0e0; cursor: not-allowed; }
+.level-icon { font-size: 13px; font-weight: 800; display: inline-block; margin-top: 3px; }
 .exam-btn { background: var(--purple-color); color: white; border: none; padding: 12px; border-radius: 12px; box-shadow: 0 4px 0 var(--purple-shadow); font-weight: 800; cursor: pointer; width: 100%; margin-top: 10px; font-size: 14px; transition: 0.1s;}
 .exam-btn:active { transform: translateY(4px); box-shadow: 0 0 0 transparent; }
 .exam-btn.locked { background: #f0f0f0; color: #ccc; box-shadow: 0 4px 0 #e0e0e0; cursor: not-allowed; }
@@ -59,10 +61,12 @@ header p { font-size: 16px; color: #777; font-weight: bold;}
 .progress-bar-container { background: white; padding: 20px; border-radius: 20px; border: 2px solid var(--gray-border); text-align: center; font-weight: bold;}
 .progress-bg { height: 16px; background: var(--gray-border); border-radius: 8px; margin-top: 10px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--yellow); width: 0%; transition: width 0.5s; border-radius: 8px;}
-.lesson-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-.btn-back { background: none; border: none; font-size: 24px; cursor: pointer; color: #afafaf; font-weight: bold; transition: 0.2s;}
+.lesson-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.btn-back { background: none; border: none; font-size: 24px; cursor: pointer; color: #afafaf; font-weight: bold; transition: 0.2s; padding: 0 5px;}
+.btn-back:hover { color: #555; }
 .lesson-progress-bg { flex: 1; height: 16px; background: var(--gray-border); border-radius: 8px; overflow: hidden; }
-.lesson-progress-fill { height: 100%; background: var(--primary-color); width: 0%; transition: width 0.5s; border-radius: 8px;}
+.lesson-progress-fill { height: 100%; background: var(--primary-color); width: 0%; transition: width 0.4s ease; border-radius: 8px;}
+.lesson-progress-count { font-size: 14px; font-weight: 800; color: #64748b; min-width: 48px; text-align: right; white-space: nowrap; }
 
 /* Vocab */
 .vocab-hint-container { margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; width: 100%;}

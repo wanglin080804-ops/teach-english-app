@@ -132,7 +132,7 @@
         <button class="btn skip" onclick="resetProgress()" style="width:100%; margin-bottom: 25px; padding: 12px; font-size: 16px;">🔄 Học lại từ đầu môn này</button>
 
         <div class="progress-bar-container">
-          <p>🔥 Mục tiêu ngày: <span id="daily-progress-text">0/80</span> câu (4 Ải / Màn)</p>
+          <p>🔥 Mục tiêu ngày <span id="daily-subject-name" style="color: var(--secondary-color); font-weight: 900;">(Toán học)</span>: <span id="daily-progress-text">0/80</span> câu (4 ải/ngày)</p>
           <div class="progress-bg"><div class="progress-fill" id="daily-progress-fill"></div></div>
         </div>
       </div>
@@ -140,10 +140,11 @@
       <!-- Màn hình bài học -->
       <div id="lesson-screen" class="screen hidden">
         <header class="lesson-header">
-          <button class="btn-back" onclick="goHome()">✖</button>
+          <button class="btn-back" onclick="goHome()" title="Lưu tiến trình & về Trang chủ">✖</button>
           <div class="lesson-progress-bg">
             <div class="lesson-progress-fill" id="lesson-progress-fill"></div>
           </div>
+          <span id="lesson-progress-count" class="lesson-progress-count">0/20</span>
         </header>
         
         <!-- Khu vực từ vựng lật (Vocab Card) -->

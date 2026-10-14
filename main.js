@@ -8,21 +8,51 @@ let currentStage = 0;
 let currentLevel = 0;
 
 let dailyGoal = 80;
-let dailyProgress = parseInt(localStorage.getItem('dailyProgress') || '0');
+let dailyProgress = { math: 0, science: 0 };
+try {
+  let stored = localStorage.getItem('dailyProgressBySubject');
+  if (stored) {
+    dailyProgress = JSON.parse(stored);
+  } else if (localStorage.getItem('dailyProgress')) {
+    dailyProgress.math = parseInt(localStorage.getItem('dailyProgress')) || 0;
+  }
+} catch (e) {
+  dailyProgress = { math: 0, science: 0 };
+}
+if (typeof dailyProgress !== 'object' || dailyProgress === null) {
+  dailyProgress = { math: 0, science: 0 };
+}
+
 let todayStr = new Date().toDateString();
 if (localStorage.getItem('dailyProgressDate') !== todayStr) {
-  dailyProgress = 0;
-  localStorage.setItem('dailyProgress', 0);
+  dailyProgress = { math: 0, science: 0 };
+  localStorage.setItem('dailyProgressBySubject', JSON.stringify(dailyProgress));
   localStorage.setItem('dailyProgressDate', todayStr);
+  localStorage.removeItem('hideCongratsToday_math');
+  localStorage.removeItem('hideCongratsToday_science');
 }
 let learnedVocabs = [];
+let currentQuestionAnswered = false;
 
 let progress = JSON.parse(localStorage.getItem('userProgress')) || {
   math: { c: 1, s: 1, l: 1 },
   science: { c: 1, s: 1, l: 1 }
 };
 
-let savedSession = JSON.parse(localStorage.getItem('savedSession'));
+let savedSessions = {};
+try {
+  let stored = localStorage.getItem('savedSessionsBySubject');
+  if (stored) {
+    savedSessions = JSON.parse(stored);
+  } else if (localStorage.getItem('savedSession')) {
+    let legacy = JSON.parse(localStorage.getItem('savedSession'));
+    if (legacy && legacy.subject) {
+      savedSessions[legacy.subject] = legacy;
+    }
+  }
+} catch (e) {
+  savedSessions = {};
+}
 
 // --- STREAK LOGIC ---
 let streakCount = parseInt(localStorage.getItem('streakCount') || '0');
@@ -91,13 +121,18 @@ const screens = {
 };
 
 function init() {
-  if (savedSession) {
-    let subjectName = savedSession.subject === 'math' ? 'Toán học' : 'Khoa học';
-    let qNum = (savedSession.qIndex || 0) + 1;
-    document.getElementById('welcome-text').innerText = 
-      "Lần trước bạn đang làm dở Câu " + qNum + " của Ải " + savedSession.l + ", Màn " + savedSession.s + ", Chương " + savedSession.c + " môn " + subjectName + ".";
+  let saved = savedSessions[currentSubject] || Object.values(savedSessions)[0];
+  if (saved && saved.qIndex > 0 && saved.qIndex < 20) {
+    let subjectName = saved.subject === 'math' ? 'Toán học' : 'Khoa học';
+    let qNum = (saved.qIndex || 0) + 1;
+    let remaining = 20 - saved.qIndex;
+    const welcomeText = document.getElementById('welcome-text');
+    if (welcomeText) {
+      welcomeText.innerHTML = 
+        "Lần trước bạn đang làm dở <strong>Câu " + qNum + "</strong> (đã hoàn thành <strong>" + saved.qIndex + "/20</strong> câu) của <strong>Ải " + saved.l + "</strong>, Màn " + saved.s + ", Chương " + saved.c + " môn <strong>" + subjectName + "</strong>.";
+    }
     const resumeBtn = document.getElementById('btn-resume-session');
-    if (resumeBtn) resumeBtn.innerText = "▶️ Tiếp tục Câu " + qNum;
+    if (resumeBtn) resumeBtn.innerText = "▶️ Tiếp tục Câu " + qNum + " (Còn " + remaining + " câu)";
     document.getElementById('welcome-modal').classList.remove('hidden');
   }
   showScreen('home');
@@ -128,7 +163,7 @@ window.closeWelcomeModal = () => {
 window.closeCongrats = (continueLesson) => {
   const cb = document.getElementById('dont-remind-today');
   if (cb && cb.checked) {
-    localStorage.setItem('hideCongratsToday', new Date().toDateString());
+    localStorage.setItem('hideCongratsToday_' + currentSubject, new Date().toDateString());
   }
   document.getElementById('congrats-modal').classList.add('hidden');
   if (!continueLesson) {
@@ -138,21 +173,23 @@ window.closeCongrats = (continueLesson) => {
 
 window.resumeSession = () => {
   document.getElementById('welcome-modal').classList.add('hidden');
-  if (savedSession) {
-    let s = { ...savedSession };
-    switchTab(s.subject);
-    startLevel(s.c, s.s, s.l, s.qIndex);
+  let saved = savedSessions[currentSubject] || Object.values(savedSessions)[0];
+  if (saved) {
+    if (saved.subject !== currentSubject) switchTab(saved.subject);
+    startLevel(saved.c, saved.s, saved.l, saved.qIndex);
   }
 };
 
 window.restartLevelFromBeginning = () => {
   document.getElementById('welcome-modal').classList.add('hidden');
-  if (savedSession) {
-    let s = { ...savedSession };
+  let saved = savedSessions[currentSubject] || Object.values(savedSessions)[0];
+  if (saved) {
+    let s = { ...saved };
+    delete savedSessions[s.subject];
+    localStorage.setItem('savedSessionsBySubject', JSON.stringify(savedSessions));
     localStorage.removeItem('savedSession');
-    savedSession = null;
-    switchTab(s.subject);
-    startLevel(s.c, s.s, s.l, 0); // Bắt đầu lại từ câu 1 của ải
+    if (s.subject !== currentSubject) switchTab(s.subject);
+    startLevel(s.c, s.s, s.l, 0, true);
   }
 };
 
@@ -166,9 +203,18 @@ function showScreen(screenName) {
 }
 
 function updateHomeProgress() {
-  document.getElementById('daily-progress-text').innerText = dailyProgress + "/" + dailyGoal;
-  const percent = Math.min((dailyProgress / dailyGoal) * 100, 100);
-  document.getElementById('daily-progress-fill').style.width = percent + "%";
+  const currentCount = (dailyProgress && dailyProgress[currentSubject]) ? dailyProgress[currentSubject] : 0;
+  const subjectName = currentSubject === 'math' ? 'Toán học' : 'Khoa học';
+
+  const textEl = document.getElementById('daily-progress-text');
+  if (textEl) textEl.innerText = currentCount + "/" + dailyGoal;
+
+  const subjectEl = document.getElementById('daily-subject-name');
+  if (subjectEl) subjectEl.innerText = '(' + subjectName + ')';
+
+  const percent = Math.min((currentCount / dailyGoal) * 100, 100);
+  const fillEl = document.getElementById('daily-progress-fill');
+  if (fillEl) fillEl.style.width = percent + "%";
 }
 
 window.switchTab = (subject) => {
@@ -176,6 +222,7 @@ window.switchTab = (subject) => {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelector(subject === 'math' ? '.tab-btn:nth-child(1)' : '.tab-btn:nth-child(2)').classList.add('active');
   renderCurriculum();
+  updateHomeProgress();
 };
 
 window.resetProgress = () => {
@@ -188,13 +235,14 @@ window.confirmReset = () => {
   progress[currentSubject] = { c: 1, s: 1, l: 1 };
   localStorage.setItem('userProgress', JSON.stringify(progress));
   
-  if (savedSession && savedSession.subject === currentSubject) {
-    localStorage.removeItem('savedSession');
-    savedSession = null;
+  if (savedSessions[currentSubject]) {
+    delete savedSessions[currentSubject];
+    localStorage.setItem('savedSessionsBySubject', JSON.stringify(savedSessions));
   }
+  localStorage.removeItem('savedSession');
   
-  dailyProgress = 0;
-  localStorage.setItem('dailyProgress', 0);
+  dailyProgress[currentSubject] = 0;
+  localStorage.setItem('dailyProgressBySubject', JSON.stringify(dailyProgress));
   
   document.getElementById('reset-modal').classList.add('hidden');
   renderCurriculum();
@@ -235,11 +283,27 @@ function renderCurriculum() {
         let icon = '';
         let locked = true;
         
-        if (isCompleted(chap.id, stage.id, level.id)) { stateClass = 'completed'; icon = '✔️'; locked = false; }
-        else if (isUnlocked(chap.id, stage.id, level.id)) { stateClass = 'current'; icon = '⭐'; locked = false; }
-        else { stateClass = 'locked'; icon = '🔒'; }
+        let saved = savedSessions[currentSubject];
+        let isInProgress = (saved && saved.c === chap.id && saved.s === stage.id && saved.l === level.id && saved.qIndex > 0 && saved.qIndex < 20);
+
+        if (isInProgress) {
+          stateClass = 'in-progress';
+          icon = '⏳ ' + saved.qIndex + '/20';
+          locked = false;
+        } else if (isCompleted(chap.id, stage.id, level.id)) {
+          stateClass = 'completed';
+          icon = '✔️';
+          locked = false;
+        } else if (isUnlocked(chap.id, stage.id, level.id)) {
+          stateClass = 'current';
+          icon = '⭐';
+          locked = false;
+        } else {
+          stateClass = 'locked';
+          icon = '🔒';
+        }
         
-        html += '<button class="level-btn ' + stateClass + '" ' + (locked ? 'disabled' : '') + ' onclick="startLevel(' + chap.id + ', ' + stage.id + ', ' + level.id + ')">' + level.title + '<br>' + icon + '</button>';
+        html += '<button class="level-btn ' + stateClass + '" ' + (locked ? 'disabled' : '') + ' onclick="startLevel(' + chap.id + ', ' + stage.id + ', ' + level.id + ')" title="' + level.title + '">' + level.title + '<br><span class="level-icon">' + icon + '</span></button>';
       });
       html += '</div>';
       
@@ -467,7 +531,7 @@ window.finishSpeedMatch = () => {
   document.getElementById('speed-match-modal').classList.add('hidden');
 };
 
-window.startLevel = (cId, sId, lId, startIndex = 0) => {
+window.startLevel = (cId, sId, lId, startIndex = null, forceRestart = false) => {
   const chapter = curriculum[currentSubject].chapters.find(c => c.id === cId);
   const stage = chapter.stages.find(s => s.id === sId);
   const level = stage.levels.find(l => l.id === lId);
@@ -476,8 +540,35 @@ window.startLevel = (cId, sId, lId, startIndex = 0) => {
   currentStage = sId;
   currentLevel = lId;
   
-  currentQuestions = [...level.questions];
-  currentQuestionIndex = startIndex;
+  const saved = savedSessions[currentSubject];
+  const isThisSaved = (!forceRestart && saved && saved.c === cId && saved.s === sId && saved.l === lId && saved.qIndex > 0 && saved.qIndex < 20);
+
+  if (isThisSaved && startIndex === null) {
+    // Tiếp tục học số câu còn lại của ải
+    currentQuestionIndex = saved.qIndex;
+    if (saved.questions && saved.questions.length === 20) {
+      currentQuestions = [...saved.questions];
+    } else {
+      currentQuestions = [...level.questions];
+    }
+  } else if (startIndex !== null) {
+    currentQuestionIndex = startIndex;
+    if (isThisSaved && saved.questions && saved.questions.length === 20) {
+      currentQuestions = [...saved.questions];
+    } else {
+      currentQuestions = [...level.questions];
+    }
+  } else {
+    // Bắt đầu từ đầu ải (câu 0)
+    currentQuestionIndex = 0;
+    currentQuestions = [...level.questions];
+    if (forceRestart && saved && saved.c === cId && saved.s === sId && saved.l === lId) {
+      delete savedSessions[currentSubject];
+      localStorage.setItem('savedSessionsBySubject', JSON.stringify(savedSessions));
+      localStorage.removeItem('savedSession');
+    }
+  }
+
   learnedVocabs = [];
   
   showScreen('lesson');
@@ -485,7 +576,7 @@ window.startLevel = (cId, sId, lId, startIndex = 0) => {
 };
 
 window.goHome = () => {
-  if (currentQuestions.length > 0 && currentQuestionIndex < currentQuestions.length) {
+  if (currentQuestions && currentQuestions.length > 0 && currentQuestionIndex < currentQuestions.length) {
     saveSession();
   }
   showScreen('home');
@@ -543,21 +634,33 @@ function setupVocabHint(q) {
 }
 
 function saveSession() {
-  localStorage.setItem('savedSession', JSON.stringify({
-    subject: currentSubject,
-    c: currentChapter,
-    s: currentStage,
-    l: currentLevel,
-    qIndex: currentQuestionIndex
-  }));
+  if (currentQuestions && currentQuestions.length > 0 && currentQuestionIndex < currentQuestions.length) {
+    savedSessions[currentSubject] = {
+      subject: currentSubject,
+      c: currentChapter,
+      s: currentStage,
+      l: currentLevel,
+      qIndex: currentQuestionIndex,
+      questions: currentQuestions
+    };
+    localStorage.setItem('savedSessionsBySubject', JSON.stringify(savedSessions));
+    localStorage.setItem('savedSession', JSON.stringify(savedSessions[currentSubject]));
+  }
 }
 
 function renderQuestion() {
   const container = document.getElementById('question-container');
   container.innerHTML = '';
+  currentQuestionAnswered = false;
   
   if (currentQuestionIndex >= currentQuestions.length) {
+    // Hoàn thành trọn vẹn 20 câu của ải!
+    if (savedSessions[currentSubject]) {
+      delete savedSessions[currentSubject];
+      localStorage.setItem('savedSessionsBySubject', JSON.stringify(savedSessions));
+    }
     localStorage.removeItem('savedSession');
+
     let p = progress[currentSubject];
     if (currentChapter === p.c && currentStage === p.s && currentLevel === p.l) {
       p.l++;
@@ -578,8 +681,13 @@ function renderQuestion() {
   const q = currentQuestions[currentQuestionIndex];
   setupVocabHint(q);
   
-  const lessonPercent = (currentQuestionIndex / currentQuestions.length) * 100;
-  document.getElementById('lesson-progress-fill').style.width = lessonPercent + "%";
+  const totalQ = currentQuestions.length;
+  const lessonPercent = totalQ > 0 ? (currentQuestionIndex / totalQ) * 100 : 0;
+  const fillEl = document.getElementById('lesson-progress-fill');
+  if (fillEl) fillEl.style.width = lessonPercent + "%";
+
+  const countEl = document.getElementById('lesson-progress-count');
+  if (countEl) countEl.innerText = currentQuestionIndex + "/" + totalQ;
 
   if (q.type === 'vocab_match' || q.type === 'fill') renderMultipleChoice(container, q);
   else if (q.type === 'arrange') renderArrange(container, q);
@@ -609,7 +717,10 @@ window.checkMultipleChoice = (selected, correct) => {
     feedback.className = 'result-area correct';
     feedback.innerText = '✅ Chính xác!';
     document.getElementById('btn-next').classList.remove('hidden');
-    incrementDailyProgress();
+    if (!currentQuestionAnswered) {
+      currentQuestionAnswered = true;
+      incrementDailyProgress();
+    }
   } else {
     feedback.className = 'result-area incorrect';
     feedback.innerText = '❌ Sai rồi, thử lại nhé!';
@@ -639,11 +750,14 @@ window.checkArrange = (correctSentence) => {
   if (userSentence === correctSentence) {
     feedback.className = 'result-area correct'; feedback.innerText = '✅ Giỏi lắm!';
     document.getElementById('btn-next').classList.remove('hidden');
-    incrementDailyProgress();
+    if (!currentQuestionAnswered) {
+      currentQuestionAnswered = true;
+      incrementDailyProgress();
+    }
   } else {
     feedback.className = 'result-area incorrect'; feedback.innerText = '❌ Vẫn chưa đúng, hãy xếp lại nhé.';
   }
-}
+};
 
 function renderSpeaking(container, q) {
   const isQA = q.type === 'qa_speak';
@@ -876,7 +990,10 @@ window.startRecognition = (targetText) => {
         feedback.innerHTML += '✅ Rất tốt! Đã nhận diện chính xác (' + displayScore + '%)';
         const btnNext = document.getElementById('btn-next');
         if (btnNext) btnNext.classList.remove('hidden');
-        incrementDailyProgress();
+        if (!currentQuestionAnswered) {
+          currentQuestionAnswered = true;
+          incrementDailyProgress();
+        }
       } else {
         feedback.className = 'result-area incorrect';
         let displayScore = Math.round(Math.max(similarity, wordMatchRatio) * 100);
@@ -935,6 +1052,7 @@ window.startRecognition = (targetText) => {
 window.skipQuestion = () => {
   let q = currentQuestions.splice(currentQuestionIndex, 1)[0];
   currentQuestions.push(q);
+  saveSession();
   renderQuestion();
 };
 window.nextQuestion = () => { 
@@ -943,9 +1061,21 @@ window.nextQuestion = () => {
 };
 
 function incrementDailyProgress() {
-  dailyProgress++; localStorage.setItem('dailyProgress', dailyProgress);
-  if (dailyProgress >= dailyGoal) {
-    if (localStorage.getItem('hideCongratsToday') !== new Date().toDateString()) {
+  if (!dailyProgress[currentSubject]) {
+    dailyProgress[currentSubject] = 0;
+  }
+  dailyProgress[currentSubject]++;
+  localStorage.setItem('dailyProgressBySubject', JSON.stringify(dailyProgress));
+  updateHomeProgress();
+
+  if (dailyProgress[currentSubject] >= dailyGoal) {
+    let hideKey = 'hideCongratsToday_' + currentSubject;
+    if (localStorage.getItem(hideKey) !== new Date().toDateString()) {
+      let subjectName = currentSubject === 'math' ? 'Toán học' : 'Khoa học';
+      let congratsDesc = document.querySelector('#congrats-modal p');
+      if (congratsDesc) {
+        congratsDesc.innerText = 'Bạn đã đạt mục tiêu 80 câu hôm nay (trọn vẹn 4 ải) cho môn ' + subjectName + '!';
+      }
       document.getElementById('congrats-modal').classList.remove('hidden');
     }
   }
