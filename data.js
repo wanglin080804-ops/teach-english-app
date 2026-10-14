@@ -675,6 +675,9 @@ function createSingleQuestion(vOrig, type, vocabBank, fullPool = null) {
     
     v.sentence = v.template.replace('{A}', a).replace('{B}', b).replace('{C}', c);
     v.translation = v.trans.replace('{A}', a).replace('{B}', b).replace('{C}', c);
+    v.opA = a;
+    v.opB = b;
+    v.opC = c;
     
     if (type === 'math_calc') {
       let qText = v.template.replace('{A}', a).replace('{B}', b).replace('{C}', '___');
@@ -754,7 +757,20 @@ function createSingleQuestion(vOrig, type, vocabBank, fullPool = null) {
   } 
   else if (type === 'arrange') {
     let words = v.sentence.split(' ');
-    return { type, words: words, correct: v.sentence, vocab: v };
+    let validAnswers = [v.sentence];
+
+    // Xử lý tính chất giao hoán (Commutative Property) của phép cộng (+) và phép nhân (*)
+    // Ví dụ: "1 plus 6 equals 7." <-> "6 plus 1 equals 7."
+    if (v.template && (v.op === '+' || v.op === '*')) {
+      let altA = v.opB !== undefined ? v.opB : '{B}';
+      let altB = v.opA !== undefined ? v.opA : '{A}';
+      let altC = v.opC !== undefined ? v.opC : '{C}';
+      let altSentence = v.template.replace('{A}', altA).replace('{B}', altB).replace('{C}', altC);
+      if (altSentence !== v.sentence && !validAnswers.includes(altSentence)) {
+        validAnswers.push(altSentence);
+      }
+    }
+    return { type, words: words, correct: v.sentence, validAnswers, vocab: v };
   } 
   else if (type === 'speak') {
     return { type, text: v.sentence, hint: 'Nghĩa tiếng Việt: ' + v.translation, vocab: v };
@@ -889,3 +905,27 @@ function generateCurriculum() {
 }
 
 export const curriculum = generateCurriculum();
+
+// --- HÀM TẠO 30 CÂU HỎI CHO BÀI KIỂM TRA TỔNG HỢP CỦA MÀN ---
+// 29 câu tổng hợp từ cả 4 ải (từ vựng, ngữ pháp, sắp xếp câu, luyện nói) + Câu 30: Chặng về đích phản xạ từ vựng 15s!
+export function generateStageExamQuestions(cId, sId, subject) {
+  const stageKey = "c" + cId + "s" + sId;
+  let bank = (subject === 'math' ? mathVocab : scienceVocab)[stageKey] || [];
+  
+  // 29 câu tổng hợp bao quát kiến thức cả 4 ải của Màn
+  let examQuestions = generateQuestions(bank, 29, bank);
+  
+  if (examQuestions.length > 29) {
+    examQuestions = examQuestions.slice(0, 29);
+  }
+  
+  // Câu 30: Chặng về đích Thử thách phản xạ từ vựng 15s
+  examQuestions.push({
+    type: 'speed_match_final',
+    cId: cId,
+    sId: sId,
+    title: '⚡ Thử thách phản xạ từ vựng 15s (Chặng về đích)'
+  });
+  
+  return examQuestions;
+}

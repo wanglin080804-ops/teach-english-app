@@ -61,14 +61,36 @@
       </div>
     </div>
 
-    <!-- Modal Bài kiểm tra -->
+    <!-- Modal Bài kiểm tra tổng hợp Màn -->
     <div id="exam-modal" class="modal-overlay hidden">
       <div class="modal slide-up">
-        <h2 id="exam-title">📝 Bài kiểm tra</h2>
-        <p id="exam-desc">Thời gian: 15 giây - Thử thách phản xạ nối 7 từ vựng!</p>
-        <div class="controls">
-          <button class="btn primary" id="btn-start-exam-now">⚡ Bắt đầu thử thách 15s</button>
+        <h2 id="exam-title">📝 Bài kiểm tra tổng hợp</h2>
+        <p id="exam-desc" style="white-space: pre-line;">Thời gian: 20 phút - Tổng hợp 30 câu hỏi gồm cả 4 ải và thử thách phản xạ từ vựng 15s!</p>
+        <div class="controls column-controls">
+          <button class="btn primary" id="btn-start-exam-now">🚀 Bắt đầu làm bài thi (20 phút)</button>
           <button class="btn skip" onclick="document.getElementById('exam-modal').classList.add('hidden')">Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Kết quả Bài kiểm tra tổng hợp Màn -->
+    <div id="exam-result-modal" class="modal-overlay hidden" style="z-index: 1700;">
+      <div class="modal slide-up exam-result-box">
+        <div id="exam-res-icon" style="font-size: 55px; margin-bottom: 6px;">🏆</div>
+        <h2 id="exam-res-title" style="color: var(--primary-color); font-size: 22px; font-weight: 800; margin-bottom: 4px;">KẾT QUẢ BÀI THI</h2>
+        <p id="exam-res-subtitle" style="font-size: 14px; color: #666; font-weight: bold; margin-bottom: 12px;">Bài kiểm tra tổng hợp</p>
+        
+        <div class="exam-score-card">
+          <div class="exam-score-num"><span id="exam-res-score">0</span><small>/30 câu</small></div>
+          <div class="exam-time-used">⏱️ Thời gian: <span id="exam-res-time">00:00</span></div>
+          <div id="exam-res-rating" class="exam-res-rating">🌟 Xuất sắc</div>
+        </div>
+
+        <p id="exam-res-feedback" style="font-size: 15px; color: #444; margin: 12px 0 18px; line-height: 1.5;"></p>
+
+        <div class="controls column-controls">
+          <button class="btn primary" onclick="closeExamResult()">Hoàn tất & Về Lộ trình</button>
+          <button class="btn secondary" id="btn-retry-exam" onclick="retryStageExam()">🔄 Thi lại bài này</button>
         </div>
       </div>
     </div>
@@ -141,6 +163,7 @@
       <div id="lesson-screen" class="screen hidden">
         <header class="lesson-header">
           <button class="btn-back" onclick="goHome()" title="Lưu tiến trình & về Trang chủ">✖</button>
+          <div id="exam-timer-badge" class="exam-timer-badge hidden">⏱️ 20:00</div>
           <div class="lesson-progress-bg">
             <div class="lesson-progress-fill" id="lesson-progress-fill"></div>
           </div>

@@ -1,4 +1,4 @@
-import { curriculum, mathVocab, scienceVocab, mathStagesInfo, scienceStagesInfo } from './data.js';
+import { curriculum, mathVocab, scienceVocab, mathStagesInfo, scienceStagesInfo, generateStageExamQuestions } from './data.js';
 
 let currentSubject = 'math';
 let currentQuestions = [];
@@ -6,6 +6,21 @@ let currentQuestionIndex = 0;
 let currentChapter = 0;
 let currentStage = 0;
 let currentLevel = 0;
+
+let isExamMode = false;
+let examTimerInterval = null;
+let examTimeRemaining = 1200; // 20 phút = 1200s
+let examScore = 0;
+let examStage = null;
+let currentArrangeQ = null;
+
+let stageExamsCompleted = JSON.parse(localStorage.getItem('stageExamsCompleted')) || {
+  math: {},
+  science: {}
+};
+if (typeof stageExamsCompleted !== 'object' || stageExamsCompleted === null) {
+  stageExamsCompleted = { math: {}, science: {} };
+}
 
 let dailyGoal = 80;
 let dailyProgress = { math: 0, science: 0 };
@@ -308,7 +323,21 @@ function renderCurriculum() {
       html += '</div>';
       
       let stageTestLocked = !(isCompleted(chap.id, stage.id, 4));
-      html += '<button class="exam-btn ' + (stageTestLocked ? 'locked' : '') + '" ' + (stageTestLocked ? 'disabled' : '') + ' onclick="showExam(' + chap.id + ', ' + stage.id + ')">⚡ KIỂM TRA PHẢN XẠ 15S - ' + stage.title + ' ' + (stageTestLocked ? '🔒' : '') + '</button>';
+      let stageExamKey = 'c' + chap.id + 's' + stage.id;
+      let isExamDone = stageExamsCompleted[currentSubject] && stageExamsCompleted[currentSubject][stageExamKey];
+
+      let examBtnText = '';
+      let examBtnClass = 'exam-btn';
+
+      if (isExamDone) {
+        examBtnClass += ' completed-exam';
+        examBtnText = '🏅 ĐÃ ĐẠT: KIỂM TRA TỔNG HỢP MÀN ' + stage.id + ' (' + isExamDone.score + '/30 câu) ✔️';
+      } else {
+        if (stageTestLocked) examBtnClass += ' locked';
+        examBtnText = '📝 KIỂM TRA TỔNG HỢP MÀN ' + stage.id + ' (30 CÂU - 20 PHÚT) ' + (stageTestLocked ? '🔒' : '⚡');
+      }
+
+      html += '<button class="' + examBtnClass + '" ' + (stageTestLocked ? 'disabled' : '') + ' onclick="showExam(' + chap.id + ', ' + stage.id + ')">' + examBtnText + '</button>';
       html += '</div>';
     });
     
@@ -325,14 +354,24 @@ window.showExam = (cId, sId) => {
   currentExamStage = { c: cId, s: sId };
   const stageInfo = (currentSubject === 'math' ? mathStagesInfo : scienceStagesInfo)['c' + cId + 's' + sId];
   let stageName = stageInfo ? stageInfo.title : "Màn " + sId;
-  document.getElementById('exam-title').innerText = "📝 Bài kiểm tra " + stageName;
-  document.getElementById('exam-desc').innerText = "Thử thách phản xạ từ vựng: Nối đúng 7 từ với nghĩa trong vòng 15 giây!";
+  
+  let stageExamKey = 'c' + cId + 's' + sId;
+  let prevResult = stageExamsCompleted[currentSubject] && stageExamsCompleted[currentSubject][stageExamKey];
+  
+  document.getElementById('exam-title').innerText = "📝 Bài kiểm tra tổng hợp " + stageName;
+  
+  let desc = "Tổng hợp kiến thức cả 4 ải của Màn (30 câu hỏi - Thời gian làm bài: 20 phút).\nBao gồm trắc nghiệm, ngữ pháp, sắp xếp câu, luyện nói và chặng về đích phản xạ từ vựng 15s!";
+  if (prevResult) {
+    desc += "\n\n🏅 Điểm cao nhất của bạn: " + prevResult.score + "/30 câu (" + (prevResult.score >= 24 ? "Xuất sắc 🌟" : "Đạt yêu cầu 👍") + "). Bạn có muốn thi lại để nâng cao kỷ lục không?";
+  }
+  document.getElementById('exam-desc').innerText = desc;
   
   const startBtn = document.getElementById('btn-start-exam-now');
   if (startBtn) {
+    startBtn.innerText = prevResult ? "🚀 Bắt đầu thi lại (20 phút)" : "🚀 Bắt đầu làm bài thi (20 phút)";
     startBtn.onclick = () => {
       document.getElementById('exam-modal').classList.add('hidden');
-      startSpeedMatch(cId, sId);
+      startStageExam(cId, sId);
     };
   }
   document.getElementById('exam-modal').classList.remove('hidden');
@@ -340,12 +379,12 @@ window.showExam = (cId, sId) => {
 
 window.showChapExam = (chapId) => {
   document.getElementById('exam-title').innerText = "🎓 Bài kiểm tra Chương " + chapId;
-  document.getElementById('exam-desc').innerText = "Tổng hợp toàn bộ kiến thức 5 Màn của Chương " + chapId + " (Đang hoàn thiện chấm điểm tổng kết).";
+  document.getElementById('exam-desc').innerText = "Tổng hợp toàn bộ kiến thức 5 Màn của Chương " + chapId + " (30 câu hỏi - Thời gian: 20 phút).";
   const startBtn = document.getElementById('btn-start-exam-now');
   if (startBtn) {
     startBtn.onclick = () => {
       document.getElementById('exam-modal').classList.add('hidden');
-      startSpeedMatch(chapId, 1);
+      startStageExam(chapId, 1);
     };
   }
   document.getElementById('exam-modal').classList.remove('hidden');
@@ -477,7 +516,11 @@ function checkSpeedPair() {
 
     if (speedMatchedCount >= speedActiveList.length) {
       clearInterval(speedTimerInterval);
-      setTimeout(() => endSpeedMatch(true), 300);
+      if (isExamMode) {
+        setTimeout(() => endSpeedMatchFinal(true), 400);
+      } else {
+        setTimeout(() => endSpeedMatch(true), 300);
+      }
     }
   } else {
     // Nối sai: rung lắc và nháy đỏ
@@ -520,6 +563,242 @@ function endSpeedMatch(isWin) {
   }
 }
 
+// ========================================================
+// ĐỘNG CƠ BÀI KIỂM TRA TỔNG HỢP CỦA MÀN (30 CÂU - 20 PHÚT)
+// ========================================================
+window.startStageExam = (cId, sId) => {
+  isExamMode = true;
+  examStage = { c: cId, s: sId };
+  examScore = 0;
+  examTimeRemaining = 1200; // 20 phút = 1200s
+  
+  currentChapter = cId;
+  currentStage = sId;
+  currentLevel = 0;
+  
+  currentQuestions = generateStageExamQuestions(cId, sId, currentSubject);
+  currentQuestionIndex = 0;
+  learnedVocabs = [];
+  
+  const timerBadge = document.getElementById('exam-timer-badge');
+  if (timerBadge) {
+    timerBadge.classList.remove('hidden');
+    timerBadge.classList.remove('urgent');
+    timerBadge.innerText = '⏱️ 20:00';
+  }
+  
+  document.getElementById('vocab-hint-container').classList.add('hidden');
+  
+  if (examTimerInterval) clearInterval(examTimerInterval);
+  examTimerInterval = setInterval(() => {
+    examTimeRemaining--;
+    updateExamTimerUI();
+    if (examTimeRemaining <= 0) {
+      clearInterval(examTimerInterval);
+      finishExam(false /* hết giờ */);
+    }
+  }, 1000);
+  
+  showScreen('lesson');
+  renderQuestion();
+};
+
+function updateExamTimerUI() {
+  const timerBadge = document.getElementById('exam-timer-badge');
+  if (!timerBadge) return;
+  
+  let m = Math.floor(examTimeRemaining / 60);
+  let s = examTimeRemaining % 60;
+  let timeStr = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  timerBadge.innerText = '⏱️ ' + timeStr;
+  
+  if (examTimeRemaining <= 180) {
+    timerBadge.classList.add('urgent');
+  } else {
+    timerBadge.classList.remove('urgent');
+  }
+}
+
+function renderSpeedMatchFinal(container, q) {
+  const stageKey = 'c' + q.cId + 's' + q.sId;
+  const vocabBank = (currentSubject === 'math' ? mathVocab : scienceVocab)[stageKey] || [];
+  let pairs = vocabBank.slice(0, 7);
+  if (pairs.length < 7 && vocabBank.length > 0) pairs = vocabBank;
+
+  speedActiveList = pairs;
+  speedMatchedCount = 0;
+  speedSelectedWord = null;
+  speedSelectedMeaning = null;
+  speedTimeLeft = 15;
+
+  let html = '<div class="speed-final-header">' +
+    '<div style="display:inline-block; background:#fef3c7; color:#b45309; padding:4px 12px; border-radius:20px; font-weight:900; font-size:13px; margin-bottom:8px;">🏁 CÂU 30/30: CHẶNG VỀ ĐÍCH</div>' +
+    '<h2 style="font-size:22px; color:var(--primary-color); margin-bottom:6px;">⚡ PHẢN XẠ NỐI TỪ VỰNG 15S</h2>' +
+    '<p style="font-size:14px; color:#555; margin-bottom:12px; font-weight:600;">Nối đúng 7 cặp từ với nghĩa trong vòng 15 giây để hoàn tất bài thi!</p>' +
+    '<div class="speed-stats-bar">' +
+      '<div class="timer-pill" id="speed-timer">⏱️ 15s</div>' +
+      '<div class="score-pill" id="speed-score">🎯 0/' + pairs.length + ' cặp</div>' +
+    '</div>' +
+    '<div class="speed-progress-bg"><div id="speed-timer-bar" class="speed-progress-fill"></div></div>' +
+  '</div>' +
+  '<div id="speed-match-arena" class="speed-match-arena" style="margin-top:15px;">' +
+    '<div class="speed-col" id="speed-words-col"></div>' +
+    '<div class="speed-col" id="speed-meanings-col"></div>' +
+  '</div>';
+  container.innerHTML = html;
+
+  const wordsCol = document.getElementById('speed-words-col');
+  const meaningsCol = document.getElementById('speed-meanings-col');
+
+  let shuffledWords = [...pairs].sort(() => Math.random() - 0.5);
+  let shuffledMeanings = [...pairs].sort(() => Math.random() - 0.5);
+
+  shuffledWords.forEach(item => {
+    let chip = document.createElement('div');
+    chip.className = 'match-chip';
+    chip.innerText = item.word;
+    chip.onclick = () => handleSelectWord(chip, item.word);
+    wordsCol.appendChild(chip);
+  });
+
+  shuffledMeanings.forEach(item => {
+    let chip = document.createElement('div');
+    chip.className = 'match-chip';
+    chip.innerText = item.meaning;
+    chip.onclick = () => handleSelectMeaning(chip, item.word);
+    meaningsCol.appendChild(chip);
+  });
+
+  if (speedTimerInterval) clearInterval(speedTimerInterval);
+  const timerPill = document.getElementById('speed-timer');
+  const timerBar = document.getElementById('speed-timer-bar');
+
+  speedTimerInterval = setInterval(() => {
+    speedTimeLeft -= 0.1;
+    if (speedTimeLeft <= 0) {
+      speedTimeLeft = 0;
+      clearInterval(speedTimerInterval);
+      if (timerPill) { timerPill.innerText = "⏱️ 0s"; timerPill.classList.add('urgent'); }
+      if (timerBar) timerBar.style.width = "0%";
+      setTimeout(() => endSpeedMatchFinal(false), 500);
+    } else {
+      let sec = Math.ceil(speedTimeLeft);
+      if (timerPill) {
+        timerPill.innerText = "⏱️ " + sec + "s";
+        if (speedTimeLeft <= 5) {
+          timerPill.classList.add('urgent');
+          if (timerBar) timerBar.style.background = 'var(--danger-color)';
+        } else {
+          timerPill.classList.remove('urgent');
+          if (timerBar) timerBar.style.background = 'var(--primary-color)';
+        }
+      }
+      if (timerBar) {
+        let pct = Math.max(0, (speedTimeLeft / 15) * 100);
+        timerBar.style.width = pct + "%";
+      }
+    }
+  }, 100);
+}
+
+function endSpeedMatchFinal(isWin) {
+  if (speedTimerInterval) clearInterval(speedTimerInterval);
+  if (isWin || speedMatchedCount >= 5) {
+    examScore++;
+  }
+  finishExam(true);
+}
+
+function finishExam(completed) {
+  if (examTimerInterval) clearInterval(examTimerInterval);
+  if (speedTimerInterval) clearInterval(speedTimerInterval);
+  
+  const timerBadge = document.getElementById('exam-timer-badge');
+  if (timerBadge) timerBadge.classList.add('hidden');
+  
+  let timeUsedSeconds = 1200 - Math.max(0, examTimeRemaining);
+  let usedM = Math.floor(timeUsedSeconds / 60);
+  let usedS = timeUsedSeconds % 60;
+  let timeUsedStr = (usedM > 0 ? usedM + " phút " : "") + usedS + " giây";
+  
+  let isPassed = examScore >= 18; // 60%
+  let isMastered = examScore >= 24; // 80%
+  
+  let stageKey = 'c' + examStage.c + 's' + examStage.s;
+  if (!stageExamsCompleted[currentSubject]) stageExamsCompleted[currentSubject] = {};
+  
+  let prevBest = stageExamsCompleted[currentSubject][stageKey] ? stageExamsCompleted[currentSubject][stageKey].score : 0;
+  if (examScore > prevBest || !stageExamsCompleted[currentSubject][stageKey]) {
+    stageExamsCompleted[currentSubject][stageKey] = {
+      score: examScore,
+      total: 30,
+      passed: isPassed,
+      timeUsed: timeUsedStr,
+      date: new Date().toLocaleDateString('vi-VN')
+    };
+    localStorage.setItem('stageExamsCompleted', JSON.stringify(stageExamsCompleted));
+  }
+  
+  const resModal = document.getElementById('exam-result-modal');
+  const iconEl = document.getElementById('exam-res-icon');
+  const titleEl = document.getElementById('exam-res-title');
+  const subtitleEl = document.getElementById('exam-res-subtitle');
+  const scoreEl = document.getElementById('exam-res-score');
+  const timeEl = document.getElementById('exam-res-time');
+  const ratingEl = document.getElementById('exam-res-rating');
+  const feedbackEl = document.getElementById('exam-res-feedback');
+  
+  const stageInfo = (currentSubject === 'math' ? mathStagesInfo : scienceStagesInfo)[stageKey];
+  subtitleEl.innerText = "Bài kiểm tra tổng hợp " + (stageInfo ? stageInfo.title : "Màn " + examStage.s);
+  scoreEl.innerText = examScore;
+  timeEl.innerText = timeUsedStr;
+  
+  if (!completed) {
+    iconEl.innerText = "⏰";
+    titleEl.innerText = "HẾT GIỜ LÀM BÀI (20 PHÚT)!";
+    titleEl.style.color = "var(--danger-color)";
+    ratingEl.innerText = isPassed ? "👍 Vẫn kịp đạt chuẩn!" : "❌ Chưa đạt";
+    ratingEl.style.color = isPassed ? "var(--primary-color)" : "var(--danger-color)";
+    feedbackEl.innerText = "Đã hết thời gian 20 phút. Bạn hoàn thành đúng " + examScore + "/30 câu. Hãy rèn luyện phản xạ nhanh hơn trong lần sau nhé!";
+  } else if (isMastered) {
+    iconEl.innerText = "🏆";
+    titleEl.innerText = "XUẤT SẮC TUYỆT VỜI!";
+    titleEl.style.color = "var(--primary-color)";
+    ratingEl.innerText = "🌟 Danh hiệu: Thầy/Cô Bậc Thầy (" + Math.round((examScore/30)*100) + "%)";
+    ratingEl.style.color = "var(--primary-color)";
+    feedbackEl.innerText = "Chúc mừng! Bạn đã nắm chắc toàn diện cả 4 ải của Màn này. Khả năng sư phạm và vốn tiếng Anh của bạn cực kỳ vững vàng!";
+  } else if (isPassed) {
+    iconEl.innerText = "🎉";
+    titleEl.innerText = "CHÚC MỪNG BẠN ĐÃ ĐẠT!";
+    titleEl.style.color = "var(--secondary-color)";
+    ratingEl.innerText = "👍 Đạt chuẩn kiến thức (" + Math.round((examScore/30)*100) + "%)";
+    ratingEl.style.color = "var(--secondary-color)";
+    feedbackEl.innerText = "Bạn đã vượt qua bài kiểm tra tổng hợp 30 câu! Bạn có thể chuyển sang Màn tiếp theo hoặc thi lại để đạt điểm tuyệt đối.";
+  } else {
+    iconEl.innerText = "💪";
+    titleEl.innerText = "CẦN CỐ GẮNG THÊM!";
+    titleEl.style.color = "var(--orange-color)";
+    ratingEl.innerText = "Chưa đạt chuẩn (Cần từ 18/30)";
+    ratingEl.style.color = "var(--danger-color)";
+    feedbackEl.innerText = "Bạn đạt " + examScore + "/30 câu. Hãy xem lại các từ vựng và cấu trúc của 4 ải rồi bấm 'Thi lại' để chinh phục bài thi nhé!";
+  }
+  
+  resModal.classList.remove('hidden');
+  isExamMode = false;
+}
+
+window.closeExamResult = () => {
+  document.getElementById('exam-result-modal').classList.add('hidden');
+  showScreen('home');
+};
+
+window.retryStageExam = () => {
+  document.getElementById('exam-result-modal').classList.add('hidden');
+  if (examStage) {
+    startStageExam(examStage.c, examStage.s);
+  }
+};
+
 window.retrySpeedMatch = () => {
   if (currentExamStage) {
     startSpeedMatch(currentExamStage.c, currentExamStage.s);
@@ -532,6 +811,7 @@ window.finishSpeedMatch = () => {
 };
 
 window.startLevel = (cId, sId, lId, startIndex = null, forceRestart = false) => {
+  isExamMode = false;
   const chapter = curriculum[currentSubject].chapters.find(c => c.id === cId);
   const stage = chapter.stages.find(s => s.id === sId);
   const level = stage.levels.find(l => l.id === lId);
@@ -571,11 +851,27 @@ window.startLevel = (cId, sId, lId, startIndex = null, forceRestart = false) => 
 
   learnedVocabs = [];
   
+  const timerBadge = document.getElementById('exam-timer-badge');
+  if (timerBadge) timerBadge.classList.add('hidden');
+
   showScreen('lesson');
   renderQuestion();
 };
 
 window.goHome = () => {
+  if (isExamMode) {
+    let confirmExit = confirm("⚠️ BẠN ĐANG LÀM BÀI KIỂM TRA TÍNH GIỜ (20 PHÚT)!\n\nNếu thoát ra bây giờ, toàn bộ kết quả bài thi sẽ bị hủy.\nBạn có chắc chắn muốn thoát về Trang chủ không?");
+    if (!confirmExit) return;
+    
+    if (examTimerInterval) clearInterval(examTimerInterval);
+    if (speedTimerInterval) clearInterval(speedTimerInterval);
+    isExamMode = false;
+    const timerBadge = document.getElementById('exam-timer-badge');
+    if (timerBadge) timerBadge.classList.add('hidden');
+    showScreen('home');
+    return;
+  }
+
   if (currentQuestions && currentQuestions.length > 0 && currentQuestionIndex < currentQuestions.length) {
     saveSession();
   }
@@ -634,6 +930,7 @@ function setupVocabHint(q) {
 }
 
 function saveSession() {
+  if (isExamMode) return;
   if (currentQuestions && currentQuestions.length > 0 && currentQuestionIndex < currentQuestions.length) {
     savedSessions[currentSubject] = {
       subject: currentSubject,
@@ -654,6 +951,10 @@ function renderQuestion() {
   currentQuestionAnswered = false;
   
   if (currentQuestionIndex >= currentQuestions.length) {
+    if (isExamMode) {
+      finishExam(true);
+      return;
+    }
     // Hoàn thành trọn vẹn 20 câu của ải!
     if (savedSessions[currentSubject]) {
       delete savedSessions[currentSubject];
@@ -679,7 +980,11 @@ function renderQuestion() {
   container.classList.add('slide-up');
 
   const q = currentQuestions[currentQuestionIndex];
-  setupVocabHint(q);
+  if (!isExamMode) {
+    setupVocabHint(q);
+  } else {
+    document.getElementById('vocab-hint-container').classList.add('hidden');
+  }
   
   const totalQ = currentQuestions.length;
   const lessonPercent = totalQ > 0 ? (currentQuestionIndex / totalQ) * 100 : 0;
@@ -689,7 +994,8 @@ function renderQuestion() {
   const countEl = document.getElementById('lesson-progress-count');
   if (countEl) countEl.innerText = currentQuestionIndex + "/" + totalQ;
 
-  if (q.type === 'vocab_match' || q.type === 'fill') renderMultipleChoice(container, q);
+  if (q.type === 'speed_match_final') renderSpeedMatchFinal(container, q);
+  else if (q.type === 'vocab_match' || q.type === 'fill') renderMultipleChoice(container, q);
   else if (q.type === 'arrange') renderArrange(container, q);
   else if (q.type === 'speak' || q.type === 'qa_speak') renderSpeaking(container, q);
 }
@@ -710,6 +1016,42 @@ function renderMultipleChoice(container, q) {
   container.innerHTML = html;
 }
 
+function isCommutativeMathSentence(userStr, targetStr) {
+  if (!userStr || !targetStr) return false;
+  let u = userStr.trim().replace(/\.+$/, '').toLowerCase();
+  let t = targetStr.trim().replace(/\.+$/, '').toLowerCase();
+  if (u === t) return true;
+
+  // 1. Phép cộng: "A plus B" <-> "B plus A", "The sum of A and B" <-> "The sum of B and A"
+  // Ví dụ: "1 plus 6 equals 7" <-> "6 plus 1 equals 7"
+  let swapPlus = u.replace(/\b(\w+)\s+(plus|\+)\s+(\w+)\b/g, '$3 $2 $1');
+  if (swapPlus === t) return true;
+
+  let swapSum = u.replace(/\bsum of\s+(\w+)\s+and\s+(\w+)\b/g, 'sum of $2 and $1');
+  if (swapSum === t) return true;
+
+  // 2. Phép nhân: "A times B" <-> "B times A", "product of A and B" <-> "product of B and A"
+  let swapTimes = u.replace(/\b(\w+)\s+(times|\*)\s+(\w+)\b/g, '$3 $2 $1');
+  if (swapTimes === t) return true;
+
+  let swapProduct = u.replace(/\bproduct of\s+(\w+)\s+and\s+(\w+)\b/g, 'product of $2 and $1');
+  if (swapProduct === t) return true;
+
+  // 3. Add A to B <-> Add B to A
+  let swapAdd = u.replace(/\badd\s+(\w+)\s+to\s+(\w+)\b/g, 'add $2 to $1');
+  if (swapAdd === t) return true;
+
+  // 4. Multiply A by B <-> Multiply B by A
+  let swapMultiply = u.replace(/\bmultiply\s+(\w+)\s+by\s+(\w+)\b/g, 'multiply $2 by $1');
+  if (swapMultiply === t) return true;
+
+  // 5. Cấu trúc A and B nói chung
+  let swapAnd = u.replace(/\b(\w+)\s+and\s+(\w+)\b/g, '$2 and $1');
+  if (swapAnd === t) return true;
+
+  return false;
+}
+
 window.checkMultipleChoice = (selected, correct) => {
   const feedback = document.getElementById('feedback');
   feedback.classList.remove('hidden');
@@ -719,6 +1061,7 @@ window.checkMultipleChoice = (selected, correct) => {
     document.getElementById('btn-next').classList.remove('hidden');
     if (!currentQuestionAnswered) {
       currentQuestionAnswered = true;
+      if (isExamMode) examScore++;
       incrementDailyProgress();
     }
   } else {
@@ -728,7 +1071,8 @@ window.checkMultipleChoice = (selected, correct) => {
 };
 
 function renderArrange(container, q) {
-  let html = '<h2>Sắp xếp các từ thành câu hoàn chỉnh:</h2><div class="arrange-container" id="arrange-drop"></div><div class="word-bank" id="word-bank"></div><div id="feedback" class="result-area hidden"></div><div class="controls"><button class="btn skip" onclick="skipQuestion()">Bỏ qua</button><button class="btn secondary" onclick="checkArrange(\'' + q.correct.replace(/'/g, "\\'") + '\')">Kiểm tra</button><button id="btn-next" class="btn primary hidden" onclick="nextQuestion()">Tiếp tục</button></div>';
+  currentArrangeQ = q;
+  let html = '<h2>Sắp xếp các từ thành câu hoàn chỉnh:</h2><div class="arrange-container" id="arrange-drop"></div><div class="word-bank" id="word-bank"></div><div id="feedback" class="result-area hidden"></div><div class="controls"><button class="btn skip" onclick="skipQuestion()">Bỏ qua</button><button class="btn secondary" onclick="checkArrange()">Kiểm tra</button><button id="btn-next" class="btn primary hidden" onclick="nextQuestion()">Tiếp tục</button></div>';
   container.innerHTML = html;
 
   let shuffled = [...q.words].sort(() => Math.random() - 0.5);
@@ -743,15 +1087,30 @@ function renderArrange(container, q) {
   });
 }
 
-window.checkArrange = (correctSentence) => {
+window.checkArrange = () => {
   const feedback = document.getElementById('feedback');
   let userSentence = Array.from(document.getElementById('arrange-drop').children).map(c => c.innerText).join(' ');
   feedback.classList.remove('hidden');
-  if (userSentence === correctSentence) {
+
+  let target = currentArrangeQ ? currentArrangeQ.correct : '';
+  let isCorrect = (userSentence === target);
+
+  if (!isCorrect && currentArrangeQ && currentArrangeQ.validAnswers) {
+    isCorrect = currentArrangeQ.validAnswers.some(ans => {
+      return ans === userSentence || ans.trim().replace(/\.+$/, '') === userSentence.trim().replace(/\.+$/, '');
+    });
+  }
+
+  if (!isCorrect && target) {
+    isCorrect = isCommutativeMathSentence(userSentence, target);
+  }
+
+  if (isCorrect) {
     feedback.className = 'result-area correct'; feedback.innerText = '✅ Giỏi lắm!';
     document.getElementById('btn-next').classList.remove('hidden');
     if (!currentQuestionAnswered) {
       currentQuestionAnswered = true;
+      if (isExamMode) examScore++;
       incrementDailyProgress();
     }
   } else {
