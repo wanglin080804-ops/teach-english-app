@@ -1555,6 +1555,46 @@ function levenshtein(a, b) {
 }
 let activeRecognition = null;
 let recognitionWatchdog = null;
+let silenceTimer = null;
+
+function evaluateSpeechText(spokenText, targetText) {
+  if (!spokenText || !targetText) return { isPassed: false, score: 0 };
+  
+  let normTrans = normalizeAudioText(spokenText);
+  let normTarget = normalizeAudioText(targetText);
+  
+  if (normTrans === normTarget) {
+    return { isPassed: true, score: 100, normTrans, normTarget };
+  }
+  
+  let dist = levenshtein(normTrans, normTarget);
+  let maxLength = Math.max(normTrans.length, normTarget.length);
+  let similarity = maxLength === 0 ? 1 : (1 - (dist / maxLength));
+
+  let targetWords = normTarget.split(/\s+/).filter(w => w.length > 0);
+  let transWords = normTrans.split(/\s+/).filter(w => w.length > 0);
+  let matchedWords = targetWords.filter(w => transWords.includes(w));
+  let wordMatchRatio = targetWords.length > 0 ? (matchedWords.length / targetWords.length) : 0;
+
+  // Bắt buộc người dùng phải nói số lượng từ tối thiểu (ít nhất 60% số từ của câu mục tiêu)
+  // Không bao giờ cho phép 1 từ đơn lẻ ăn đứt cả câu dài
+  let minWordsNeeded = Math.max(1, Math.ceil(targetWords.length * 0.6));
+  let hasEnoughWords = transWords.length >= minWordsNeeded;
+
+  let containsFullTarget = normTrans.includes(normTarget);
+  let score = Math.round(Math.max(similarity, wordMatchRatio) * 100);
+
+  let isPassed = false;
+  if (containsFullTarget) {
+    isPassed = true;
+    score = Math.max(score, 90);
+  } else if (hasEnoughWords && (similarity >= 0.62 || wordMatchRatio >= 0.70)) {
+    isPassed = true;
+    score = Math.max(score, 80);
+  }
+
+  return { isPassed, score, similarity, wordMatchRatio, normTrans, normTarget };
+}
 
 window.startRecognition = (targetText) => {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -1566,17 +1606,13 @@ window.startRecognition = (targetText) => {
   const btnRecord = document.getElementById('btn-record');
   const feedback = document.getElementById('feedback');
 
-  // Nếu đang nghe mà bấm tiếp => Dừng lại an toàn
+  // Nếu đang nghe mà bấm tiếp => Dừng lại an toàn và chấm điểm ngay
   if (activeRecognition) {
+    clearTimeout(silenceTimer);
+    clearTimeout(recognitionWatchdog);
     try {
       activeRecognition.stop();
     } catch (e) {}
-    activeRecognition = null;
-    clearTimeout(recognitionWatchdog);
-    if (btnRecord) {
-      btnRecord.innerText = "🎤 Nói";
-      btnRecord.classList.remove('recording-pulse');
-    }
     return;
   }
 
@@ -1593,93 +1629,93 @@ window.startRecognition = (targetText) => {
   recognition.lang = 'en-US';
   recognition.interimResults = true; // Hiển thị từ ngay khi nói trong thời gian thực
   recognition.maxAlternatives = 1;
-  recognition.continuous = false;
+  recognition.continuous = true;     // Giữ mic liên tục, không ngắt khi người dùng ngắt nghỉ giữa các từ
 
-  let recognizedAny = false;
-  let finalResultText = '';
   let lastSpokenText = '';
-  let isSuccessfullyPassed = false;
+  let hasFinished = false;
 
-  btnRecord.innerText = "🛑 Đang nghe... (Bấm để dừng)";
+  btnRecord.innerText = "🛑 Đang nghe... (Bấm khi nói xong)";
   btnRecord.classList.add('recording-pulse');
 
   feedback.classList.remove('hidden');
   feedback.className = 'result-area';
-  feedback.innerHTML = '🎙️ <em>Đang lắng nghe... Hãy nói to câu tiếng Anh vào micro!</em>';
+  feedback.innerHTML = '🎙️ <em>Đang lắng nghe... Hãy nói to cả câu tiếng Anh vào micro!</em>';
 
-  // Watchdog timer: Tự động dừng sau 9 giây nếu mic không bắt được âm thanh để không bao giờ bị treo
-  clearTimeout(recognitionWatchdog);
-  recognitionWatchdog = setTimeout(() => {
-    if (activeRecognition === recognition) {
-      try {
-        recognition.stop();
-      } catch (e) {}
+  const resetWatchdog = (ms = 20000) => {
+    clearTimeout(recognitionWatchdog);
+    recognitionWatchdog = setTimeout(() => {
+      if (activeRecognition === recognition) {
+        try { recognition.stop(); } catch (e) {}
+      }
+    }, ms);
+  };
+  resetWatchdog(20000);
+
+  const finishAndDisplayResult = (spokenText) => {
+    if (hasFinished) return;
+    hasFinished = true;
+
+    clearTimeout(silenceTimer);
+    clearTimeout(recognitionWatchdog);
+
+    const evalRes = evaluateSpeechText(spokenText, targetText);
+    if (evalRes.isPassed) {
+      feedback.className = 'result-area correct';
+      feedback.innerHTML = '<strong>Bạn nói:</strong> "' + spokenText + '"<br>✅ Rất tốt! Đã nhận diện chính xác (' + evalRes.score + '%)';
+      const btnNext = document.getElementById('btn-next');
+      if (btnNext) btnNext.classList.remove('hidden');
+      if (!currentQuestionAnswered) {
+        currentQuestionAnswered = true;
+        incrementDailyProgress();
+      }
+    } else if (spokenText && spokenText.trim().length > 0) {
+      feedback.className = 'result-area incorrect';
+      feedback.innerHTML = '<strong>Bạn nói:</strong> "' + spokenText + '"<br>❌ Phát âm chưa khớp (' + evalRes.score + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';
+    } else {
+      feedback.className = 'result-area';
+      feedback.innerHTML = '🎙️ Chưa bắt được tiếng rõ ràng. Hãy bấm <strong>"🎤 Nói"</strong> để thử lại nhé!';
     }
-  }, 9000);
+  };
 
   recognition.onresult = (e) => {
-    let interimText = '';
-    for (let i = e.resultIndex; i < e.results.length; ++i) {
+    resetWatchdog(15000); // Gia hạn watchdog khi người dùng đang nói
+
+    let fullTranscript = '';
+    let interimTranscript = '';
+    for (let i = 0; i < e.results.length; ++i) {
       if (e.results[i].isFinal) {
-        finalResultText += e.results[i][0].transcript;
-        recognizedAny = true;
+        fullTranscript += e.results[i][0].transcript + ' ';
       } else {
-        interimText += e.results[i][0].transcript;
+        interimTranscript += e.results[i][0].transcript;
       }
     }
 
-    let liveText = (finalResultText || interimText).trim();
+    let liveText = (fullTranscript + interimTranscript).trim();
     if (liveText) {
       lastSpokenText = liveText;
-      // Trong khi người dùng đang nói, hiển thị câu chữ mà không ngắt lời hay báo lỗi
+      // Hiển thị nội dung nói trong thời gian thực
       feedback.className = 'result-area';
       feedback.innerHTML = '<strong>Đang nghe:</strong> <em>"' + liveText + '"</em>';
-    }
 
-    let evalText = (finalResultText || liveText).trim();
-    if (evalText) {
-      let normTrans = normalizeAudioText(evalText);
-      let normTarget = normalizeAudioText(targetText);
-      
-      let dist = levenshtein(normTrans, normTarget);
-      let maxLength = Math.max(normTrans.length, normTarget.length);
-      let similarity = maxLength === 0 ? 1 : (1 - (dist / maxLength));
+      // Kiểm tra sơ bộ:
+      const quickEval = evaluateSpeechText(liveText, targetText);
 
-      // Đếm tỷ lệ từ khóa cốt lõi khớp nhau
-      let targetWords = normTarget.split(/\s+/).filter(w => w.length > 0);
-      let transWords = normTrans.split(/\s+/).filter(w => w.length > 0);
-      let matchedWords = targetWords.filter(w => transWords.includes(w));
-      let wordMatchRatio = targetWords.length > 0 ? (matchedWords.length / targetWords.length) : 0;
-
-      let isPassed = similarity >= 0.65 || wordMatchRatio >= 0.70 || normTrans.includes(normTarget) || (normTrans.length >= 4 && normTarget.includes(normTrans));
-
-      if (isPassed) {
-        isSuccessfullyPassed = true;
-        // Bỏ âm báo đúng theo yêu cầu người dùng
-        feedback.className = 'result-area correct';
-        let displayScore = Math.max(Math.round(similarity * 100), Math.round(wordMatchRatio * 100), 85);
-        if (normTrans === normTarget) displayScore = 100;
-        feedback.innerHTML = '<strong>Bạn nói:</strong> "' + evalText + '"<br>✅ Rất tốt! Đã nhận diện chính xác (' + displayScore + '%)';
-        const btnNext = document.getElementById('btn-next');
-        if (btnNext) btnNext.classList.remove('hidden');
-        if (!currentQuestionAnswered) {
-          currentQuestionAnswered = true;
-          incrementDailyProgress();
-        }
+      // Thiết lập bộ đếm khoảng lặng (Silence detection):
+      // - Nếu câu đã khớp hoàn toàn => chờ 1.2s ngưng nói để chốt (đảm bảo nói xong âm đuôi)
+      // - Nếu câu chưa khớp => cho người dùng 2.5s khoảng lặng để có thời gian ngẫm nghĩ/phát âm tiếp
+      clearTimeout(silenceTimer);
+      const pauseDuration = quickEval.isPassed ? 1200 : 2500;
+      silenceTimer = setTimeout(() => {
         try {
           recognition.stop();
-        } catch (errStop) {}
-      } else if (recognizedAny) {
-        // Chỉ khi có kết quả hoàn tất (isFinal) mà vẫn không đạt thì mới báo chưa khớp, và KHÔNG phát âm báo sai
-        feedback.className = 'result-area incorrect';
-        let displayScore = Math.round(Math.max(similarity, wordMatchRatio) * 100);
-        feedback.innerHTML = '<strong>Bạn nói:</strong> "' + evalText + '"<br>❌ Phát âm chưa khớp (' + displayScore + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';
-      }
+        } catch(errStop) {}
+      }, pauseDuration);
     }
   };
 
   recognition.onerror = (e) => {
     console.warn("Speech Recognition Error:", e.error);
+    clearTimeout(silenceTimer);
     clearTimeout(recognitionWatchdog);
     let msg = "";
     if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
@@ -1694,7 +1730,7 @@ window.startRecognition = (targetText) => {
       msg = "⚠️ Đã dừng nghe (" + e.error + "). Hãy bấm 'Nói' để thử lại.";
     }
 
-    if (!recognizedAny) {
+    if (!lastSpokenText) {
       feedback.classList.remove('hidden');
       feedback.className = 'result-area incorrect';
       feedback.innerHTML = msg;
@@ -1702,6 +1738,7 @@ window.startRecognition = (targetText) => {
   };
 
   recognition.onend = () => {
+    clearTimeout(silenceTimer);
     clearTimeout(recognitionWatchdog);
     activeRecognition = null;
     if (btnRecord) {
@@ -1709,22 +1746,7 @@ window.startRecognition = (targetText) => {
       btnRecord.classList.remove('recording-pulse');
     }
 
-    // Nếu người dùng đã nói gì đó nhưng chưa đạt và kết quả chưa hiển thị báo sai
-    if (!isSuccessfullyPassed && lastSpokenText && !feedback.classList.contains('incorrect')) {
-      let normTrans = normalizeAudioText(lastSpokenText);
-      let normTarget = normalizeAudioText(targetText);
-      let dist = levenshtein(normTrans, normTarget);
-      let maxLength = Math.max(normTrans.length, normTarget.length);
-      let similarity = maxLength === 0 ? 1 : (1 - (dist / maxLength));
-      let targetWords = normTarget.split(/\s+/).filter(w => w.length > 0);
-      let transWords = normTrans.split(/\s+/).filter(w => w.length > 0);
-      let matchedWords = targetWords.filter(w => transWords.includes(w));
-      let wordMatchRatio = targetWords.length > 0 ? (matchedWords.length / targetWords.length) : 0;
-      let displayScore = Math.round(Math.max(similarity, wordMatchRatio) * 100);
-
-      feedback.className = 'result-area incorrect';
-      feedback.innerHTML = '<strong>Bạn nói:</strong> "' + lastSpokenText + '"<br>❌ Phát âm chưa khớp (' + displayScore + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';
-    }
+    finishAndDisplayResult(lastSpokenText);
   };
 
   try {
@@ -1732,6 +1754,8 @@ window.startRecognition = (targetText) => {
   } catch (err) {
     console.error("Lỗi recognition.start():", err);
     activeRecognition = null;
+    clearTimeout(silenceTimer);
+    clearTimeout(recognitionWatchdog);
     if (btnRecord) {
       btnRecord.innerText = "🎤 Nói";
       btnRecord.classList.remove('recording-pulse');
