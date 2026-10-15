@@ -398,3 +398,59 @@ header p { font-size: 16px; color: #777; font-weight: bold;}
   animation: shake 0.35s ease-in-out;
 }
 
+/* Speech Speed Selector & Buttons */
+.speech-speed-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 14px auto 10px auto;
+  background: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1.5px solid #cbd5e1;
+  width: fit-content;
+}
+
+.speed-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.speed-pill {
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.speed-pill:hover {
+  background: #e2e8f0;
+}
+
+.speed-pill.active {
+  background: var(--secondary-color);
+  color: white;
+  box-shadow: 0 2px 0 var(--secondary-shadow);
+}
+
+.btn-slow-listen {
+  background-color: #ff9600 !important;
+  box-shadow: 0 4px 0 #d97706 !important;
+  color: white !important;
+}
+
+.btn-slow-listen:active {
+  box-shadow: 0 0 0 transparent !important;
+  transform: translateY(4px);
+}
+

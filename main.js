@@ -1392,29 +1392,66 @@ window.checkArrange = () => {
 function renderSpeaking(container, q) {
   const isQA = q.type === 'qa_speak';
   let targetText = isQA ? q.answer : q.text;
-  let html = '<h2>' + (isQA ? 'Trả lời câu hỏi:' : 'Nghe và đọc theo:') + '</h2><div class="question-text">' + (isQA ? q.question : q.text) + '</div><div class="hint-text hidden" id="speak-hint">' + q.hint + '<br><strong>Gợi ý: ' + targetText + '</strong></div><div class="controls">';
-  
+  let sampleText = isQA ? q.answer : q.text;
+  let escapedText = sampleText.replace(/'/g, "\\'");
+
+  let html = '<h2>' + (isQA ? 'Trả lời câu hỏi:' : 'Nghe và đọc theo:') + '</h2>';
+  html += '<div class="question-text">' + (isQA ? q.question : q.text) + '</div>';
+  html += '<div class="hint-text hidden" id="speak-hint">' + q.hint + '<br><strong>Gợi ý: ' + targetText + '</strong></div>';
+
+  // 2 options cho người dùng chọn mẫu đọc nhanh hay chậm
+  html += '<div class="speech-speed-selector">';
+  html += '  <span class="speed-label">Tốc độ đọc mẫu:</span>';
+  html += '  <button type="button" class="speed-pill ' + (currentSpeechSpeed === 'normal' ? 'active' : '') + '" data-speed="normal" onclick="setSpeechSpeed(\'normal\', \'' + escapedText + '\')">⚡ Đọc nhanh</button>';
+  html += '  <button type="button" class="speed-pill ' + (currentSpeechSpeed === 'slow' ? 'active' : '') + '" data-speed="slow" onclick="setSpeechSpeed(\'slow\', \'' + escapedText + '\')">🐢 Đọc chậm</button>';
+  html += '</div>';
+
+  html += '<div class="controls">';
   if (!isQA) {
-    html += '<button class="btn secondary" onclick="speakText(\'' + q.text.replace(/'/g, "\\'") + '\')">🔊 Nghe mẫu</button>';
+    html += '<button class="btn secondary" onclick="setSpeechSpeed(\'normal\'); speakText(\'' + escapedText + '\', \'normal\')">🔊 Nghe nhanh</button>';
+    html += '<button class="btn secondary btn-slow-listen" onclick="setSpeechSpeed(\'slow\'); speakText(\'' + escapedText + '\', \'slow\')">🐢 Nghe chậm</button>';
+  } else {
+    html += '<button class="btn secondary" onclick="document.getElementById(\'speak-hint\').classList.remove(\'hidden\'); setSpeechSpeed(\'normal\'); speakText(\'' + escapedText + '\', \'normal\')">💡 Nghe nhanh</button>';
+    html += '<button class="btn secondary btn-slow-listen" onclick="document.getElementById(\'speak-hint\').classList.remove(\'hidden\'); setSpeechSpeed(\'slow\'); speakText(\'' + escapedText + '\', \'slow\')">🐢 Nghe chậm</button>';
   }
-  
   html += '<button class="btn primary" id="btn-record">🎤 Nói</button>';
-  
-  if (isQA) {
-    html += '<button class="btn secondary" onclick="document.getElementById(\'speak-hint\').classList.remove(\'hidden\'); speakText(\'' + targetText.replace(/'/g, "\\'") + '\')">💡 Nghe mẫu</button>';
-  }
-  
-  html += '</div><div id="feedback" class="result-area hidden"></div><div class="controls"><button class="btn skip" onclick="skipQuestion()">Bỏ qua</button><button id="btn-next" class="btn primary hidden" onclick="nextQuestion()">Tiếp tục</button></div>';
-  
+  html += '</div>';
+
+  html += '<div id="feedback" class="result-area hidden"></div>';
+  html += '<div class="controls"><button class="btn skip" onclick="skipQuestion()">Bỏ qua</button><button id="btn-next" class="btn primary hidden" onclick="nextQuestion()">Tiếp tục</button></div>';
+
   container.innerHTML = html;
   document.getElementById('btn-record').onclick = () => startRecognition(targetText);
 }
 
-window.speakText = (text) => {
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US'; u.rate = 0.9;
-  window.speechSynthesis.speak(u);
-}
+let currentSpeechSpeed = localStorage.getItem('englishlab_speech_speed') || 'normal';
+
+window.setSpeechSpeed = (speed, sampleText = null) => {
+  currentSpeechSpeed = speed;
+  try {
+    localStorage.setItem('englishlab_speech_speed', speed);
+  } catch(e) {}
+  document.querySelectorAll('.speed-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-speed') === speed);
+  });
+  if (sampleText) {
+    speakText(sampleText, speed);
+  }
+};
+
+window.speakText = (text, forcedSpeed = null) => {
+  if (!text) return;
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    const speed = forcedSpeed || currentSpeechSpeed;
+    // normal/nhanh = 0.95 (tự nhiên), slow/chậm = 0.60 (chậm, rõ từng âm)
+    u.rate = (speed === 'slow') ? 0.6 : 0.95;
+    window.speechSynthesis.speak(u);
+  }
+};
+
 
 function convertWordsToNumbers(text) {
   if (!text) return '';
@@ -1560,6 +1597,8 @@ window.startRecognition = (targetText) => {
 
   let recognizedAny = false;
   let finalResultText = '';
+  let lastSpokenText = '';
+  let isSuccessfullyPassed = false;
 
   btnRecord.innerText = "🛑 Đang nghe... (Bấm để dừng)";
   btnRecord.classList.add('recording-pulse');
@@ -1591,12 +1630,14 @@ window.startRecognition = (targetText) => {
 
     let liveText = (finalResultText || interimText).trim();
     if (liveText) {
+      lastSpokenText = liveText;
+      // Trong khi người dùng đang nói, hiển thị câu chữ mà không ngắt lời hay báo lỗi
+      feedback.className = 'result-area';
       feedback.innerHTML = '<strong>Đang nghe:</strong> <em>"' + liveText + '"</em>';
     }
 
-    // Nếu đã có kết quả cuối cùng hoặc câu nói đủ dài
-    if (recognizedAny || liveText.length >= 3) {
-      let evalText = finalResultText || liveText;
+    let evalText = (finalResultText || liveText).trim();
+    if (evalText) {
       let normTrans = normalizeAudioText(evalText);
       let normTarget = normalizeAudioText(targetText);
       
@@ -1612,24 +1653,27 @@ window.startRecognition = (targetText) => {
 
       let isPassed = similarity >= 0.65 || wordMatchRatio >= 0.70 || normTrans.includes(normTarget) || (normTrans.length >= 4 && normTarget.includes(normTrans));
 
-      feedback.innerHTML = '<strong>Bạn nói:</strong> "' + evalText + '"<br>';
       if (isPassed) {
-        playCorrectSound();
+        isSuccessfullyPassed = true;
+        // Bỏ âm báo đúng theo yêu cầu người dùng
         feedback.className = 'result-area correct';
         let displayScore = Math.max(Math.round(similarity * 100), Math.round(wordMatchRatio * 100), 85);
         if (normTrans === normTarget) displayScore = 100;
-        feedback.innerHTML += '✅ Rất tốt! Đã nhận diện chính xác (' + displayScore + '%)';
+        feedback.innerHTML = '<strong>Bạn nói:</strong> "' + evalText + '"<br>✅ Rất tốt! Đã nhận diện chính xác (' + displayScore + '%)';
         const btnNext = document.getElementById('btn-next');
         if (btnNext) btnNext.classList.remove('hidden');
         if (!currentQuestionAnswered) {
           currentQuestionAnswered = true;
           incrementDailyProgress();
         }
-      } else {
-        playWrongSound();
+        try {
+          recognition.stop();
+        } catch (errStop) {}
+      } else if (recognizedAny) {
+        // Chỉ khi có kết quả hoàn tất (isFinal) mà vẫn không đạt thì mới báo chưa khớp, và KHÔNG phát âm báo sai
         feedback.className = 'result-area incorrect';
         let displayScore = Math.round(Math.max(similarity, wordMatchRatio) * 100);
-        feedback.innerHTML += '❌ Phát âm chưa khớp (' + displayScore + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';
+        feedback.innerHTML = '<strong>Bạn nói:</strong> "' + evalText + '"<br>❌ Phát âm chưa khớp (' + displayScore + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';
       }
     }
   };
@@ -1663,6 +1707,23 @@ window.startRecognition = (targetText) => {
     if (btnRecord) {
       btnRecord.innerText = "🎤 Nói";
       btnRecord.classList.remove('recording-pulse');
+    }
+
+    // Nếu người dùng đã nói gì đó nhưng chưa đạt và kết quả chưa hiển thị báo sai
+    if (!isSuccessfullyPassed && lastSpokenText && !feedback.classList.contains('incorrect')) {
+      let normTrans = normalizeAudioText(lastSpokenText);
+      let normTarget = normalizeAudioText(targetText);
+      let dist = levenshtein(normTrans, normTarget);
+      let maxLength = Math.max(normTrans.length, normTarget.length);
+      let similarity = maxLength === 0 ? 1 : (1 - (dist / maxLength));
+      let targetWords = normTarget.split(/\s+/).filter(w => w.length > 0);
+      let transWords = normTrans.split(/\s+/).filter(w => w.length > 0);
+      let matchedWords = targetWords.filter(w => transWords.includes(w));
+      let wordMatchRatio = targetWords.length > 0 ? (matchedWords.length / targetWords.length) : 0;
+      let displayScore = Math.round(Math.max(similarity, wordMatchRatio) * 100);
+
+      feedback.className = 'result-area incorrect';
+      feedback.innerHTML = '<strong>Bạn nói:</strong> "' + lastSpokenText + '"<br>❌ Phát âm chưa khớp (' + displayScore + '%). <br><small>Mục tiêu: "' + targetText + '"</small>';
     }
   };
 
