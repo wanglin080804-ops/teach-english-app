@@ -1393,7 +1393,7 @@ function renderSpeaking(container, q) {
   const isQA = q.type === 'qa_speak';
   let targetText = isQA ? q.answer : q.text;
   let sampleText = isQA ? q.answer : q.text;
-  let escapedText = sampleText.replace(/'/g, "\\'");
+  let escapedText = (sampleText || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
   let title = isQA ? 'Hãy nói câu này bằng tiếng Anh:' : 'Nghe và đọc theo:';
 
@@ -1440,6 +1440,65 @@ function renderSpeaking(container, q) {
   document.getElementById('btn-record').onclick = () => startRecognition(targetText);
 }
 
+// --- BỘ QUẢN LÝ GIỌNG ĐỌC TIẾNG ANH (TTS - Text To Speech) ---
+let availableVoices = [];
+let englishVoices = [];
+
+function refreshVoices() {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  try {
+    availableVoices = window.speechSynthesis.getVoices() || [];
+    englishVoices = availableVoices.filter(v => {
+      if (!v || !v.lang) return false;
+      const l = v.lang.replace('_', '-').toLowerCase();
+      // Khóa chặt chỉ chấp nhận các giọng tiếng Anh: en-US, en-GB, en-AU, en-CA, en-IN, en...
+      // Tuyệt đối không để trình duyệt Android/Samsung tự ý fallback sang giọng tiếng Pháp (fr), tiếng Việt (vi)...
+      return l.startsWith('en-') || l === 'en';
+    });
+  } catch (e) {
+    console.warn("Không thể tải danh sách voices:", e);
+  }
+}
+
+// Nạp danh sách giọng đọc tiếng Anh ngay khi khởi tạo
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  refreshVoices();
+  window.speechSynthesis.onvoiceschanged = () => {
+    refreshVoices();
+  };
+  ['touchstart', 'mousedown', 'keydown'].forEach(evt => {
+    window.addEventListener(evt, () => refreshVoices(), { once: true, passive: true });
+  });
+}
+
+function getBestEnglishVoice() {
+  if (!englishVoices || !englishVoices.length) {
+    refreshVoices();
+  }
+  if (!englishVoices || !englishVoices.length) {
+    return null;
+  }
+
+  // 1. Ưu tiên số 1: Giọng US chuẩn (en-US / en_US), đặc biệt là giọng tự nhiên của Google, Samsung, Apple, Microsoft
+  const usVoices = englishVoices.filter(v => {
+    const l = (v.lang || '').replace('_', '-').toLowerCase();
+    return l === 'en-us';
+  });
+
+  if (usVoices.length > 0) {
+    const premiumUS = usVoices.find(v => /google|natural|neural|samsung|samantha|united states/i.test(v.name));
+    if (premiumUS) return premiumUS;
+    return usVoices[0];
+  }
+
+  // 2. Ưu tiên số 2: Giọng tiếng Anh tự nhiên bất kỳ (en-GB, en-AU...) có chất lượng cao
+  const premiumAny = englishVoices.find(v => /google|natural|neural|premium|apple/i.test(v.name));
+  if (premiumAny) return premiumAny;
+
+  // 3. Fallback: Bất kỳ giọng tiếng Anh nào có sẵn trong thiết bị
+  return englishVoices[0];
+}
+
 let currentSpeechSpeed = localStorage.getItem('englishlab_speech_speed') || 'normal';
 
 window.setSpeechSpeed = (speed, sampleText = null) => {
@@ -1457,16 +1516,39 @@ window.setSpeechSpeed = (speed, sampleText = null) => {
 
 window.speakText = (text, forcedSpeed = null) => {
   if (!text) return;
-  if ('speechSynthesis' in window) {
+  if (!('speechSynthesis' in window)) return;
+
+  try {
     window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-US';
-    const speed = forcedSpeed || currentSpeechSpeed;
-    // normal/nhanh = 0.95 (tự nhiên)
-    // slow/chậm = 0.20 (giảm đúng 3 lần so với mức 0.60 trước đây, giúp học viên nghe cực kỳ chậm rãi, rành mạch từng âm)
-    u.rate = (speed === 'slow') ? 0.2 : 0.95;
-    window.speechSynthesis.speak(u);
-  }
+  } catch(e) {}
+
+  // Tránh xung đột bất đồng bộ giữa cancel() và speak() trên Android Chrome bằng timeout 15ms
+  setTimeout(() => {
+    try {
+      const u = new SpeechSynthesisUtterance(text);
+      
+      // KHÓA CHẶT GIỌNG ĐỌC TIẾNG ANH:
+      // Trình duyệt Android / Samsung mặc định sẽ tự gán giọng theo ngôn ngữ hệ điều hành máy (tiếng Pháp / tiếng Việt...)
+      // nếu không chỉ định rõ ràng u.voice là một đối tượng SpeechSynthesisVoice tiếng Anh.
+      const englishVoice = getBestEnglishVoice();
+      if (englishVoice) {
+        u.voice = englishVoice;
+        u.lang = englishVoice.lang || 'en-US';
+      } else {
+        u.lang = 'en-US';
+      }
+
+      const speed = forcedSpeed || currentSpeechSpeed;
+      // normal = 0.92 (tốc độ tự nhiên của người bản ngữ)
+      // slow = 0.40 (tốc độ đọc rất chậm rãi, rõ ràng từng âm tiết, chuẩn sư phạm tiểu học, không làm vỡ âm thanh)
+      u.rate = (speed === 'slow') ? 0.40 : 0.92;
+      u.pitch = 1.0;
+
+      window.speechSynthesis.speak(u);
+    } catch (err) {
+      console.error("Lỗi khi phát âm TTS:", err);
+    }
+  }, 15);
 };
 
 
