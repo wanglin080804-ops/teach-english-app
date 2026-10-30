@@ -1395,15 +1395,31 @@ function renderSpeaking(container, q) {
   let sampleText = isQA ? q.answer : q.text;
   let escapedText = sampleText.replace(/'/g, "\\'");
 
-  let html = '<h2>' + (isQA ? 'Trả lời câu hỏi:' : 'Nghe và đọc theo:') + '</h2>';
-  html += '<div class="question-text">' + (isQA ? q.question : q.text) + '</div>';
-  html += '<div class="hint-text hidden" id="speak-hint">' + q.hint + '<br><strong>Gợi ý: ' + targetText + '</strong></div>';
+  let title = isQA ? 'Hãy nói câu này bằng tiếng Anh:' : 'Nghe và đọc theo:';
+
+  // Lấy câu tiếng Việt rõ ràng, loại bỏ tiền tố/hậu tố máy móc nếu còn sót từ session cũ
+  let displayQuestion = q.vietnamese || (isQA ? (q.question || (q.vocab && q.vocab.translation)) : q.text);
+  if (isQA && typeof displayQuestion === 'string') {
+    displayQuestion = displayQuestion.replace(/^Làm sao để nói câu:\s*["'“]?/, '').replace(/["'”]?\s*trong tiếng Anh\??$/, '').trim();
+  }
+
+  let html = '<h2>' + title + '</h2>';
+  html += '<div class="question-text' + (isQA ? ' speak-target-vietnamese' : '') + '">' + (isQA ? '“' + displayQuestion + '”' : displayQuestion) + '</div>';
+  
+  if (isQA) {
+    html += '<div class="hint-text hidden" id="speak-hint">💡 <strong>Mẫu câu gợi ý:</strong> ' + targetText + '</div>';
+  } else {
+    let viTrans = q.vietnamese || (q.vocab && q.vocab.translation) || '';
+    if (viTrans) {
+      html += '<div class="hint-text" style="color: #64748b; font-size: 16px; margin-top: -15px; margin-bottom: 20px;">(' + viTrans + ')</div>';
+    }
+  }
 
   // 2 options cho người dùng chọn mẫu đọc nhanh hay chậm
   html += '<div class="speech-speed-selector">';
   html += '  <span class="speed-label">Tốc độ đọc mẫu:</span>';
   html += '  <button type="button" class="speed-pill ' + (currentSpeechSpeed === 'normal' ? 'active' : '') + '" data-speed="normal" onclick="setSpeechSpeed(\'normal\', \'' + escapedText + '\')">⚡ Đọc nhanh</button>';
-  html += '  <button type="button" class="speed-pill ' + (currentSpeechSpeed === 'slow' ? 'active' : '') + '" data-speed="slow" onclick="setSpeechSpeed(\'slow\', \'' + escapedText + '\')">🐢 Đọc chậm</button>';
+  html += '  <button type="button" class="speed-pill ' + (currentSpeechSpeed === 'slow' ? 'active' : '') + '" data-speed="slow" onclick="setSpeechSpeed(\'slow\', \'' + escapedText + '\')">🐢 Đọc chậm (Rất chậm)</button>';
   html += '</div>';
 
   html += '<div class="controls">';
@@ -1446,8 +1462,9 @@ window.speakText = (text, forcedSpeed = null) => {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'en-US';
     const speed = forcedSpeed || currentSpeechSpeed;
-    // normal/nhanh = 0.95 (tự nhiên), slow/chậm = 0.60 (chậm, rõ từng âm)
-    u.rate = (speed === 'slow') ? 0.6 : 0.95;
+    // normal/nhanh = 0.95 (tự nhiên)
+    // slow/chậm = 0.20 (giảm đúng 3 lần so với mức 0.60 trước đây, giúp học viên nghe cực kỳ chậm rãi, rành mạch từng âm)
+    u.rate = (speed === 'slow') ? 0.2 : 0.95;
     window.speechSynthesis.speak(u);
   }
 };
